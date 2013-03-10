@@ -39,7 +39,6 @@ end
 # basic user interface
 gem 'jquery-rails'
 gem 'breadcrumbs_on_rails'
-gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails'
 gem 'bootstrap-wysihtml5-rails'
 gem 'less-rails'
 gem 'therubyracer'
@@ -56,3 +55,9 @@ gem 'heroku'
 
 # postgres for herolu
 gem 'pg'
+
+# to manage resource and site administration management
+gem 'activeadmin'
+gem 'rails-admin'
+
+# rails server
