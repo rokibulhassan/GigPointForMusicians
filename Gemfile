@@ -61,3 +61,7 @@ gem 'activeadmin'
 gem 'rails-admin'
 
 # rails server
+gem 'puma'
+
+# response monitoring
+gem 'rack-mini-profiler'
