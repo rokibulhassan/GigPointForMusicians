@@ -1,38 +1,58 @@
 source 'https://rubygems.org'
 
+# latest rails stable version with security patch
 gem 'rails', '3.2.12'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+# database adapter
 gem 'mysql2'
 
+# authentication & authorization
+gem 'devise', '~> 2.1.2'
+gem 'devise_invitable', '~> 1.0.0'
+gem 'omniauth', '~> 1.1.1'
+gem 'devise-encryptable'
+gem 'omniauth-oauth2'
+gem 'koala'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter', :git => 'git://github.com/arunagw/omniauth-twitter'
+gem 'omniauth-github'
+gem 'linkedin'
+gem 'omniauth-linkedin'
+gem 'omniauth-google-oauth2'
 
-# Gems used only for assets and not required
-# in production environments by default.
+# authorization
+
+gem 'cancan'
+gem 'rolify'
+gem 'declarative_authorization'
+
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
   gem 'uglifier', '>= 1.0.3'
+
+  # twitter bootstrap
+  gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails'
 end
 
+# basic user interface
 gem 'jquery-rails'
+gem 'breadcrumbs_on_rails'
+gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails'
+gem 'bootstrap-wysihtml5-rails'
+gem 'less-rails'
+gem 'therubyracer'
+gem 'libv8'
+gem 'formtastic'
+gem 'formtastic-bootstrap'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
 
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
+# form wizard
+gem 'wicked'
 
-# Use unicorn as the app server
-# gem 'unicorn'
+# for heroku
+gem 'heroku'
 
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
+# postgres for herolu
+gem 'pg'
