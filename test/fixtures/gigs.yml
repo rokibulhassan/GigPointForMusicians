@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  starts_at: 2013-03-14 12:07:45
+  duration: 2013-03-14 12:07:45
+  price: MyString
+  website_url: MyString
+  email: MyString
+  details: MyText
+  created_by: MyString
+  gig_type: MyString
+  venue_id: 1
+
+two:
+  name: MyString
+  starts_at: 2013-03-14 12:07:45
+  duration: 2013-03-14 12:07:45
+  price: MyString
+  website_url: MyString
+  email: MyString
+  details: MyText
+  created_by: MyString
+  gig_type: MyString
+  venue_id: 1

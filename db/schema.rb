@@ -11,7 +11,78 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130310154054) do
+ActiveRecord::Schema.define(:version => 20130314063348) do
+
+  create_table "artist_genres", :force => true do |t|
+    t.integer  "artist_id"
+    t.integer  "genre_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "artists", :force => true do |t|
+    t.integer  "profile_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "authentications", :force => true do |t|
+    t.string   "uid"
+    t.string   "provider"
+    t.string   "permissions"
+    t.integer  "user_id"
+    t.text     "raw"
+    t.string   "credential"
+    t.string   "expired_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "countries", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "genres", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "gig_artists", :force => true do |t|
+    t.integer  "gig_id"
+    t.integer  "artist_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "gigs", :force => true do |t|
+    t.string   "name"
+    t.datetime "starts_at"
+    t.time     "duration"
+    t.string   "price"
+    t.string   "website_url"
+    t.string   "email"
+    t.text     "details"
+    t.string   "created_by"
+    t.string   "gig_type"
+    t.integer  "venue_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "page_settings", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "page_name"
+    t.string   "page_id"
+    t.text     "page_token"
+    t.string   "category"
+    t.text     "perms"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "profile_id"
+  end
 
   create_table "profiles", :force => true do |t|
     t.string   "name"
@@ -26,6 +97,13 @@ ActiveRecord::Schema.define(:version => 20130310154054) do
   create_table "roles", :force => true do |t|
     t.integer  "user_id"
     t.string   "role"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "user_profiles", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "profile_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -47,5 +125,16 @@ ActiveRecord::Schema.define(:version => 20130310154054) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "venues", :force => true do |t|
+    t.integer  "profile_id"
+    t.float    "lat"
+    t.float    "lng"
+    t.string   "address"
+    t.integer  "country_id"
+    t.text     "about"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end
