@@ -35,9 +35,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
                                     :credentials => [auth.credentials.token.to_s, auth.credentials.secret
                                     .to_s].join(' '))
       if @user.persisted?
-        if @user.can_publish_to_page?
-          @user.update_facebook_page
-        end
+        #if @user.can_publish_to_page?
+        #  @user.update_facebook_page
+        #end
         sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
         set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
       else

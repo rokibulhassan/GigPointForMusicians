@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130314063348) do
+ActiveRecord::Schema.define(:version => 20130321101820) do
 
   create_table "artist_genres", :force => true do |t|
     t.integer  "artist_id"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(:version => 20130314063348) do
     t.string   "permissions"
     t.integer  "user_id"
     t.text     "raw"
-    t.string   "credential"
+    t.string   "credentials"
     t.string   "expired_at"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
@@ -90,8 +90,17 @@ ActiveRecord::Schema.define(:version => 20130314063348) do
     t.string   "website_url"
     t.string   "photo"
     t.integer  "rating"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "provider"
+    t.string   "uid"
+    t.text     "bio"
+    t.string   "remote_avatar_url"
+    t.string   "phone"
+    t.string   "gender"
+    t.datetime "confirmed_at"
+    t.text     "address"
+    t.integer  "user_id"
   end
 
   create_table "roles", :force => true do |t|
