@@ -13,7 +13,8 @@ class ProfilesController < ApplicationController
   # GET /profiles/1
   # GET /profiles/1.json
   def show
-    @profile = Profile.find(params[:id])
+    @artist = Artist.find(params[:artist_id])
+    @profile = @artist.profile
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +25,8 @@ class ProfilesController < ApplicationController
   # GET /profiles/new
   # GET /profiles/new.json
   def new
-    @profile = Profile.new
+    @artist = Artist.find(params[:artist_id])
+    @profile = @artist.profile || @artist.build_profile
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,18 +36,20 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1/edit
   def edit
-    @profile = Profile.find(params[:id])
+    @artist = Artist.find(params[:artist_id])
+    @profile = @artist.profile
   end
 
   # POST /profiles
   # POST /profiles.json
   def create
-    @profile = Profile.new(params[:profile])
-
+    @artist = Artist.find(params[:artist_id])
+    @profile = @artist.build_profile(params[:profile])
+    @profile.artist_id = @artist.id
     respond_to do |format|
       if @profile.save
-        format.html { redirect_to @profile, notice: 'Profile was successfully created.' }
-        format.json { render json: @profile, status: :created, location: @profile }
+        format.html { redirect_to artist_profile_path(@artist, @profile), notice: 'Profile was successfully created.' }
+        format.json { render json: artist_profile_path(@artist, @profile), status: :created, location: @profile }
       else
         format.html { render action: "new" }
         format.json { render json: @profile.errors, status: :unprocessable_entity }

@@ -1,0 +1,5 @@
+a.brand span#app_name span#title_seperator {color: #f30000 }
+a.brand span#app_name span#first{font-weight: bold;color: #ffffff;margin-right: -5px}
+a.brand span#app_name span#second{color: #ffffff}
+a.brand span#app_name span#sub_title{color: #ffffff}
+a#sign_out {color: #ffffff}

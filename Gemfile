@@ -6,7 +6,7 @@ gem 'rails', '3.2.12'
 # database adapter
 gem 'mysql2'
 
-# authentication & authorization
+# authentication & a uthorization
 gem 'devise', '~> 2.1.2'
 gem 'devise_invitable', '~> 1.0.0'
 gem 'omniauth', '~> 1.1.1'
@@ -65,3 +65,6 @@ gem 'puma'
 
 # response monitoring
 gem 'rack-mini-profiler'
+
+# for attachments
+gem 'carrierwave'
