@@ -1,6 +1,5 @@
 class Artist < ActiveRecord::Base
-  attr_accessible :profile_id, :artist_profile, :profile, :user_id
-  attr_accessor :profile
+  attr_accessible :profile_id,  :user_id
   belongs_to :user
   has_one :profile
   has_many :gig_artists
@@ -12,8 +11,5 @@ class Artist < ActiveRecord::Base
 
   PROFILE_FIELDS = [:name, :user_name, :phone, :website_url, :bio]
 
-  def profile
-    Profile.where(:artist_id => id).last
-  end
 
 end

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
     if resource.artist.profile.nil?
     new_artist_profile_path(resource.artist.id)
     else
-      root_url
+      edit_artist_profile_path(resource.artist.id, resource.artist.profile.id)
     end
   end
 
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     if resource.artist.profile.nil?
       new_artist_profile_path(resource.artist.id)
     else
-      root_url
+      edit_artist_profile_path(resource.artist.id, resource.artist.profile.id)
     end
   end
 
