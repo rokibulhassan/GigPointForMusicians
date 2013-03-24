@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
   has_many :page_settings
   has_many :authentications, :dependent => :delete_all
   has_one :artist
+  has_many :pages
+
+  after_save :update_facebook_page
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     if signed_in_resource

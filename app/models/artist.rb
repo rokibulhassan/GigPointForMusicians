@@ -1,5 +1,5 @@
 class Artist < ActiveRecord::Base
-  attr_accessible :profile_id,  :user_id
+  attr_accessible :profile_id,  :user_id, :booking_contact
   belongs_to :user
   has_one :profile
   has_many :gig_artists

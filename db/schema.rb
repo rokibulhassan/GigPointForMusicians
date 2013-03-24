@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130323175832) do
+ActiveRecord::Schema.define(:version => 20130324135449) do
 
   create_table "artist_genres", :force => true do |t|
     t.integer  "artist_id"
@@ -21,9 +21,10 @@ ActiveRecord::Schema.define(:version => 20130323175832) do
   end
 
   create_table "artists", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.integer  "user_id"
+    t.string   "booking_contact"
   end
 
   create_table "authentications", :force => true do |t|
@@ -84,6 +85,18 @@ ActiveRecord::Schema.define(:version => 20130323175832) do
     t.integer  "profile_id"
   end
 
+  create_table "pages", :force => true do |t|
+    t.string   "name"
+    t.string   "page_id"
+    t.string   "selected"
+    t.text     "token"
+    t.string   "user_id"
+    t.string   "category"
+    t.text     "perms"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "profiles", :force => true do |t|
     t.string   "name"
     t.string   "user_name"
@@ -100,9 +113,11 @@ ActiveRecord::Schema.define(:version => 20130323175832) do
     t.string   "gender"
     t.datetime "confirmed_at"
     t.text     "address"
-    t.integer  "user_id"
     t.integer  "artist_id"
     t.string   "profile_picture"
+    t.integer  "page_id"
+    t.integer  "user_id"
+    t.string   "selected_page_id"
   end
 
   create_table "roles", :force => true do |t|

@@ -1,38 +1,46 @@
-<%= form_for [:artist, @profile], :html => { :class => 'form-horizontal', multipart: true } do |f| %>
+<%= semantic_form_for [:artist, @profile], :html => { :class => 'form-horizontal', multipart: true } do |f| %>
   <div class="control-group">
-    <%= f.label :name, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :name, :class => 'text_field' %>
+      <%= f.input :name, :class => 'text_field' %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :user_name, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :user_name, :class => 'text_field' %>
+      <%= f.input :user_name, :class => 'text_field' %>
+    </div>
+  </div>
+    <%= f.fields_for :artist do |artist|  %>
+    <div class="control-group">
+    <div class="controls">
+      <%= artist.input :booking_contact, :class => 'text_field' %>
+    </div>
+  </div>
+    <% end %>
+  <div class="control-group">
+    <div class="controls">
+      <%= f.input :website_url, :class => 'text_field' %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :website_url, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :website_url, :class => 'text_field' %>
+      <%= f.input :photo, :class => 'text_field' %>
     </div>
   </div>
-  <div class="control-group">
-    <%= f.label :photo, :class => 'control-label' %>
+    <div class="control-group">
     <div class="controls">
-      <%= f.file_field :photo, :class => 'text_field' %>
+      <%= f.input :selected_page_id, as: :select, collection: current_user.pages    %>
     </div>
   </div>
+  <p>Or</p>
   <div class="control-group">
-    <%= f.label :bio, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_area :bio, :class => 'text_field' %>
+      <%= image_tag @profile.remote_avatar_url  %>
     </div>
   </div>
+
   <div class="control-group">
-    <%= f.label :rating, :class => 'control-label' %>
     <div class="controls">
-      <%= f.number_field :rating, :class => 'number_field' %>
+      <%= f.input :bio, :class => 'text_field' %>
     </div>
   </div>
 
