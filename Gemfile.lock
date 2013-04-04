@@ -106,6 +106,8 @@ GEM
       formtastic (~> 2.2)
       formtastic-bootstrap
     geocoder (1.1.6)
+    gmap_coordinates_picker (0.0.4)
+      rails (>= 3.1.0)
     gmaps4rails (1.5.6)
     has_scope (0.5.1)
     hashie (1.2.0)
@@ -276,6 +278,7 @@ DEPENDENCIES
   formtastic
   formtastic-bootstrap
   geocoder
+  gmap_coordinates_picker (~> 0.0.4)
   gmaps4rails
   heroku
   jquery-rails

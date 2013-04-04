@@ -3,4 +3,5 @@ class Gig < ActiveRecord::Base
       :others, :latitude, :longitude, :gmaps
   has_many :gig_artists
   has_many :artists, through: :gig_artists
+  belongs_to :venue
 end

@@ -1,0 +1,47 @@
+
+<%= content_for :scripts do %>
+
+    <script type="text/javascript">
+
+        var lng = parseFloat('<%= lng.inspect  %>')
+        var lat = parseFloat('<%= lat.inspect  %>')
+
+        $("#lat").val(lat)
+        $("#lng").val(lng)
+
+        function initialize() {
+
+            var mapOptions = {
+                center: new google.maps.LatLng(lat, lng),
+                zoom: 14,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                    mapOptions);
+            console.log(map)
+            var marker = new google.maps.Marker({
+                position: map.getCenter(),
+                map: map,
+                title: 'Set Your Location',
+                draggable: true
+            });
+
+            google.maps.event.addListener(marker, "dragend", function(event) {
+                var point = marker.getPosition();
+                map.panTo(point);
+                var lat = map.center.lat();
+                var lng = map.center.lng();
+                $("#lat").val(lat)
+                $("#lng").val(lng)
+            });
+
+
+        }
+
+        $(document).ready(function(){
+            initialize()
+        })
+
+    </script>
+<% end %>

@@ -75,3 +75,4 @@ gem 'rake', '10.0.4'
 #"geocoder"
 gem "geocoder"
 gem 'gmaps4rails'
+gem "gmap_coordinates_picker", "~> 0.0.4"
