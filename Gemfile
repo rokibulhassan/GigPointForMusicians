@@ -68,3 +68,10 @@ gem 'rack-mini-profiler'
 
 # for attachments
 gem 'carrierwave'
+
+# rake
+gem 'rake', '10.0.4'
+
+#"geocoder"
+gem "geocoder"
+gem 'gmaps4rails'

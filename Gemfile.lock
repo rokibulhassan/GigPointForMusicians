@@ -105,6 +105,8 @@ GEM
     formtastic-bootstrap (2.0.0)
       formtastic (~> 2.2)
       formtastic-bootstrap
+    geocoder (1.1.6)
+    gmaps4rails (1.5.6)
     has_scope (0.5.1)
     hashie (1.2.0)
     heroku (2.35.0)
@@ -219,7 +221,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (10.0.3)
+    rake (10.0.4)
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.2)
@@ -273,6 +275,8 @@ DEPENDENCIES
   devise_invitable (~> 1.0.0)
   formtastic
   formtastic-bootstrap
+  geocoder
+  gmaps4rails
   heroku
   jquery-rails
   koala
@@ -292,6 +296,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (= 3.2.12)
   rails-admin
+  rake (= 10.0.4)
   rolify
   sass-rails (~> 3.2.3)
   therubyracer

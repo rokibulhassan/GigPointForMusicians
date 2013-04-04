@@ -13,6 +13,7 @@ GigpointForMusician::Application.routes.draw do
   resources :artists do
     resources :profiles
   end
+  resources :gigs
 
   root :to => 'static#home'
 end
