@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   has_many :authentications
   has_one :artist, :dependent => :destroy
   has_many :pages
-  before_destroy :delete_authentications
+  after_destroy :delete_authentications
 
 
   after_save :update_facebook_page
@@ -185,7 +185,7 @@ class User < ActiveRecord::Base
   end
 
   def delete_authentications
-    authentications.each(&:delete)
+    authentications.each(&:destroy)
   end
 
 
