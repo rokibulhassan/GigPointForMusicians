@@ -174,5 +174,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def user_profile
+    try(:artist).try(:profile)
+  end
+
+  def profile_picture
+    user_profile.photo.url || user_profile.remote_avatar_url
+  end
+
 end
 

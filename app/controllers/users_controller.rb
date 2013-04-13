@@ -80,4 +80,15 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def profile
+      @user = user
+  end
+
+  private
+
+  def user
+    @user = User.find params[:id] if params[:id]
+  end
+
 end

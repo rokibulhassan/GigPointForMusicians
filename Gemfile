@@ -34,6 +34,8 @@ group :assets do
 
   # twitter bootstrap
   gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails'
+  # jquery ui
+  gem 'jquery-ui-rails'
 end
 
 # basic user interface
@@ -76,3 +78,6 @@ gem 'rake', '10.0.4'
 gem "geocoder"
 gem 'gmaps4rails'
 gem "gmap_coordinates_picker", "~> 0.0.4"
+
+# for cron job
+gem 'whenever', :require => false

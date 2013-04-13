@@ -8,12 +8,12 @@ class Profile < ActiveRecord::Base
   mount_uploader :profile_picture, PhotoUploader
   mount_uploader :photo, PhotoUploader
 
+  before_validation :validate_after_persistence
 
   has_many :venues
   has_many :page_settings
   belongs_to :user
   belongs_to :artist
-
 
   accepts_nested_attributes_for :artist
 
@@ -26,5 +26,27 @@ class Profile < ActiveRecord::Base
     !selected_page.nil?
   end
 
+  def validate_after_persistence
+    if self.persisted?
+      if name.nil?
+        errors.add :base, "Name is required"
+      end
+
+      if website_url.strip.length < 1
+        errors.add :base, "Website url is required"
+      end
+      if gender.nil?
+        errors.add :base, "Website url is required"
+      end
+    end
+  end
+
+  def artist_validation
+    if self.persisted?
+      if artist.nil?
+        errors.add :base, "Should have one artist"
+      end
+    end
+  end
 
 end

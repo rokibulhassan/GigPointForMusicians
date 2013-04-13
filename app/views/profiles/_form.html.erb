@@ -9,6 +9,11 @@
       <%= f.input :user_name, :class => 'text_field' %>
     </div>
   </div>
+  <div class="control-group">
+    <div class="controls">
+      <%= f.input :gender, as: :select, collection: ['Male', 'Female'] %>
+    </div>
+  </div>
     <%= f.fields_for :artist do |artist|  %>
     <div class="control-group">
     <div class="controls">

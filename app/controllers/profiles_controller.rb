@@ -61,15 +61,13 @@ class ProfilesController < ApplicationController
   # PUT /profiles/1.json
   def update
     @profile = Profile.find(params[:id])
-
-    respond_to do |format|
-      if @profile.update_attributes(params[:profile])
-        format.html { redirect_to edit_artist_profile_path(current_user.artist.id, current_user.artist.profile.id), notice: 'Profile was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @profile.errors, status: :unprocessable_entity }
-      end
+    begin
+    @profile.update_attributes(params[:profile])
+    flash[:notice] = "Profile updates successfully"
+    redirect_to edit_artist_profile_path(current_user.artist.id, current_user.artist.profile.id), notice: 'Profile was successfully updated.'
+    rescue => e
+      flash[:error] = e.message
+      render :edit
     end
   end
 
