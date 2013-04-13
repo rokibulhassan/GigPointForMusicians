@@ -10,9 +10,11 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
   has_many :roles
   has_many :page_settings
-  has_many :authentications, :dependent => :delete_all
-  has_one :artist
+  has_many :authentications
+  has_one :artist, :dependent => :destroy
   has_many :pages
+  before_destroy :delete_authentications
+
 
   after_save :update_facebook_page
 
@@ -181,6 +183,11 @@ class User < ActiveRecord::Base
   def profile_picture
     user_profile.photo.url || user_profile.remote_avatar_url
   end
+
+  def delete_authentications
+    authentications.each(&:delete)
+  end
+
 
 end
 

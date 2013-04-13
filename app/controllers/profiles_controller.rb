@@ -62,9 +62,9 @@ class ProfilesController < ApplicationController
   def update
     @profile = Profile.find(params[:id])
     begin
-    @profile.update_attributes(params[:profile])
-    flash[:notice] = "Profile updates successfully"
-    redirect_to edit_artist_profile_path(current_user.artist.id, current_user.artist.profile.id), notice: 'Profile was successfully updated.'
+      @profile.update_attributes!(params[:profile])
+      flash[:notice] = "Profile updates successfully"
+      redirect_to edit_artist_profile_path(current_user.artist.id, current_user.artist.profile.id), notice: 'Profile was successfully updated.'
     rescue => e
       flash[:error] = e.message
       render :edit

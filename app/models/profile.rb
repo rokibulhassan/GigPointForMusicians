@@ -8,12 +8,13 @@ class Profile < ActiveRecord::Base
   mount_uploader :profile_picture, PhotoUploader
   mount_uploader :photo, PhotoUploader
 
-  before_validation :validate_after_persistence
 
   has_many :venues
   has_many :page_settings
   belongs_to :user
   belongs_to :artist
+
+  validate :validate_after_persistence, if: Proc.new {|profile| !profile.user.nil? }
 
   accepts_nested_attributes_for :artist
 
@@ -27,18 +28,14 @@ class Profile < ActiveRecord::Base
   end
 
   def validate_after_persistence
-    if self.persisted?
-      if name.nil?
-        errors.add :base, "Name is required"
-      end
-
-      if website_url.strip.length < 1
-        errors.add :base, "Website url is required"
-      end
-      if gender.nil?
-        errors.add :base, "Website url is required"
-      end
-    end
+    fields = ["name", "website_url", "address"]
+    if persisted?
+       fields.each do |field|
+         if send(field.to_sym).nil? || send(field.to_sym).strip.length < 1
+           errors.add(:base, "#{field.humanize} required" )
+         end
+       end
+     end
   end
 
   def artist_validation
