@@ -1,0 +1,21 @@
+<h1>Listing gigs</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @gigs.each do |gig| %>
+  <tr>
+    <td><%= link_to gig.name, gig %></td>
+    <td><%= link_to 'Edit', edit_gig_path(gig) %></td>
+    <td><%= link_to 'Destroy', gig, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Gig', new_gig_path %>
