@@ -236,7 +236,8 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
 
-  config.omniauth :facebook, "222803237859188", "853444fb3eba754fa346091ba9375075", :strategy_class => OmniAuth::Strategies::Facebook, :scope => 'email,user_birthday,manage_pages,publish_stream,read_stream,friends_location,friends_birthday,friends_work_history,friends_education_history,friends_about_me'
+  config.omniauth :facebook, "248401428633071", "6159425eb29363a401d4b9df50fde103", :strategy_class => OmniAuth::Strategies::Facebook, :scope => 'email,user_birthday,manage_pages,publish_stream,read_stream,friends_location,friends_birthday,friends_work_history,friends_education_history,friends_about_me'
+  #config.omniauth :facebook, "222803237859188", "853444fb3eba754fa346091ba9375075", :strategy_class => OmniAuth::Strategies::Facebook, :scope => 'email,user_birthday,manage_pages,publish_stream,read_stream,friends_location,friends_birthday,friends_work_history,friends_education_history,friends_about_me'
   config.omniauth :twitter, "cmh63vSfhKjKrBJf6JsI8A", "prXCDKLkwkou3cHx08EkDpWLkn6E2wbzlHrv73DtNX0", :strategy_class => OmniAuth::Strategies::Twitter
   #config.omniauth :github, "7d7461a1e35065628d4c", "e092243a9cef0c99ad234a3ba3e2e55fbb5f32f5", :strategy_class => OmniAuth::Strategies::GitHub, scope: "user,repo,gist"
   #config.omniauth :linkedin, "21t3i26q5r3n", "HiVC3IUPi5mj1kLq", :strategy_class => OmniAuth::Strategies::LinkedIn,
