@@ -1,9 +1,25 @@
 <div class="profile_content">
   <%= semantic_form_for @gig, :html => {:class => 'form-horizontal', multipart: true} do |f| %>
       <div class="control-group">
-        <div class="controls">
-          <%= f.input :name, :class => 'text_field' %>
-        </div>
+        ARTIST NAME: <%= f.select :artist_id, options_for_select(Artist.all.collect { |ar| [ar.profile.name, ar.id] }) %>
+      </div>
+      <div class="control-group">
+        EVENT NAME: <%= f.text_field :name %>
+      </div>
+      <div class="control-group">
+        <%= fields_for @venue do |fv| %>
+            VENUE NAME: <%= fv.text_field :address %>
+            <%= fv.hidden_field :lat %>
+            <%= fv.hidden_field :lng %>
+            <%= fv.hidden_field :country_id %>
+            <%= fv.hidden_field :profile_id, :value => current_user.user_profile.id rescue nil %>
+        <% end %>
+      </div>
+      <div class="control-group">
+        WEBSITE: <%= f.text_field :website_url %>
+      </div>
+      <div class="control-group">
+        EXTRA INFO: <%= f.text_area :extra_info %>
       </div>
 
       <div class="form-actions">

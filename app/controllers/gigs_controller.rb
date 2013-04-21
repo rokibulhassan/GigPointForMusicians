@@ -10,7 +10,7 @@ class GigsController < ApplicationController
 
   def show
     @gig = Gig.find(params[:id])
-
+    @venue = @gig.venue
     respond_to do |format|
       format.html
       format.json { render json: @gig }
@@ -19,7 +19,7 @@ class GigsController < ApplicationController
 
   def new
     @gig = Gig.new
-
+    @venue = Venue.new
     respond_to do |format|
       format.html
     end
@@ -27,10 +27,12 @@ class GigsController < ApplicationController
 
   def edit
     @gig = Gig.find(params[:id])
+    @venue = @gig.venue
   end
 
   def create
-    @gig = Gig.create(params[:gig])
+    @gig = Gig.new(params[:gig])
+    @gig.attr_venue = params[:venue] if params[:venue].present?
     respond_to do |format|
       if @gig.save
         format.html { redirect_to @gig, notice: 'Gig was successfully created.' }
