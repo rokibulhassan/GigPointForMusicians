@@ -1,7 +1,8 @@
 <div class="profile_content">
   <%= semantic_form_for @gig, :html => {:class => 'form-horizontal', multipart: true} do |f| %>
       <div class="control-group">
-        ARTIST NAME: <%= f.select :artist_id, options_for_select(Artist.all.collect { |ar| [ar.profile.name, ar.id] }) %>
+        ARTIST
+        NAME: <%= f.select :artist_id, options_for_select(Artist.all.collect { |ar| [ar.profile.name, ar.id] }) %>
       </div>
       <div class="control-group">
         EVENT NAME: <%= f.text_field :name %>
@@ -19,7 +20,30 @@
         WEBSITE: <%= f.text_field :website_url %>
       </div>
       <div class="control-group">
-        EXTRA INFO: <%= f.text_area :extra_info %>
+        EXTRA INFO: <%= f.text_area :extra_info, :size => '25x10' %>
+      </div>
+
+      <div class="control-group">
+        <div>
+          <p style="font-size: 14px; font-weight: bold;"> Post To </p>
+          <%= check_box_tag "post_to[]", 'facebook', false, :id => "post_to_facebook" %> Facebook
+          <%= check_box_tag "post_to[]", 'twitter', false, :id => "post_to_twitter" %> Twitter <br>
+        </div>
+        <div>
+          <p style="font-size: 14px; font-weight: bold;"> Make a Post : </p>
+          <%= check_box_tag "make_post[]", 1, false, :id => "make_post_1" %> immediately <br>
+          <%= check_box_tag "make_post[]", 2, false, :id => "make_post_2" %> a week before <br>
+          <%= check_box_tag "make_post[]", 3, false, :id => "make_post_3" %> a day before <br>
+          <%= check_box_tag "make_post[]", 4, false, :id => "make_post_4" %> the day off <br>
+        </div>
+      </div>
+
+      <div class="control-group calender">
+        HOUR MINUTES DATE
+        <%= text_field_tag 'date[]', Time.zone.today.to_date,
+                           :id => 'event_date',
+                           :class => 'datetimepicker'%>
+
       </div>
 
       <div class="form-actions">
