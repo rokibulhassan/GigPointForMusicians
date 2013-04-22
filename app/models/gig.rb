@@ -6,7 +6,7 @@ class Gig < ActiveRecord::Base
   has_many :gig_artists
   has_many :artists, through: :gig_artists
   belongs_to :venue
-
+  belongs_to :user
   after_create :create_gigs_artist
   before_save :create_gig_venue
   #
@@ -16,6 +16,9 @@ class Gig < ActiveRecord::Base
   #  end
   #end
 
+  def post_to_social_network
+    logger.info ">>>>>>>>>>>>>>>>Corn Jobs >>>>>>>>>>"
+  end
 
   private
 

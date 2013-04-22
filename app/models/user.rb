@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :authentications
   has_one :artist, :dependent => :destroy
   has_many :pages
+  has_many :gigs, :foreign_key => 'created_by'
   after_destroy :delete_authentications
 
 

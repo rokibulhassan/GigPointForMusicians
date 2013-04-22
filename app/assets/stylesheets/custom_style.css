@@ -48,15 +48,45 @@ a#sign_out {
     padding: 0 0 5px 18px;
 }
 
-.page-header, .control-label {
+.page-header, .control-label, .blog-title {
+    border: 0px;
     text-transform: uppercase;
 }
 
-.profile_content .control-label {
-
+.control-group input, .control-group textarea {
+    float: right;
 }
 
-.profile_content .controls {
-
+.gig-content-left, .gig-content-right {
+    vertical-align: top;
+    display: inline-block;
+    margin: 0px 34px 0 0;
 }
 
+.publish-div {
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 9px;
+}
+
+.time-schedule input {
+    margin: 0 0 0 16px;
+}
+
+.gig-list {
+    width: 450px;
+    padding: 5px 0 0 0;
+}
+
+.create-new-gig {
+    padding: 15px 0 0 0;
+}
+
+.gig-basic-info, .gig-basic-operation {
+    display: inline-block;
+}
+
+.gig-basic-operation {
+    width: 137px;
+    float: right;
+}

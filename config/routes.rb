@@ -3,7 +3,7 @@ GigpointForMusician::Application.routes.draw do
   resources :pages
 
 
-  devise_for :users, :controllers => {:omniauth_callbacks => 'users/omniauth_callbacks'}  do
+  devise_for :users, :controllers => {:omniauth_callbacks => 'users/omniauth_callbacks'} do
     get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
   end
 
@@ -15,7 +15,12 @@ GigpointForMusician::Application.routes.draw do
   resources :artists do
     resources :profiles
   end
-  resources :gigs
+
+  resources :gigs do
+    member do
+      get 'post_to_facebook'
+    end
+  end
 
   root :to => 'static#home'
 end

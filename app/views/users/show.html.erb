@@ -1,23 +1,46 @@
 <%- model_class = User -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => @user.artist.profile.name %></h1>
+  <h1><%= t '.title', :default => @user.artist.profile.name %></h1>
 </div>
 <div class="clear"></div>
-<div class="span3">
+<div class="div3">
   <%= image_tag @user.artist.profile.remote_avatar_url, width: 100, height: 100 %>
 </div>
 <div class="clear"></div>
-<hr />
-<div class="clear"></div>
-<div class="row">
-  <h3>Upcoming Gigs</h3>
+
+<h3 class="blog-title">Upcoming Gigs</h3>
+
+<div class="gig-list">
+  <% current_user.gigs.each do |gig| %>
+      <div class="gig-basic-info"> <%= gig.name %> @ <%= gig.venue.address %> <%= gig.created_at %> </div>
+      <div class="gig-basic-operation">
+        <%= link_to 'Destroy', gig, method: :delete, data: {confirm: 'Are you sure?'} %>
+        <%= check_box_tag "gig_ids[]", gig.id, false, :id => "gig_ids#{gig.id}" %> <%= link_to "Publish", post_to_facebook_gig_path(gig) %>
+        <br>
+      </div>
+      <br>
+  <% end %>
 </div>
-<div class="row">
-  <%= link_to 'New Gigs', new_gig_path %>
+
+<div class="clear"></div>
+<div class="div3 create-new-gig">
+  <%= link_to 'New Gigs', new_gig_path, :class => "blog-title" %>
 </div>
 <div class="clear"></div>
-<div class="row">
-  <h3>Past Gigs</h3>
+<div class="div3">
+  <h3 class="blog-title">Past Gigs</h3>
+
+  <div class="gig-list">
+    <% current_user.gigs.each do |gig| %>
+        <div class="gig-basic-info"> <%= gig.name %> @ <%= gig.venue.address %> <%= gig.created_at %> </div>
+        <div class="gig-basic-operation">
+          <%= link_to 'Destroy', gig, method: :delete, data: {confirm: 'Are you sure?'} %>
+          <%= check_box_tag "gig_ids[]", gig.id, false, :id => "gig_ids#{gig.id}" %> <%= link_to "Publish", post_to_facebook_gig_path(gig) %>
+          <br>
+        </div>
+        <br>
+    <% end %>
+  </div>
 </div>
 
 
