@@ -9,21 +9,21 @@
 
   <!-- Le styles -->
   <%= stylesheet_link_tag :application %>
+  <%= javascript_include_tag :application %>
   <style type="text/css">
       body {
           padding-top: 60px;
           padding-bottom: 40px;
       }
   </style>
-  <script type="text/javascript"
-          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAYG7hGPgvsqQXOOML6dzDu36Gbb5G_kFg&sensor=false">
-  </script>
   <style type="text/css">
       #map img {
           max-width: none;
       }
+
       #map label {
-          width: auto; display:inline;
+          width: auto;
+          display: inline;
       }
   </style>
 </head>
@@ -66,15 +66,16 @@
 
   <!-- Main hero unit for a primary marketing message or call to action -->
   <% if action_name == 'home' %>
-  <div class="hero-unit">
-    <h1>Hello, world!</h1>
+      <div class="hero-unit">
+        <h1>Hello, world!</h1>
 
-    <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero
-      unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-    <% unless current_user %>
-    <p><a href="/users/auth/facebook" class="btn btn-primary btn-large">Login With Facebook &raquo;</a></p>
-    <% end %>
-  </div>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the
+          hero
+          unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <% unless current_user %>
+            <p><a href="/users/auth/facebook" class="btn btn-primary btn-large">Login With Facebook &raquo;</a></p>
+        <% end %>
+      </div>
   <% end %>
 
   <!-- Example row of columns -->
@@ -94,7 +95,7 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 
-<%= javascript_include_tag :application %>
+
 <%= yield :scripts %>
 </body>
 </html>

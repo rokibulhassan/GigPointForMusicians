@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130404043149) do
+ActiveRecord::Schema.define(:version => 20130422155444) do
 
   create_table "artist_genres", :force => true do |t|
     t.integer  "artist_id"
@@ -159,8 +159,8 @@ ActiveRecord::Schema.define(:version => 20130404043149) do
 
   create_table "venues", :force => true do |t|
     t.integer  "profile_id"
-    t.float    "lat"
-    t.float    "lng"
+    t.float    "latitude"
+    t.float    "longitude"
     t.string   "address"
     t.integer  "country_id"
     t.text     "about"

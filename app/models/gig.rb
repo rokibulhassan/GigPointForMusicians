@@ -9,6 +9,13 @@ class Gig < ActiveRecord::Base
 
   after_create :create_gigs_artist
   before_save :create_gig_venue
+  #
+  #def default_coordinates
+  #  if latitude.present?
+  #    [latitude, longitude] rescue []
+  #  end
+  #end
+
 
   private
 

@@ -43,8 +43,8 @@ gem 'jquery-rails'
 gem 'breadcrumbs_on_rails'
 gem 'bootstrap-wysihtml5-rails'
 gem 'less-rails'
-gem 'therubyracer'
 gem 'libv8'
+gem 'therubyracer', '0.11.4'
 gem 'formtastic'
 gem 'formtastic-bootstrap'
 
@@ -74,10 +74,7 @@ gem 'carrierwave'
 # rake
 gem 'rake', '10.0.4'
 
-#"geocoder"
+gem "gmap_coordinates_picker", "0.0.6"
 gem "geocoder"
-gem 'gmaps4rails'
-gem "gmap_coordinates_picker", "~> 0.0.4"
-
 # for cron job
 gem 'whenever', :require => false

@@ -21,3 +21,21 @@ module ApplicationHelper
     flash_messages.join("\n").html_safe
   end
 end
+
+module GmapCoordinatesPicker
+  class MapBuilder < Formtastic::FormBuilder
+
+    def gmap_coordinate_picker(options = {})
+      options.update :object => @object_name
+      render_gmap_coordinate_picker(objectify_options(options))
+    end
+  end
+end
+
+if Object.const_defined?("Formtastic")
+  if Formtastic.const_defined?("Helpers")
+    Formtastic::Helpers::FormHelper.builder = GmapCoordinatesPicker::MapBuilder
+  else
+    Formtastic::SemanticFormHelper.builder = GmapCoordinatesPicker::MapBuilder
+  end
+end
