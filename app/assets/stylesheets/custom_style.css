@@ -23,6 +23,11 @@ a#sign_out {
 .profile_content, .connect_twitter {
     display: inline-block;
     vertical-align: top;
+    margin: 0px 34px 0 0;
+}
+
+.profile_content {
+    width: 578px;
 }
 
 .connect_twitter {
@@ -53,8 +58,12 @@ a#sign_out {
     text-transform: uppercase;
 }
 
-.control-group input, .control-group textarea {
+.control-group input, .control-group textarea, .control-group img {
     float: right;
+}
+
+.control-group p.dialog {
+    margin-left: 345px;
 }
 
 .gig-content-left, .gig-content-right {

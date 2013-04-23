@@ -1,4 +1,4 @@
-<div class="profile_content">
+<div class="gig_content">
   <%= semantic_form_for @gig, :html => {:class => 'form-horizontal', multipart: true} do |f| %>
       <div class="gig-content-left">
         <div class="control-group">
@@ -45,10 +45,8 @@
       <div class="gig-content-right">
         <div class="control-group google-map-top">
           DATE
-          <%= f.text_field :starts_at, :class => 'datetimepicker',
-                           :value => Date.today.strftime("%m/%d/%Y"),
-                           :'date-format' => "yy-mm-dd DD",
-                           :'data-disable-past-date' => "true" %>
+          <%= f.text_field :starts_at, :class => 'datetimepicker', :value => Time.zone.now, :'date-format' => "yy-mm-dd DD", :'data-disable-past-date' => "true" %>
+          <%#= f.text_field :starts_at, :class => 'datepicker', :value => Date.today, :'date-format' => "yy-mm-dd DD", :'data-disable-past-date' => "true" %>
         </div>
 
         <div class="control-group google-map-top">

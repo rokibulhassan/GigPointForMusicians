@@ -167,12 +167,13 @@ class User < ActiveRecord::Base
     self.pages.active
   end
 
-  def publish_one_wall(feed)
+  def publish_one_wall(message, feed)
     begin
       @graph = initiate_graph_api
-      @graph.put_wall_post(feed)
+      @graph.put_wall_post(message, feed)
       true
-    rescue
+    rescue Exception => ex
+      logger.info "Error posting on Facebook::#{ex.message}"
       false
     end
   end

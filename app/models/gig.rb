@@ -18,30 +18,33 @@ class Gig < ActiveRecord::Base
   end
 
   def post_immediately?
-    self.schedule_post.post_immediately? && self.starts_at >= Date.today rescue false
+    self.schedule_post.post_immediately? && self.starts_at.to_date >= Date.today rescue false
   end
 
   def post_a_week_before?
-    self.schedule_post.post_a_week_before? && Date.today > 1.week.until(self.starts_at) rescue false
+    self.schedule_post.post_a_week_before? && Date.today > 1.week.until(self.starts_at.to_date) rescue false
   end
 
   def post_a_day_before?
-    self.schedule_post.post_a_day_before? && Date.today >1.day.until(self.starts_at) rescue false
+    self.schedule_post.post_a_day_before? && Date.today >1.day.until(self.starts_at.to_date) rescue false
   end
 
   def post_the_day_off?
-    self.schedule_post.post_the_day_off? && self.starts_at >= Date.today && DateTime.now.end_of_day rescue false
+    self.schedule_post.post_the_day_off? && self.starts_at.to_date >= Date.today && DateTime.now.end_of_day rescue false
   end
 
   def self.post_to_social_network
+    logger.info "Executing cron task >>>>>>>>>>>>"
     self.find_in_batches(batch_size: 1000) do |group|
       group.each do |gig|
         user = User.find(gig.created_by) rescue []
         if user.present?
-          feed = {:message => 'Gig for fans.', :name => 'GigPoint', :link => "www.gigpoint.com", :description => 'Gig post from gig for musicians.'}
-          if gig.post_immediately? || gig.post_a_week_before? || gig.post_a_day_before? || gig.post_the_day_off?
-            user.publish_one_wall(feed)
-          end
+          message = "Gig for fans."
+          feed = {:name => 'GigPoint', :link => "www.gigpoint.com", :description => 'Gig post from gig for musicians.'}
+
+          # if gig.post_immediately? || gig.post_a_week_before? || gig.post_a_day_before? || gig.post_the_day_off?
+          user.publish_one_wall(message, feed)
+          #end
         end
       end
     end
