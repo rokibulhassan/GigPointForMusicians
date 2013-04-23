@@ -78,3 +78,5 @@ gem "gmap_coordinates_picker", "0.0.6"
 gem "geocoder"
 # for cron job
 gem 'whenever', :require => false
+gem 'capistrano-ext'
+gem 'rvm-capistrano'
