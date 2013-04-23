@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130422155444) do
+ActiveRecord::Schema.define(:version => 20130423095849) do
 
   create_table "artist_genres", :force => true do |t|
     t.integer  "artist_id"
@@ -130,6 +130,19 @@ ActiveRecord::Schema.define(:version => 20130422155444) do
     t.string   "role"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "schedule_posts", :force => true do |t|
+    t.integer  "gig_id"
+    t.integer  "user_id"
+    t.boolean  "post_facebook",      :default => false
+    t.boolean  "post_twitter",       :default => false
+    t.boolean  "post_immediately",   :default => false
+    t.boolean  "post_a_week_before", :default => false
+    t.boolean  "post_a_day_before",  :default => false
+    t.boolean  "post_the_day_off",   :default => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
   end
 
   create_table "user_profiles", :force => true do |t|

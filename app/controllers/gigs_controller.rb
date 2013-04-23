@@ -11,6 +11,7 @@ class GigsController < ApplicationController
   def show
     @gig = Gig.find(params[:id])
     @venue = @gig.venue
+    @schedule_post = @gig.schedule_post
     respond_to do |format|
       format.html
       format.json { render json: @gig }
@@ -20,6 +21,7 @@ class GigsController < ApplicationController
   def new
     @gig = Gig.new
     @venue = Venue.new
+    @schedule_post = SchedulePost.new
     respond_to do |format|
       format.html
     end
@@ -28,11 +30,13 @@ class GigsController < ApplicationController
   def edit
     @gig = Gig.find(params[:id])
     @venue = @gig.venue
+    @schedule_post = @gig.schedule_post
   end
 
   def create
     @gig = Gig.new(params[:gig])
     @gig.attr_venue = params[:venue] if params[:venue].present?
+    @gig.attr_schedule_post = params[:schedule_post] if params[:schedule_post].present?
     respond_to do |format|
       if @gig.save
         format.html { redirect_to @gig, notice: 'Gig was successfully created.' }
@@ -44,8 +48,11 @@ class GigsController < ApplicationController
 
   def update
     @gig = Gig.find(params[:id])
+    @gig.attr_venue = params[:venue] if params[:venue].present?
+    @gig.attr_schedule_post = params[:schedule_post] if params[:schedule_post].present?
     begin
       @gig.update_attributes!(params[:gig])
+
       flash[:notice] = "Gig updates successfully"
       redirect_to edit_gig_path(@gig), notice: 'Gig was successfully updated.'
     rescue => e

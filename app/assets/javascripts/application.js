@@ -16,6 +16,17 @@
 //= require twitter/bootstrap
 //= require_tree .
 
-//$(document).ready(function(){
-//    $('.datetimepicker').datetimepicker()
-//})
+$(document).ready(function(){
+    $('.datetimepicker').datepicker()
+})
+
+//$(document).ready(function () {
+//    $('.datepicker').live('focus', function () {
+//        $(this).datepicker({ dateFormat:"yy-mm-dd", validateBeforeShow:true  });
+//    });
+//
+//    $('.datetimepicker, [date-time-picker]').live('focus', function () {
+//        var dateFormat = $j(this).attr('date-format') || "yy-mm-dd";
+//        $(this).datetimepicker({ dateFormat:dateFormat, ampm:true, timeFormat:"hh:mm TT", validateBeforeShow:true });
+//    });
+//});

@@ -90,3 +90,11 @@ a#sign_out {
     width: 137px;
     float: right;
 }
+
+.google-map-top {
+    width: 400px;
+}
+
+.pricing {
+    padding: 10px 0 10px 30px;
+}
