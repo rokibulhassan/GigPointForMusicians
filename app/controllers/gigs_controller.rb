@@ -64,4 +64,18 @@ class GigsController < ApplicationController
     end
   end
 
+  def post_to_facebook
+    @gig = Gig.find(params[:id])
+    feed = {:message => 'Gig for fans.',
+            :name => 'GigPoint',
+            :link => "#{gig_path(@gig)}",
+            :description => 'Gig post from gig for musicians.'}
+
+    current_user.publish_one_wall(feed)
+
+    respond_to do |format|
+      format.html { redirect_to current_user, notice: 'Gig was successfully posted.' }
+    end
+  end
+
 end

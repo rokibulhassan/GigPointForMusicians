@@ -1,62 +1,60 @@
 <div class="profile_content">
   <%= semantic_form_for @gig, :html => {:class => 'form-horizontal', multipart: true} do |f| %>
-      <div class="control-group">
-        ARTIST
-        NAME: <%= f.select :artist_id, options_for_select(Artist.all.collect { |ar| [ar.profile.name, ar.id] }) %>
-      </div>
-      <div class="control-group">
-        EVENT NAME: <%= f.text_field :name %>
-      </div>
-      <div class="control-group">
-        <%= fields_for @venue do |fv| %>
-            VENUE NAME: <%= fv.text_field :address %>
-            <%#= fv.hidden_field :lat %>
-            <%#= fv.hidden_field :lng %>
-            <%= fv.hidden_field :country_id %>
-            <%= fv.hidden_field :profile_id, :value => current_user.user_profile.id rescue nil %>
-            <div>
-              Map Location:
-              <%= fv.gmap_coordinate_picker :default_coordinates => [23.7231, 90.4086] %>
-            </div>
-
-        <% end %>
-      </div>
-      <div class="control-group">
-        WEBSITE: <%= f.text_field :website_url %>
-      </div>
-      <div class="control-group">
-        EXTRA INFO: <%= f.text_area :extra_info, :size => '25x10' %>
-      </div>
-
-      <div class="control-group">
-        <div>
-          <p style="font-size: 14px; font-weight: bold;"> Post To </p>
-          <%= check_box_tag "post_to[]", 'facebook', false, :id => "post_to_facebook" %> Facebook
-          <%= check_box_tag "post_to[]", 'twitter', false, :id => "post_to_twitter" %> Twitter <br>
+      <div class="gig-content-left">
+        <div class="control-group">
+          ARTIST
+          NAME: <%= f.select :artist_id, options_for_select(Artist.all.collect { |ar| [ar.profile.name, ar.id] }) %>
         </div>
-        <div>
-          <p style="font-size: 14px; font-weight: bold;"> Make a Post : </p>
-          <%= check_box_tag "make_post[]", 1, false, :id => "make_post_1" %> immediately <br>
-          <%= check_box_tag "make_post[]", 2, false, :id => "make_post_2" %> a week before <br>
-          <%= check_box_tag "make_post[]", 3, false, :id => "make_post_3" %> a day before <br>
-          <%= check_box_tag "make_post[]", 4, false, :id => "make_post_4" %> the day off <br>
+        <div class="control-group">
+          EVENT NAME: <%= f.text_field :name %>
+        </div>
+
+        <div class="control-group">
+          <%= fields_for @venue do |fv| %>
+              VENUE NAME: <%= fv.text_field :address %>
+              <%= fv.hidden_field :country_id %>
+              <%= fv.hidden_field :profile_id, :value => current_user.user_profile.id rescue nil %>
+          <% end %>
+        </div>
+
+        <div class="control-group">
+          WEBSITE: <%= f.text_field :website_url %>
+        </div>
+        <div class="control-group">
+          EXTRA INFO: <%= f.text_area :extra_info, :size => '25x10' %>
+        </div>
+
+        <div class="publish-div">
+          <div>
+            <p style="font-size: 14px; font-weight: bold;"> Post To </p>
+            <%= check_box_tag "post_to[]", 'facebook', false, :id => "post_to_facebook" %> Facebook
+            <%= check_box_tag "post_to[]", 'twitter', false, :id => "post_to_twitter" %> Twitter <br>
+          </div>
+          <div class="time-schedule">
+            <p style="font-size: 14px; font-weight: bold;"> Make a Post : </p>
+            <%= check_box_tag "make_post[]", 1, false, :id => "make_post_1" %> immediately <br>
+            <%= check_box_tag "make_post[]", 2, false, :id => "make_post_2" %> a week before <br>
+            <%= check_box_tag "make_post[]", 3, false, :id => "make_post_3" %> a day before <br>
+            <%= check_box_tag "make_post[]", 4, false, :id => "make_post_4" %> the day off <br>
+          </div>
         </div>
       </div>
 
-      <div class="control-group calender">
-        HOUR MINUTES DATE
-        <%#= text_field_tag 'date[]', Time.zone.today.to_date,
+      <div class="gig-content-right">
+        <div class="control-group calender">
+          HOUR MINUTES DATE
+          <%#= text_field_tag 'date[]', Time.zone.today.to_date,
                            :id => 'event_date',
                            :class => 'datetimepicker' %>
+        </div>
 
+        <div class="control-group">
+          <%= fields_for @venue do |fv| %>
+              <%= fv.gmap_coordinate_picker :default_coordinates => @venue.default_coordinates.nil? ? [23.7231, 90.4086] : @venue.default_coordinates %>
+          <% end %>
+        </div>
       </div>
-
-      <!--<div>-->
-        <!--Map Location:-->
-        <!--<%#= f.gmap_coordinate_picker :default_coordinates => [23.7231, 90.4086] %>-->
-      <!--</div>-->
-
-
+      <%= f.hidden_field :created_by, :value => current_user.id rescue nil %>
       <div class="form-actions">
         <%= f.submit nil, :class => 'btn btn-primary' %>
       </div>
