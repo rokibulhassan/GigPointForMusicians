@@ -11,14 +11,16 @@
 <h3 class="blog-title">Upcoming Gigs</h3>
 
 <div class="gig-list">
-  <% current_user.gigs.each do |gig| %>
-      <div class="gig-basic-info"> <%= gig.name %> @ <%= gig.venue.address %> <%= gig.created_at %> </div>
-      <div class="gig-basic-operation">
-        <%= link_to 'Destroy', gig, method: :delete, data: {confirm: 'Are you sure?'} %>
-        <%= check_box_tag "gig_ids[]", gig.id, false, :id => "gig_ids#{gig.id}" %> <%= link_to "Publish", post_to_facebook_gig_path(gig) %>
-        <br>
-      </div>
-      <br>
+  <% if current_user.gigs.present? %>
+      <% current_user.gigs.each do |gig| %>
+          <div class="gig-basic-info"> <%= gig.name %> @ <%= gig.venue.address %> <%= gig.created_at %> </div>
+          <div class="gig-basic-operation">
+            <%= link_to 'Destroy', gig, method: :delete, data: {confirm: 'Are you sure?'} %>
+            <%= check_box_tag "gig_ids[]", gig.id, false, :id => "gig_ids#{gig.id}" %> <%= link_to "Publish", post_to_facebook_gig_path(gig) %>
+            <br>
+          </div>
+          <br>
+      <% end %>
   <% end %>
 </div>
 
@@ -31,14 +33,16 @@
   <h3 class="blog-title">Past Gigs</h3>
 
   <div class="gig-list">
-    <% current_user.gigs.each do |gig| %>
-        <div class="gig-basic-info"> <%= gig.name %> @ <%= gig.venue.address %> <%= gig.created_at %> </div>
-        <div class="gig-basic-operation">
-          <%= link_to 'Destroy', gig, method: :delete, data: {confirm: 'Are you sure?'} %>
-          <%= check_box_tag "gig_ids[]", gig.id, false, :id => "gig_ids#{gig.id}" %> <%= link_to "Publish", post_to_facebook_gig_path(gig) %>
-          <br>
-        </div>
-        <br>
+    <% if current_user.gigs.present? %>
+        <% current_user.gigs.each do |gig| %>
+            <div class="gig-basic-info"> <%= gig.name %> @ <%= gig.venue.address %> <%= gig.created_at %> </div>
+            <div class="gig-basic-operation">
+              <%= link_to 'Destroy', gig, method: :delete, data: {confirm: 'Are you sure?'} %>
+              <%= check_box_tag "gig_ids[]", gig.id, false, :id => "gig_ids#{gig.id}" %> <%= link_to "Publish", post_to_facebook_gig_path(gig) %>
+              <br>
+            </div>
+            <br>
+        <% end %>
     <% end %>
   </div>
 </div>

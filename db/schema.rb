@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130423095849) do
+ActiveRecord::Schema.define(:version => 20130427171430) do
 
   create_table "artist_genres", :force => true do |t|
     t.integer  "artist_id"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(:version => 20130423095849) do
     t.float    "longitude"
     t.boolean  "gmaps"
     t.string   "others"
+    t.integer  "user_id"
   end
 
   create_table "page_settings", :force => true do |t|

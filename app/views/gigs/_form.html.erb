@@ -64,7 +64,7 @@
           <% end %>
         </div>
       </div>
-      <%= f.hidden_field :created_by, :value => current_user.id rescue nil %>
+      <%= f.hidden_field :user_id, :value => current_user.id rescue nil %>
       <div class="form-actions">
         <%= f.submit nil, :class => 'btn btn-primary' %>
       </div>

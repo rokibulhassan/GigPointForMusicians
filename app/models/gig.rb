@@ -1,6 +1,6 @@
 class Gig < ActiveRecord::Base
   attr_accessible :created_by, :details, :duration, :email, :gig_type, :name, :price, :starts_at, :venue_id, :website_url,
-                  :others, :latitude, :longitude, :gmaps, :extra_info, :artist_id, :free_entry
+                  :others, :latitude, :longitude, :gmaps, :extra_info, :artist_id, :free_entry, :user_id
   attr_accessor :attr_venue, :attr_schedule_post, :artist_id, :free_entry
 
   has_many :gig_artists
@@ -42,9 +42,9 @@ class Gig < ActiveRecord::Base
           message = "Gig for fans."
           feed = {:name => 'GigPoint', :link => "www.gigpoint.com", :description => 'Gig post from gig for musicians.'}
 
-          # if gig.post_immediately? || gig.post_a_week_before? || gig.post_a_day_before? || gig.post_the_day_off?
-          user.publish_one_wall(message, feed)
-          #end
+          if gig.post_immediately? || gig.post_a_week_before? || gig.post_a_day_before? || gig.post_the_day_off?
+            user.publish_one_wall(message, feed)
+          end
         end
       end
     end

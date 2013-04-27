@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   has_many :authentications
   has_one :artist, :dependent => :destroy
   has_many :pages
-  has_many :gigs, :foreign_key => 'created_by'
+  has_many :gigs
   after_destroy :delete_authentications
 
 
@@ -143,8 +143,8 @@ class User < ActiveRecord::Base
           begin
             new_page = self.pages.find_or_create_by_page_id(page['id'])
             new_page.update_attributes(name: page['name'], token: page['access_token'], category: page['category'], perms: page['perms'])
-          rescue
-            raise "errors"
+          rescue Exception => ex
+            logger.info "Error occure while posting to facebook. #{ex.message}"
           end
         end
       end
