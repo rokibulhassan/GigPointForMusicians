@@ -53,11 +53,6 @@ gem 'formtastic-bootstrap'
 # form wizard
 gem 'wicked'
 
-# for heroku
-gem 'heroku'
-
-# postgres for herolu
-gem 'pg'
 
 # to manage resource and site administration management
 gem 'activeadmin'
