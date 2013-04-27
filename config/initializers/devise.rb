@@ -127,7 +127,7 @@ Devise.setup do |config|
   config.reconfirmable = true
 
   # Defines which key will be used when confirming an account
-  config.confirmation_keys = [ :email ]
+  config.confirmation_keys = [:email]
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
@@ -164,7 +164,7 @@ Devise.setup do |config|
   config.lock_strategy = :failed_attempts
 
   # Defines which key will be used when locking and unlocking an account
-  config.unlock_keys = [ :email ]
+  config.unlock_keys = [:email]
 
   # Defines which strategy will be used to unlock an account.
   # :email = Sends an unlock link to the user email
@@ -238,7 +238,8 @@ Devise.setup do |config|
 
   config.omniauth :facebook, "248401428633071", "6159425eb29363a401d4b9df50fde103", :strategy_class => OmniAuth::Strategies::Facebook, :scope => 'email,user_birthday,manage_pages,publish_stream,read_stream,friends_location,friends_birthday,friends_work_history,friends_education_history,friends_about_me'
   #config.omniauth :facebook, "222803237859188", "853444fb3eba754fa346091ba9375075", :strategy_class => OmniAuth::Strategies::Facebook, :scope => 'email,user_birthday,manage_pages,publish_stream,read_stream,friends_location,friends_birthday,friends_work_history,friends_education_history,friends_about_me'
-  config.omniauth :twitter, "cmh63vSfhKjKrBJf6JsI8A", "prXCDKLkwkou3cHx08EkDpWLkn6E2wbzlHrv73DtNX0", :strategy_class => OmniAuth::Strategies::Twitter
+  #config.omniauth :twitter, "cmh63vSfhKjKrBJf6JsI8A", "prXCDKLkwkou3cHx08EkDpWLkn6E2wbzlHrv73DtNX0", :strategy_class => OmniAuth::Strategies::Twitter
+  config.omniauth :twitter, "N49geNTQyeaCBh74crTqdA", "ppoevsD4kyHqxvh3LN8bvuCdtpZvOm0mb7u1MNqI", :strategy_class => OmniAuth::Strategies::Twitter
   #config.omniauth :github, "7d7461a1e35065628d4c", "e092243a9cef0c99ad234a3ba3e2e55fbb5f32f5", :strategy_class => OmniAuth::Strategies::GitHub, scope: "user,repo,gist"
   #config.omniauth :linkedin, "21t3i26q5r3n", "HiVC3IUPi5mj1kLq", :strategy_class => OmniAuth::Strategies::LinkedIn,
   #                :scope => 'r_fullprofile r_emailaddress r_network r_contactinfo'

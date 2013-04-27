@@ -10,6 +10,7 @@ class Gig < ActiveRecord::Base
   has_one :schedule_post
 
   after_create :create_gigs_artist
+  after_save :post_to_social_media_now
   before_save :manage_gig_venue, :manage_schedule_post
   before_validation :sync_price
 
@@ -33,17 +34,27 @@ class Gig < ActiveRecord::Base
     self.schedule_post.post_the_day_off? && self.starts_at.to_date >= Date.today && DateTime.now.end_of_day rescue false
   end
 
+  def post_facebook?
+    self.schedule_post.post_facebook?
+  end
+
+  def post_twitter?
+    self.schedule_post.post_twitter?
+  end
+
   def self.post_to_social_network
     logger.info "Executing cron task >>>>>>>>>>>>"
     self.find_in_batches(batch_size: 1000) do |group|
       group.each do |gig|
-        user = User.find(gig.created_by) rescue []
+        user = User.find(gig.user_id) rescue []
         if user.present?
           message = "Gig for fans."
           feed = {:name => 'GigPoint', :link => "www.gigpoint.com", :description => 'Gig post from gig for musicians.'}
+          status = "Tweeting as a gig user!"
 
-          if gig.post_immediately? || gig.post_a_week_before? || gig.post_a_day_before? || gig.post_the_day_off?
-            user.publish_one_wall(message, feed)
+          if gig.post_a_week_before? || gig.post_a_day_before? || gig.post_the_day_off?
+            user.publish_one_wall(message, feed) if gig.post_facebook?
+            user.update_twitter_status(status) if gig.post_twitter?
           end
         end
       end
@@ -70,6 +81,19 @@ class Gig < ActiveRecord::Base
   def create_gigs_artist
     logger.info ">>>>> Creating gigs artist"
     GigArtist.create!(gig_id: self.id, artist_id: self.artist_id) if self.artist_id.present?
+  end
+
+  def post_to_social_media_now
+    if self.post_immediately?
+      user = User.find(self.user_id) rescue []
+      if user.present?
+        message = "Gig for fans."
+        feed = {:name => 'GigPoint', :link => "www.gigpoint.com", :description => 'Gig post from gig for musicians.'}
+        status = "Tweeting as a gig user!"
+        user.publish_one_wall(message, feed) if gig.post_facebook?
+        user.update_twitter_status(status) if gig.post_twitter?
+      end
+    end
   end
 
   def sync_price
