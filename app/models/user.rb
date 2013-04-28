@@ -138,7 +138,11 @@ class User < ActiveRecord::Base
 
   def initiate_twitter_api
     return nil if !have_twitter_credentials?
-    @twitter_user = Twitter::Client.new(authentications.where(provider: "twitter", user_id: self.id).first.credentials) rescue nil
+    credentials = authentications.where(provider: "twitter", user_id: self.id).last.credentials.split(" ") rescue nil
+    @twitter_user = Twitter::Client.new(
+        :oauth_token => credentials.first,
+        :oauth_token_secret => credentials.last
+    )
   end
 
 
