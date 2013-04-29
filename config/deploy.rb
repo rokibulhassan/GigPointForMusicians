@@ -134,6 +134,12 @@ namespace :deploy do
     run "cd #{latest_release} && RAILS_ENV=#{rails_env} bundle exec rake clear_data:all "
   end
 
+  desc "assets precompile"
+  task :precompile_asset do
+    run "cd #{latest_release} && sudo rake assets:precompile "
+  end
+
+
 end
 
 namespace :bundle do
@@ -153,6 +159,8 @@ before  "deploy:bundle_install", "deploy:copy_bundler"
 after "deploy", "deploy:bundle_install"
 before "deploy:db_migrate", "deploy:symlink_db"
 after "deploy:bundle_install", "deploy:db_migrate"
-after "deploy", "deploy:restart"
+before "deploy:precompile_asset", "deploy::set_permission"
+before "deploy:restart", "deploy:precompile_asset"
+after "deploy:db_migrate", "deploy:restart"
 #after "deploy:copy_bundler", "deploy:bundle_install"
 #before "deploy:db_migrate", "deploy:symlink_db"
