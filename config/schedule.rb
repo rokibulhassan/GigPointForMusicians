@@ -13,7 +13,8 @@
 #   rake "some:great:rake:task"
 # end
 #
-every 1.hours do
+
+every :day, :at => '12:02am' do
   runner "Gig.post_to_social_network", :output => 'cron.log'
 end
 

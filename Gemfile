@@ -19,6 +19,7 @@ gem 'omniauth-github'
 gem 'linkedin'
 gem 'omniauth-linkedin'
 gem 'omniauth-google-oauth2'
+gem 'twitter'
 
 # authorization
 

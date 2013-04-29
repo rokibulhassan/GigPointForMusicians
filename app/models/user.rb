@@ -117,6 +117,11 @@ class User < ActiveRecord::Base
     authentications.collect(&:provider).include?('facebook')
   end
 
+  def have_twitter_credentials?
+    authentications.collect(&:provider).include?('twitter')
+  end
+
+
   def page_selected? # true or false
     return false if !have_facebook_credentials?
     !page_setting.nil?
@@ -129,6 +134,15 @@ class User < ActiveRecord::Base
   def initiate_graph_api
     return nil if !have_facebook_credentials?
     @user_graph = Koala::Facebook::API.new(authentications.where(provider: "facebook", user_id: self.id).first.credentials) rescue nil
+  end
+
+  def initiate_twitter_api
+    return nil if !have_twitter_credentials?
+    credentials = authentications.where(provider: "twitter", user_id: self.id).last.credentials.split(" ") rescue nil
+    @twitter_user = Twitter::Client.new(
+        :oauth_token => credentials.first,
+        :oauth_token_secret => credentials.last
+    )
   end
 
 
@@ -144,8 +158,21 @@ class User < ActiveRecord::Base
             new_page = self.pages.find_or_create_by_page_id(page['id'])
             new_page.update_attributes(name: page['name'], token: page['access_token'], category: page['category'], perms: page['perms'])
           rescue Exception => ex
-            logger.info "Error occure while posting to facebook. #{ex.message}"
+            logger.info "Error occur while posting to facebook. #{ex.message}"
           end
+        end
+      end
+    end
+  end
+
+  def update_twitter_status(status)
+    if have_twitter_credentials?
+      @twitter_user = self.initiate_twitter_api
+      if @twitter_user
+        begin
+          @twitter_user.update(status)
+        rescue Exception => ex
+          logger.info "Error occur while updating twitter status. #{ex.message}"
         end
       end
     end

@@ -75,7 +75,10 @@ class GigsController < ApplicationController
     @gig = Gig.find(params[:id])
     message = 'Gig for fans.'
     feed = {:name => 'GigPoint', :link => "#{gig_path(@gig)}", :description => 'Gig post from gig for musicians.'}
+    status = "Tweeting as a gig user!"
+
     current_user.publish_one_wall(message, feed)
+    user.update_twitter_status(status)
 
     respond_to do |format|
       format.html { redirect_to current_user, notice: 'Gig was successfully posted.' }
