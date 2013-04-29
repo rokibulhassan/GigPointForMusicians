@@ -14,6 +14,10 @@ class Gig < ActiveRecord::Base
   before_save :manage_gig_venue, :manage_schedule_post
   before_validation :sync_price
 
+  scope :up_coming_gigs, where('starts_at >= ?', Date.today)
+  scope :past_gigs, where('starts_at <= ?', Date.today)
+
+
   def gig_is_free?
     self.free_entry == "1" || self.price.to_f == 0.00
   end
@@ -46,17 +50,7 @@ class Gig < ActiveRecord::Base
     logger.info "Executing cron task >>>>>>>>>>>>"
     self.find_in_batches(batch_size: 1000) do |group|
       group.each do |gig|
-        user = User.find(gig.user_id) rescue []
-        if user.present?
-          message = "Gig for fans."
-          feed = {:name => 'GigPoint', :link => "www.gigpoint.com", :description => 'Gig post from gig for musicians.'}
-          status = "Tweeting as a gig user!"
-
-          if gig.post_a_week_before? || gig.post_a_day_before? || gig.post_the_day_off?
-            user.publish_one_wall(message, feed) if gig.post_facebook?
-            user.update_twitter_status(status) if gig.post_twitter?
-          end
-        end
+        gig.post_to_social_media_now
       end
     end
   end
@@ -84,14 +78,14 @@ class Gig < ActiveRecord::Base
   end
 
   def post_to_social_media_now
-    if self.post_immediately?
+    if self.post_immediately? || self.post_a_week_before? || self.post_a_day_before? || self.post_the_day_off?
       user = User.find(self.user_id) rescue []
       if user.present?
-        message = "Gig for fans."
-        feed = {:name => 'GigPoint', :link => "www.gigpoint.com", :description => 'Gig post from gig for musicians.'}
-        status = "Tweeting as a gig user!"
-        user.publish_one_wall(message, feed) if gig.post_facebook?
-        user.update_twitter_status(status) if gig.post_twitter?
+        message = "Gig #{self.name} for fans."
+        feed = {:name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
+        status = "Tweeting as a gig name #{self.name}!"
+        user.publish_one_wall(message, feed) if self.post_facebook?
+        user.update_twitter_status(status) if self.post_twitter?
       end
     end
   end

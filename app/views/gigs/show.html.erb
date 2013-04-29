@@ -1,6 +1,49 @@
-<p id="notice"><%= notice %></p>
+<div class="gig_content">
+  <%= semantic_form_for @gig, :html => {:class => 'form-horizontal', multipart: true} do |f| %>
+      <div class="gig-content-left">
+        <div class="control-group">
+          ARTIST
+          NAME <%= f.select :artist_id, options_for_select(Artist.all.collect { |ar| [ar.profile.name, ar.id] }), :html=>{:disabled => true} %>
+        </div>
+        <div class="control-group">
+          EVENT NAME <%= f.text_field :name, :disabled => true %>
+        </div>
 
-Name: <%= @gig.name %>
+        <div class="control-group">
+          <%= fields_for @venue do |fv| %>
+              VENUE NAME <%= fv.text_field :address, :disabled => true %>
+          <% end %>
+        </div>
 
-<%= link_to 'Edit', edit_gig_path(@gig) %> |
-<%= link_to 'Back', gigs_path %>
+        <div class="control-group">
+          WEBSITE <%= f.text_field :website_url, :disabled => true %>
+        </div>
+        <div class="control-group">
+          EXTRA INFO <%= f.text_area :extra_info, :size => '25x10', :disabled => true %>
+        </div>
+      </div>
+
+      <div class="gig-content-right">
+        <div class="control-group google-map-top">
+          DATE
+          <%= f.text_field :starts_at, :disabled => true %>
+        </div>
+
+        <div class="control-group google-map-top">
+          ADMISSION
+          <div class="pricing">
+            Free Entry <%= f.check_box :free_entry, :checked => @gig.gig_is_free? ? true : false, :disabled => true %>
+            <br>
+            Other: <%= f.text_field :others, :disabled => true %>
+          </div>
+        </div>
+
+
+        <div class="control-group">
+          <%= fields_for @venue do |fv| %>
+              <%= fv.gmap_coordinate_picker :default_coordinates => @venue.default_coordinates.nil? ? [23.7231, 90.4086] : @venue.default_coordinates %>
+          <% end %>
+        </div>
+      </div>
+  <% end %>
+</div>

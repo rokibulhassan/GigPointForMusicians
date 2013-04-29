@@ -1,0 +1,9 @@
+<% gigs.each do |gig| %>
+    <div class="gig-basic-info"> <%= link_to gig.name, gig %> @ <%= gig.venue.address %> <%= gig.created_at %> </div>
+    <div class="gig-basic-operation">
+      <%= link_to 'Destroy', gig, method: :delete, data: {confirm: 'Are you sure?'} %>
+      <%= check_box_tag "gig_ids[]", gig.id, false, :id => "gig_ids#{gig.id}" %> <%= link_to "Publish", post_to_facebook_gig_path(gig) %>
+      <br>
+    </div>
+    <br>
+<% end %>
