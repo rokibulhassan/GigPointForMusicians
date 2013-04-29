@@ -5,6 +5,8 @@ class Profile < ActiveRecord::Base
 
   attr_accessor :artist_attributes
 
+  serialize :selected_page_id, Array
+
   mount_uploader :profile_picture, PhotoUploader
   mount_uploader :photo, PhotoUploader
 
@@ -14,9 +16,14 @@ class Profile < ActiveRecord::Base
   belongs_to :user
   belongs_to :artist
 
-  validate :validate_after_persistence, if: Proc.new {|profile| !profile.user.nil? }
+  validate :validate_after_persistence, if: Proc.new { |profile| !profile.user.nil? }
 
   accepts_nested_attributes_for :artist
+
+  def selected_fan_pages
+    return nil if selected_page_id == nil
+    Page.where(id: selected_page_id)
+  end
 
   def selected_page
     return nil if selected_page_id == nil
@@ -30,12 +37,12 @@ class Profile < ActiveRecord::Base
   def validate_after_persistence
     fields = ["name", "website_url", "address"]
     if persisted?
-       fields.each do |field|
-         if send(field.to_sym).nil? || send(field.to_sym).strip.length < 1
-           errors.add(:base, "#{field.humanize} required" )
-         end
-       end
-     end
+      fields.each do |field|
+        if send(field.to_sym).nil? || send(field.to_sym).strip.length < 1
+          errors.add(:base, "#{field.humanize} required")
+        end
+      end
+    end
   end
 
   def artist_validation

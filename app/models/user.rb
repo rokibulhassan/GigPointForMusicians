@@ -139,10 +139,7 @@ class User < ActiveRecord::Base
   def initiate_twitter_api
     return nil if !have_twitter_credentials?
     credentials = authentications.where(provider: "twitter", user_id: self.id).last.credentials.split(" ") rescue nil
-    @twitter_user = Twitter::Client.new(
-        :oauth_token => credentials.first,
-        :oauth_token_secret => credentials.last
-    )
+    @twitter_user = Twitter::Client.new(:oauth_token => credentials.first, :oauth_token_secret => credentials.last)
   end
 
 
@@ -203,6 +200,11 @@ class User < ActiveRecord::Base
       logger.info "Error posting on Facebook::#{ex.message}"
       false
     end
+  end
+
+  def post_to_fan_page(page, message, feed)
+    graph_page = Koala::Facebook::API.new(page.token)
+    graph_page.put_wall_post(message, feed)
   end
 
   def user_profile

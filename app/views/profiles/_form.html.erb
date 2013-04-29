@@ -27,7 +27,12 @@
         UPLOAD PHOTO <%= f.file_field :photo, :style => 'width: 217px;' %>
       </div>
       <div class="control-group">
-        FACEBOOK PAGE <%= f.select :selected_page_id, collection: current_user.pages rescue "" %>
+        FACEBOOK PAGE
+        <div class="fan-page-group">
+          <% current_user.pages.each do |page| %>
+              <%= check_box_tag "profile[selected_page_id][]", page.id, @profile.selected_page_id.include?(page.id.to_s) %><%= page.name %>
+          <% end %>
+        </div>
       </div>
       <div class="control-group">
         BIO <%= f.text_area :bio, :size => '25x10' %>

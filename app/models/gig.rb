@@ -55,6 +55,23 @@ class Gig < ActiveRecord::Base
     end
   end
 
+  def post_to_social_media_now
+    if self.post_immediately? || self.post_a_week_before? || self.post_a_day_before? || self.post_the_day_off?
+      user = User.find(self.user_id) rescue []
+      if user.present?
+        message = "Gig #{self.name} for fans."
+        feed = {:name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
+        status = "Tweeting as a gig name #{self.name}!"
+        user.publish_one_wall(message, feed) if self.post_facebook?
+        user.update_twitter_status(status) if self.post_twitter?
+
+        user.user_profile.selected_fan_pages.each do |page|
+          user.post_to_fan_page(page, message, feed)
+        end
+      end
+    end
+  end
+
   private
 
   def manage_gig_venue
@@ -77,18 +94,6 @@ class Gig < ActiveRecord::Base
     GigArtist.create!(gig_id: self.id, artist_id: self.artist_id) if self.artist_id.present?
   end
 
-  def post_to_social_media_now
-    if self.post_immediately? || self.post_a_week_before? || self.post_a_day_before? || self.post_the_day_off?
-      user = User.find(self.user_id) rescue []
-      if user.present?
-        message = "Gig #{self.name} for fans."
-        feed = {:name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
-        status = "Tweeting as a gig name #{self.name}!"
-        user.publish_one_wall(message, feed) if self.post_facebook?
-        user.update_twitter_status(status) if self.post_twitter?
-      end
-    end
-  end
 
   def sync_price
     self.price = 50.0 #TODO::Price is not introduced yet

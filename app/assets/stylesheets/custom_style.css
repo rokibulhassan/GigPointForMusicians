@@ -107,3 +107,8 @@ a#sign_out {
 .pricing {
     padding: 10px 0 10px 30px;
 }
+
+.fan-page-group {
+    width: 100px;
+    float: right;
+}
