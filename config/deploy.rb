@@ -97,7 +97,7 @@ namespace :deploy do
 
   desc "Set permission for temp file"
   task :set_permission do
-    run "cd #{latest_release} && #{try_sudo} chmod -R 777 tmp/"
+    run " sudo chmod -R 777 #{latest_release}"
   end
 
   desc "Set permission for vendor/bundle"
@@ -159,8 +159,7 @@ before  "deploy:bundle_install", "deploy:copy_bundler"
 after "deploy", "deploy:bundle_install"
 before "deploy:db_migrate", "deploy:symlink_db"
 after "deploy:bundle_install", "deploy:db_migrate"
-before "deploy:precompile_asset", "deploy::set_permission"
-before "deploy:restart", "deploy:precompile_asset"
-after "deploy:db_migrate", "deploy:restart"
+after "deploy:precompile_asset", "deploy:set_permission"
+after "deploy:precompile_asset", "deploy:restart"
 #after "deploy:copy_bundler", "deploy:bundle_install"
 #before "deploy:db_migrate", "deploy:symlink_db"
