@@ -48,7 +48,11 @@
   <p class="title">Connections</p>
 
   <div class="btn_connect_twitter">
-    <a href="/users/auth/twitter" class="btn">Connect with Twitter</a>
+    <% if current_user.have_twitter_credentials? %>
+        <%= link_to "Connect with Twitter", "#", :class => "btn", :disabled => true %>
+    <% else %>
+        <%= link_to "Connect with Twitter", user_omniauth_authorize_path("twitter"), :class => "btn" %>
+    <% end %>
   </div>
   <p class="dialog">Announce gigs to your fans on Facebook and Twitter</p>
 </div>
