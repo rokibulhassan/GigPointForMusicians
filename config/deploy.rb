@@ -24,6 +24,9 @@ role :db,  "build.gig-point.com"
 set :deploy_to, "/home/irfan/public_html/#{application}"
 set :deploy_env, 'production'
 
+set :whenever_command, "bundle exec whenever"
+require 'whenever/capistrano'
+
 # if you want to clean up old releases on each deploy uncomment this:
 # after "deploy:restart", "deploy:cleanup"
 

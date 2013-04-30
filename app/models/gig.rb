@@ -62,7 +62,7 @@ class Gig < ActiveRecord::Base
         message = "Gig #{self.name} for fans."
         feed = {:name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
         status = "Tweeting as a gig name #{self.name}!"
-        user.publish_one_wall(message, feed) if self.post_facebook?
+        #user.publish_one_wall(message, feed) if self.post_facebook?
         user.update_twitter_status(status) if self.post_twitter?
 
         user.user_profile.selected_fan_pages.each do |page|
