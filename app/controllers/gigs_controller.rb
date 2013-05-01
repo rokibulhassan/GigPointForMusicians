@@ -34,29 +34,35 @@ class GigsController < ApplicationController
   end
 
   def create
-    @gig = Gig.new(params[:gig])
-    @gig.attr_venue = params[:venue] if params[:venue].present?
-    @gig.attr_schedule_post = params[:schedule_post] if params[:schedule_post].present?
-    respond_to do |format|
-      if @gig.save
-        format.html { redirect_to @gig, notice: 'Gig was successfully created.' }
-      else
-        format.html { render action: "new" }
+    begin
+      @gig = Gig.new(params[:gig])
+      @gig.attr_venue = params[:venue] if params[:venue].present?
+      @gig.attr_schedule_post = params[:schedule_post] if params[:schedule_post].present?
+      respond_to do |format|
+        if @gig.save
+          format.html { redirect_to @gig, notice: 'Gig was successfully created.' }
+        else
+          format.html { render action: "new" }
+        end
       end
+    rescue Exception => ex
+      flash[:error] = ex.message
     end
+
   end
 
   def update
-    @gig = Gig.find(params[:id])
-    @gig.attr_venue = params[:venue] if params[:venue].present?
-    @gig.attr_schedule_post = params[:schedule_post] if params[:schedule_post].present?
     begin
-      @gig.update_attributes!(params[:gig])
+      @gig = Gig.find(params[:id])
+      @gig.attr_venue = params[:venue] if params[:venue].present?
+      @gig.attr_schedule_post = params[:schedule_post] if params[:schedule_post].present?
 
-      flash[:notice] = "Gig updates successfully"
+      @gig.update_attributes!(params[:gig])
       redirect_to edit_gig_path(@gig), notice: 'Gig was successfully updated.'
-    rescue => e
-      flash[:error] = e.message
+    rescue Exception => ex
+      @venue = @gig.venue
+      @schedule_post = @gig.schedule_post
+      flash[:error] = ex.message
       render :edit
     end
   end
@@ -74,7 +80,7 @@ class GigsController < ApplicationController
   def post_to_facebook
     @gig = Gig.find(params[:id])
     message = 'Gig for fans.'
-    feed = {:name => 'GigPoint', :link => "#{gig_path(@gig)}", :description => 'Gig post from gig for musicians.'}
+    feed = {:name => @gig.name, :link => "#{gig_path(@gig)}", :description => 'Gig post from gig for musicians.'}
     status = "Tweeting as a gig user!"
 
     current_user.publish_one_wall(message, feed)

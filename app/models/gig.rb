@@ -14,6 +14,8 @@ class Gig < ActiveRecord::Base
   before_save :manage_gig_venue, :manage_schedule_post
   before_validation :sync_price
 
+  validate :validate_user
+
   scope :up_coming_gigs, where('starts_at >= ?', Date.today)
   scope :past_gigs, where('starts_at <= ?', Date.today)
 
@@ -74,15 +76,24 @@ class Gig < ActiveRecord::Base
 
   private
 
+  def validate_user
+    artist = Artist.find(artist_id)
+    return true if artist.user_id == self.user_id
+    unless artist.user_id == self.user_id
+      logger.error ">>>>> Unauthorized user #{artist.profile.name} trying to create gig."
+      self.errors.add(:base, "Unauthorized user #{artist.profile.name} trying to create gig.")
+    end
+  end
+
   def manage_gig_venue
-    logger.info ">>>>> Creating/Updating venue"
+    logger.info ">>>>> Creating/Updating venue "
     if self.attr_venue.present?
       self.persisted? ? self.venue.update_attributes!(self.attr_venue) : self.create_venue!(self.attr_venue)
     end
   end
 
   def manage_schedule_post
-    logger.info ">>>>> Creating/Updating Schedule Post"
+    logger.info ">>>>> Creating/Updating Schedule Post "
     if self.attr_schedule_post.present?
       self.persisted? ? schedule_post.update_attributes!(attr_schedule_post) : create_schedule_post!(attr_schedule_post)
     end
@@ -90,7 +101,7 @@ class Gig < ActiveRecord::Base
 
 
   def create_gigs_artist
-    logger.info ">>>>> Creating gigs artist"
+    logger.info ">>>>> Creating gigs artist "
     GigArtist.create!(gig_id: self.id, artist_id: self.artist_id) if self.artist_id.present?
   end
 
