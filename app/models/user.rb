@@ -155,21 +155,23 @@ class User < ActiveRecord::Base
             new_page = self.pages.find_or_create_by_page_id(page['id'])
             new_page.update_attributes(name: page['name'], token: page['access_token'], category: page['category'], perms: page['perms'])
           rescue Exception => ex
-            logger.info "Error occur while posting to facebook. #{ex.message}"
+            logger.error "Error occur while posting to facebook. #{ex.message}"
           end
         end
       end
     end
   end
 
-  def update_twitter_status(status)
+  def update_twitter_status(gig_id, status)
     if have_twitter_credentials?
       @twitter_user = self.initiate_twitter_api
       if @twitter_user
         begin
           @twitter_user.update(status)
+          PublishHistory.track_publish_history(gig_id, "twitter")
+          logger.info "Gig id #{gig_id} posted on Twitter at #{Time.zone.now.strftime("%d %b %Y %H:%M:%S")}"
         rescue Exception => ex
-          logger.info "Error occur while updating twitter status. #{ex.message}"
+          logger.error "Error occur while updating twitter status. #{ex.message}"
         end
       end
     end
@@ -197,14 +199,20 @@ class User < ActiveRecord::Base
       @graph.put_wall_post(message, feed)
       true
     rescue Exception => ex
-      logger.info "Error posting on Facebook::#{ex.message}"
+      logger.error "Error posting on Facebook::#{ex.message}"
       false
     end
   end
 
-  def post_to_fan_page(page, message, feed)
-    graph_page = Koala::Facebook::API.new(page.token)
-    graph_page.put_wall_post(message, feed)
+  def post_to_fan_page(gig_id, page, message, feed)
+    begin
+      graph_page = Koala::Facebook::API.new(page.token)
+      graph_page.put_wall_post(message, feed)
+      PublishHistory.track_publish_history(gig_id, "facebook")
+      logger.info "Gig id #{gig_id} posted on Facebook FanPage at #{Time.zone.now.strftime("%d %b %Y %H:%M:%S")}"
+    rescue Exception => ex
+      logger.error "Error occur while posting to facebook fan page. #{ex.message}"
+    end
   end
 
   def user_profile

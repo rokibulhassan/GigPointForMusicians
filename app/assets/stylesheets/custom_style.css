@@ -112,3 +112,7 @@ a#sign_out {
     width: 100px;
     float: right;
 }
+
+.control-label {
+    font-weight: bold;
+}

@@ -11,7 +11,6 @@ class GigsController < ApplicationController
   def show
     @gig = Gig.find(params[:id])
     @venue = @gig.venue
-    @schedule_post = @gig.schedule_post
     respond_to do |format|
       format.html
       format.json { render json: @gig }
@@ -46,7 +45,10 @@ class GigsController < ApplicationController
         end
       end
     rescue Exception => ex
+      @venue = Venue.new
+      @schedule_post = SchedulePost.new
       flash[:error] = ex.message
+      render :new
     end
 
   end

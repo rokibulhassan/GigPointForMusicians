@@ -1,49 +1,62 @@
 <div class="gig_content">
-  <%= semantic_form_for @gig, :html => {:class => 'form-horizontal', multipart: true} do |f| %>
-      <div class="gig-content-left">
-        <div class="control-group">
-          ARTIST
-          NAME <%= f.select :artist_id, options_for_select(Artist.all.collect { |ar| [ar.profile.name, ar.id] }), :html=>{:disabled => true} %>
-        </div>
-        <div class="control-group">
-          EVENT NAME <%= f.text_field :name, :disabled => true %>
-        </div>
+  <div class="gig-content-left">
+    <div class="control-group">
+      <div class='control-label'>ARTIST NAME</div>
+      <div class="control"><%= @gig.user.user_profile.name %></div>
+    </div>
+    <div class="control-group">
+      <div class='control-label'>EVENT NAME</div>
+      <div class="control"><%= @gig.name %></div>
+    </div>
 
-        <div class="control-group">
-          <%= fields_for @venue do |fv| %>
-              VENUE NAME <%= fv.text_field :address, :disabled => true %>
-          <% end %>
-        </div>
+    <div class="control-group">
+      <div class='control-label'>VENUE NAME</div>
+      <div class="control"><%= @venue.address %></div>
+    </div>
 
-        <div class="control-group">
-          WEBSITE <%= f.text_field :website_url, :disabled => true %>
-        </div>
-        <div class="control-group">
-          EXTRA INFO <%= f.text_area :extra_info, :size => '25x10', :disabled => true %>
-        </div>
+    <div class="control-group">
+      <div class='control-label'>WEBSITE</div>
+      <div class="control"><%= @gig.website_url %></div>
+    </div>
+    <div class="control-group">
+      <div class='control-label'>EXTRA INFO</div>
+      <div class="control"><%= @gig.extra_info %></div>
+    </div>
+
+    <div class="control-group">
+      <div class='control-label'>PUBLISH HISTORY</div>
+      <div class="control">
+        <% @gig.publish_histories.each do |publish_history| %>
+            <%= @gig.name %> was published on <%= publish_history.provider %>
+            at <%= publish_history.posted_at.strftime("%d %b %Y %H:%M:%S") %> <br>
+        <% end %>
       </div>
+    </div>
 
-      <div class="gig-content-right">
-        <div class="control-group google-map-top">
-          DATE
-          <%= f.text_field :starts_at, :disabled => true %>
-        </div>
+    <div class="control-group">
+      <div class='control-label'>DATE</div>
+      <div class="control"><%= @gig.starts_at %></div>
+    </div>
 
-        <div class="control-group google-map-top">
-          ADMISSION
-          <div class="pricing">
-            Free Entry <%= f.check_box :free_entry, :checked => @gig.gig_is_free? ? true : false, :disabled => true %>
-            <br>
-            Other: <%= f.text_field :others, :disabled => true %>
-          </div>
-        </div>
+    <div class="control-group google-map-top">
+      <div class='control-label'>ADMISSION</div>
+      <div class="pricing">
+        <div class='control-label'>Free Entry</div>
+        <div class="control"><%= @gig.gig_is_free? ? "Yes" : "No" %></div>
+        <br>
 
-
-        <div class="control-group">
-          <%= fields_for @venue do |fv| %>
-              <%= fv.gmap_coordinate_picker :default_coordinates => @venue.default_coordinates.nil? ? [23.7231, 90.4086] : @venue.default_coordinates %>
-          <% end %>
-        </div>
+        <div class='control-label'>Other</div>
+        <div class="control"><%= @gig.others %></div>
       </div>
-  <% end %>
+    </div>
+
+  </div>
+
+  <div class="gig-content-right">
+
+
+    <div class="control-group">
+      <%= render_gmap_coordinate_picker :default_coordinates => @venue.default_coordinates.nil? ? [23.7231, 90.4086] : @venue.default_coordinates %>
+    </div>
+  </div>
 </div>

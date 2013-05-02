@@ -5,6 +5,7 @@ class Gig < ActiveRecord::Base
 
   has_many :gig_artists
   has_many :artists, through: :gig_artists
+  has_many :publish_histories
   belongs_to :venue
   belongs_to :user
   has_one :schedule_post
@@ -65,11 +66,16 @@ class Gig < ActiveRecord::Base
         feed = {:name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
         status = "Tweeting as a gig name #{self.name}!"
         #user.publish_one_wall(message, feed) if self.post_facebook?
-        user.update_twitter_status(status) if self.post_twitter?
 
-        user.user_profile.selected_fan_pages.each do |page|
-          user.post_to_fan_page(page, message, feed)
+        if self.post_twitter?
+          user.update_twitter_status(self.id, status)
         end
+        user.user_profile.selected_fan_pages.each do |page|
+          if self.post_facebook?
+            user.post_to_fan_page(self.id, page, message, feed)
+          end
+        end
+
       end
     end
   end
@@ -98,7 +104,6 @@ class Gig < ActiveRecord::Base
       self.persisted? ? schedule_post.update_attributes!(attr_schedule_post) : create_schedule_post!(attr_schedule_post)
     end
   end
-
 
   def create_gigs_artist
     logger.info ">>>>> Creating gigs artist "
