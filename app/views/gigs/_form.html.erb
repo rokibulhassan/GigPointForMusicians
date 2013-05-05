@@ -59,7 +59,7 @@
 
         <div class="control-group">
           <%= fields_for @venue do |fv| %>
-              <%= fv.gmap_coordinate_picker :default_coordinates => @venue.default_coordinates.nil? ? [23.7231, 90.4086] : @venue.default_coordinates %>
+              <%= fv.gmap_coordinate_picker :default_coordinates => @venue.default_coordinates.nil? ? user_coordinates_from_ip : @venue.default_coordinates %>
           <% end %>
         </div>
       </div>

@@ -10,7 +10,10 @@ GigpointForMusician::Application.routes.draw do
   get 'static/home', as: :home
 
   resources :users do
-    get 'profile', on: :member
+    member do
+      get 'profile' #, on: :member
+      get 'destroy_authentication'
+    end
   end
   resources :artists do
     resources :profiles

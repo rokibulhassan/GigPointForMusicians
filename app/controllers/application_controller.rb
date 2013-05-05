@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   add_breadcrumb "Home", :root_path
+  helper_method :user_coordinates_from_ip
 
   def after_sign_in_path_for(resource)
     if resource.artist.profile.nil?

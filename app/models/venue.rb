@@ -3,6 +3,8 @@ class Venue < ActiveRecord::Base
   belongs_to :country
   belongs_to :profile
 
+  validates :address, :presence => {:message => "Venue address is required."}
+
 
   def default_coordinates
     if latitude.present?

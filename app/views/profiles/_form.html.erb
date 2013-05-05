@@ -14,7 +14,7 @@
       </div>
       <%= f.fields_for :artist do |far| %>
           <div class="control-group">
-            BOOKING CONTRACT  <%= far.text_field :booking_contact %>
+            BOOKING CONTACT  <%= far.text_field :booking_contact %>
             <br>
 
             <p class="dialog"> Can be either a website or email address</p>
@@ -23,14 +23,14 @@
       <div class="control-group">
         WEBSITE <%= f.text_field :website_url %>
       </div>
-      <div class="control-group">
-        UPLOAD PHOTO <%= f.file_field :photo, :style => 'width: 217px;' %>
-      </div>
+      <!--<div class="control-group">-->
+      <!--UPLOAD PHOTO <%#= f.file_field :photo, :style => 'width: 217px;' %>-->
+      <!--</div>-->
       <div class="control-group">
         FACEBOOK PAGE
         <div class="fan-page-group">
           <% current_user.pages.each do |page| %>
-              <%= check_box_tag "profile[selected_page_id][]", page.id, @profile.selected_page_id.include?(page.id.to_s) %><%= page.name %>
+              <%= check_box_tag "profile[selected_page_id][]", page.id, @profile.selected_page_id.include?(page.id.to_s) %><%= page.name %><br>
           <% end %>
         </div>
       </div>
@@ -49,7 +49,7 @@
 
   <div class="btn_connect_twitter">
     <% if current_user.have_twitter_credentials? %>
-        <%= link_to "Connect with Twitter", "#", :class => "btn", :disabled => true %>
+        <%= link_to "Disconnect Twitter", destroy_authentication_user_path(:provider => "twitter"), :class => "btn" %>
     <% else %>
         <%= link_to "Connect with Twitter", user_omniauth_authorize_path("twitter"), :class => "btn" %>
     <% end %>

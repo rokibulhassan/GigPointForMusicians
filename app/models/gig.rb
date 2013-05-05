@@ -15,6 +15,9 @@ class Gig < ActiveRecord::Base
   before_save :manage_gig_venue, :manage_schedule_post
   before_validation :sync_price
 
+  validates :name, :presence => { :message => "Gig name is required." }
+  validates :starts_at, :presence => { :message => "Gig Start time is required." }
+  validates :website_url, :presence => { :message => "Gig website time is required." }
   validate :validate_user
 
   scope :up_coming_gigs, where('starts_at >= ?', Date.today)

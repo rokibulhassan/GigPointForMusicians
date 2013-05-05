@@ -33,13 +33,13 @@ class GigsController < ApplicationController
   end
 
   def create
-    begin
+   begin
       @gig = Gig.new(params[:gig])
       @gig.attr_venue = params[:venue] if params[:venue].present?
       @gig.attr_schedule_post = params[:schedule_post] if params[:schedule_post].present?
       respond_to do |format|
         if @gig.save
-          format.html { redirect_to @gig, notice: 'Gig was successfully created.' }
+          format.html { redirect_to current_user, notice: 'Gig was successfully created.' }
         else
           format.html { render action: "new" }
         end
@@ -74,8 +74,7 @@ class GigsController < ApplicationController
     @gig.destroy
 
     respond_to do |format|
-      format.html { redirect_to gigs_url }
-      format.json { head :no_content }
+      format.html { redirect_to current_user, notice: 'Gig was successfully Deleted.' }
     end
   end
 
@@ -86,7 +85,7 @@ class GigsController < ApplicationController
     status = "Tweeting as a gig user!"
 
     current_user.publish_one_wall(message, feed)
-    user.update_twitter_status(status)
+    current_user.update_twitter_status(@gig.id, status)
 
     respond_to do |format|
       format.html { redirect_to current_user, notice: 'Gig was successfully posted.' }
