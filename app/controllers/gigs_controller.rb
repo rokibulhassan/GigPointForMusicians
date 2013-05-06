@@ -1,4 +1,5 @@
 class GigsController < ApplicationController
+  before_filter :login_required, :only => [:index, :new, :create, :edit, :update]
 
   def index
     @gigs = Gig.all
@@ -10,17 +11,17 @@ class GigsController < ApplicationController
 
   def show
     @gig = Gig.find(params[:id])
-    @venue = @gig.venue
+
     respond_to do |format|
       format.html
-      format.json { render json: @gig }
     end
   end
 
   def new
     @gig = Gig.new
-    @venue = Venue.new
-    @schedule_post = SchedulePost.new
+    @gig.build_venue
+    @gig.build_schedule_post
+
     respond_to do |format|
       format.html
     end
@@ -28,25 +29,15 @@ class GigsController < ApplicationController
 
   def edit
     @gig = Gig.find(params[:id])
-    @venue = @gig.venue
-    @schedule_post = @gig.schedule_post
   end
 
   def create
-   begin
+    begin
       @gig = Gig.new(params[:gig])
-      @gig.attr_venue = params[:venue] if params[:venue].present?
-      @gig.attr_schedule_post = params[:schedule_post] if params[:schedule_post].present?
-      respond_to do |format|
-        if @gig.save
-          format.html { redirect_to current_user, notice: 'Gig was successfully created.' }
-        else
-          format.html { render action: "new" }
-        end
-      end
+
+      @gig.save!
+      redirect_to current_user, notice: 'Gig was successfully created.'
     rescue Exception => ex
-      @venue = Venue.new
-      @schedule_post = SchedulePost.new
       flash[:error] = ex.message
       render :new
     end
@@ -56,14 +47,10 @@ class GigsController < ApplicationController
   def update
     begin
       @gig = Gig.find(params[:id])
-      @gig.attr_venue = params[:venue] if params[:venue].present?
-      @gig.attr_schedule_post = params[:schedule_post] if params[:schedule_post].present?
 
       @gig.update_attributes!(params[:gig])
       redirect_to edit_gig_path(@gig), notice: 'Gig was successfully updated.'
     rescue Exception => ex
-      @venue = @gig.venue
-      @schedule_post = @gig.schedule_post
       flash[:error] = ex.message
       render :edit
     end

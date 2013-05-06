@@ -7,7 +7,8 @@ class ApplicationController < ActionController::Base
     if resource.artist.profile.nil?
       new_artist_profile_path(resource.artist.id)
     else
-      edit_artist_profile_path(resource.artist.id, resource.artist.profile.id)
+      user_path(current_user)
+      #edit_artist_profile_path(resource.artist.id, resource.artist.profile.id)
     end
   end
 
@@ -24,6 +25,18 @@ class ApplicationController < ActionController::Base
   def user_coordinates_from_ip
     geo_obj = Geocoder.search("#{request.remote_ip}")[0]
     (geo_obj.latitude != 0.0 && geo_obj.longitude != 0.0) ? [geo_obj.latitude, geo_obj.longitude] : [23.7231, 90.4086]
+  end
+
+  def logged_in?
+    user_signed_in?
+  end
+
+  def login_required
+    unless logged_in?
+      flash[:error] = 'login_required'
+      redirect_to :new_user_session
+      return
+    end
   end
 
 end

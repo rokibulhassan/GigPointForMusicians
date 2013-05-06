@@ -2,7 +2,7 @@
   <div class="gig-content-left">
     <div class="control-group">
       <div class='control-label'>ARTIST NAME</div>
-      <div class="control"><%= @gig.user.user_profile.name %></div>
+      <div class="control"><%= @gig.try(:user).try(:user_profile).try(:name) %></div>
     </div>
     <div class="control-group">
       <div class='control-label'>EVENT NAME</div>
@@ -11,7 +11,7 @@
 
     <div class="control-group">
       <div class='control-label'>VENUE NAME</div>
-      <div class="control"><%= @venue.address %></div>
+      <div class="control"><%= @gig.venue.address %></div>
     </div>
 
     <div class="control-group">
@@ -56,7 +56,7 @@
 
 
     <div class="control-group">
-      <%= render_gmap_coordinate_picker :default_coordinates => @venue.default_coordinates.nil? ? [23.7231, 90.4086] : @venue.default_coordinates %>
+      <%= render_gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? [23.7231, 90.4086] : @gig.venue.default_coordinates %>
     </div>
   </div>
 </div>

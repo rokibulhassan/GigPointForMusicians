@@ -1,6 +1,6 @@
 <%- model_class = User -%>
 <div class="page-header">
-  <h1><%= t '.title', :default => @user.artist.profile.name %></h1>
+  <h1><%= t '.title', :default => @user.artist.profile.name %></h1> <%= link_to "edit profile", edit_artist_profile_path(@user.artist.id, @user.artist.profile.id) %>
 </div>
 <div class="clear"></div>
 <div class="div3">
@@ -26,5 +26,7 @@
     <%= render :partial => 'gigs/gigs_list', :locals => {:gigs => current_user.gigs.past_gigs} if current_user.gigs.present? %>
   </div>
 </div>
+
+
 
 

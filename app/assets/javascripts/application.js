@@ -17,12 +17,20 @@
 //= require_tree .
 
 $(document).ready(function () {
+    if (window.location.hash == '#_=_') {
+        window.location.hash = '';
+        history.pushState('', document.title, window.location.pathname);
+        e.preventDefault();
+    }
+
     $('.datepicker').on('focus', function () {
-        $(this).datepicker({ dateFormat:"yy-mm-dd", validateBeforeShow:true  });
+        $(this).datepicker({ dateFormat: "yy-mm-dd", validateBeforeShow: true  });
     });
 
     $('.datetimepicker, [date-time-picker]').on('focus', function () {
         var dateFormat = $(this).attr('date-format') || "yy-mm-dd";
-        $(this).datetimepicker({ dateFormat:dateFormat, ampm:true, timeFormat:"hh:mm TT", validateBeforeShow:true });
+        $(this).datetimepicker({ dateFormat: dateFormat, ampm: true, timeFormat: "hh:mm TT", validateBeforeShow: true });
     });
 });
+
+

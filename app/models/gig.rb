@@ -1,7 +1,7 @@
 class Gig < ActiveRecord::Base
   attr_accessible :created_by, :details, :duration, :email, :gig_type, :name, :price, :starts_at, :venue_id, :website_url,
-                  :others, :latitude, :longitude, :gmaps, :extra_info, :artist_id, :free_entry, :user_id
-  attr_accessor :attr_venue, :attr_schedule_post, :artist_id, :free_entry
+                  :others, :latitude, :longitude, :gmaps, :extra_info, :artist_id, :free_entry, :user_id, :schedule_post_attributes, :venue_attributes
+  attr_accessor :artist_id, :free_entry
 
   has_many :gig_artists
   has_many :artists, through: :gig_artists
@@ -10,14 +10,15 @@ class Gig < ActiveRecord::Base
   belongs_to :user
   has_one :schedule_post
 
+  accepts_nested_attributes_for :schedule_post, :venue
+
   after_create :create_gigs_artist
   after_save :post_to_social_media_now
-  before_save :manage_gig_venue, :manage_schedule_post
   before_validation :sync_price
 
-  validates :name, :presence => { :message => "Gig name is required." }
-  validates :starts_at, :presence => { :message => "Gig Start time is required." }
-  validates :website_url, :presence => { :message => "Gig website time is required." }
+  validates :name, :presence => {:message => "Gig name is required"}
+  validates :starts_at, :presence => {:message => "Gig Start time is required"}
+  validates :website_url, :presence => {:message => "Gig website time is required"}
   validate :validate_user
 
   scope :up_coming_gigs, where('starts_at >= ?', Date.today)
@@ -68,7 +69,6 @@ class Gig < ActiveRecord::Base
         message = "Gig #{self.name} for fans."
         feed = {:name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
         status = "Tweeting as a gig name #{self.name}!"
-        #user.publish_one_wall(message, feed) if self.post_facebook?
 
         if self.post_twitter?
           user.update_twitter_status(self.id, status)
@@ -91,20 +91,6 @@ class Gig < ActiveRecord::Base
     unless artist.user_id == self.user_id
       logger.error ">>>>> Unauthorized user #{artist.profile.name} trying to create gig."
       self.errors.add(:base, "Unauthorized user #{artist.profile.name} trying to create gig.")
-    end
-  end
-
-  def manage_gig_venue
-    logger.info ">>>>> Creating/Updating venue "
-    if self.attr_venue.present?
-      self.persisted? ? self.venue.update_attributes!(self.attr_venue) : self.create_venue!(self.attr_venue)
-    end
-  end
-
-  def manage_schedule_post
-    logger.info ">>>>> Creating/Updating Schedule Post "
-    if self.attr_schedule_post.present?
-      self.persisted? ? schedule_post.update_attributes!(attr_schedule_post) : create_schedule_post!(attr_schedule_post)
     end
   end
 

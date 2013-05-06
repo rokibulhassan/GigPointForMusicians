@@ -10,7 +10,7 @@
         </div>
 
         <div class="control-group">
-          <%= fields_for @venue do |fv| %>
+          <%= f.fields_for :venue do |fv| %>
               VENUE NAME <%= fv.text_field :address %>
               <%= fv.hidden_field :country_id %>
               <%= fv.hidden_field :profile_id, :value => current_user.user_profile.id rescue nil %>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="publish-div">
-          <%= fields_for @schedule_post do |sp| %>
+          <%= f.fields_for :schedule_post do |sp| %>
               <div>
                 <p style="font-size: 14px; font-weight: bold;"> Post To </p>
                 <%= sp.check_box :post_facebook %> Facebook
@@ -58,8 +58,8 @@
 
 
         <div class="control-group">
-          <%= fields_for @venue do |fv| %>
-              <%= fv.gmap_coordinate_picker :default_coordinates => @venue.default_coordinates.nil? ? user_coordinates_from_ip : @venue.default_coordinates %>
+          <%= f.fields_for :venue do |fv| %>
+              <%= fv.gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? user_coordinates_from_ip : @gig.venue.default_coordinates %>
           <% end %>
         </div>
       </div>
