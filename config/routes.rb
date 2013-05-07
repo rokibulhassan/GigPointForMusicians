@@ -11,7 +11,7 @@ GigpointForMusician::Application.routes.draw do
 
   resources :users do
     member do
-      get 'profile' #, on: :member
+      get 'profile'
       get 'destroy_authentication'
     end
   end

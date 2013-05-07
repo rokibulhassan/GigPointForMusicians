@@ -16,7 +16,10 @@ class Profile < ActiveRecord::Base
   belongs_to :user
   belongs_to :artist
 
+  after_save :sync_artist_user_name
+
   validate :validate_after_persistence, if: Proc.new { |profile| !profile.user.nil? }
+  validates_uniqueness_of :user_name
 
   accepts_nested_attributes_for :artist
 
@@ -51,6 +54,13 @@ class Profile < ActiveRecord::Base
         errors.add :base, "Should have one artist"
       end
     end
+  end
+
+  private
+
+  def sync_artist_user_name
+    logger.info ">>>>>>>>>>>>Seting artist user name. "
+    self.artist.update_attributes!(user_name: self.user_name)
   end
 
 end

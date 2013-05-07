@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502054406) do
+ActiveRecord::Schema.define(:version => 20130507190541) do
 
   create_table "artist_genres", :force => true do |t|
     t.integer  "artist_id"
@@ -25,7 +25,11 @@ ActiveRecord::Schema.define(:version => 20130502054406) do
     t.datetime "updated_at",      :null => false
     t.integer  "user_id"
     t.string   "booking_contact"
+    t.string   "user_name"
+    t.string   "slug"
   end
+
+  add_index "artists", ["slug"], :name => "index_artists_on_slug"
 
   create_table "authentications", :force => true do |t|
     t.string   "uid"

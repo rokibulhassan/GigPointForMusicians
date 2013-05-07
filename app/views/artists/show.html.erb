@@ -1,5 +1,32 @@
-<p id="notice"><%= notice %></p>
+<div class="page-header">
+  <h1><%= @artist.try(:profile).try(:name) %></h1>
+</div>
+<div class="div3">
+  <%= image_tag @artist.try(:profile).try(:remote_avatar_url), width: 100, height: 100 %>
+</div>
+<div class="control-group">
+  <div class='control-label'>ARTIST NAME</div>
+  <div class="control"><%= @artist.try(:profile).try(:name) %></div>
+</div>
+<div class="control-group">
+  <div class='control-label'>WEBSITE</div>
+  <div class="control"><%= @artist.try(:profile).try(:website_url) %></div>
+</div>
+<div class="control-group">
+  <div class='control-label'>BOOKING CONTACT</div>
+  <div class="control"><%= @artist.booking_contact %></div>
+</div>
+<div class="control-group">
+  <div class='control-label'>ADDRESS</div>
+  <div class="control"><%= @artist.try(:profile).try(:address) %></div>
+</div>
+<div class="control-group">
+  <div class='control-label'>PHONE</div>
+  <div class="control"><%= @artist.try(:profile).try(:phone) %></div>
+</div>
+<div class="control-group">
+  <div class='control-label'>RATING</div>
+  <div class="control"><%= @artist.try(:profile).try(:rating) %></div>
+</div>
 
 
-<%= link_to 'Edit', edit_artist_path(@artist) %> |
-<%= link_to 'Back', artists_path %>

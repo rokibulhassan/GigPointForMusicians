@@ -49,11 +49,15 @@
 
       <div class="nav-collapse collapse">
         <ul class="nav">
+          <li><%= link_to "Gigs", gigs_url %></li>
+          <li><%= link_to "Artist", artists_url %></li>
         </ul>
         <form class="navbar-form pull-right">
           <% if current_user %>
               <li><%= link_to current_user.artist.profile.name, current_user %></li>
               <li><%= link_to 'Sign Out', '/users/sign_out', method: :delete, id: 'sign_out' %></li>
+          <% else %>
+              <li><%= link_to 'Login With Facebook', user_omniauth_authorize_path("facebook") %></li>
           <% end %>
         </form>
       </div>
@@ -73,7 +77,7 @@
           hero
           unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
         <% unless current_user %>
-            <p><a href="/users/auth/facebook" class="btn btn-primary btn-large">Login With Facebook &raquo;</a></p>
+            <p><%= link_to "Login With Facebook", user_omniauth_authorize_path("facebook"), :class => "btn btn-primary btn-large" %></p>
         <% end %>
       </div>
   <% end %>

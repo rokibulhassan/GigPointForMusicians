@@ -9,8 +9,8 @@
       <div class="control-group">
         USER NAME  <%= f.text_field :user_name %>
         <br>
-
-        <p class="dialog"> Find your public profile page at http://gigpoint/username</p>
+        <p class="dialog"> Find your public profile page at
+          <span id="url-hints"> http://gigpoint.com/artists/username</span></p>
       </div>
       <%= f.fields_for :artist do |far| %>
           <div class="control-group">
@@ -30,7 +30,8 @@
         FACEBOOK PAGE
         <div class="fan-page-group">
           <% current_user.pages.each do |page| %>
-              <%= check_box_tag "profile[selected_page_id][]", page.id, @profile.selected_page_id.include?(page.id.to_s) %><%= page.name %><br>
+              <%= check_box_tag "profile[selected_page_id][]", page.id, @profile.selected_page_id.include?(page.id.to_s) %><%= page.name %>
+              <br>
           <% end %>
         </div>
       </div>
@@ -56,3 +57,13 @@
   </div>
   <p class="dialog">Announce gigs to your fans on Facebook and Twitter</p>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#profile_user_name").change(function () {
+            var url = $("#profile_user_name").val();
+            url = url.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-').toLowerCase();
+            $("#url-hints").text("http://gigpoint.com/artists/" + url);
+        });
+    });
+</script>

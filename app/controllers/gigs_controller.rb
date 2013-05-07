@@ -1,5 +1,5 @@
 class GigsController < ApplicationController
-  before_filter :login_required, :only => [:index, :new, :create, :edit, :update]
+  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update]
 
   def index
     @gigs = Gig.all
