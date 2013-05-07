@@ -26,18 +26,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     auth = request.env["omniauth.auth"]
     authentication = Authentication.where(:provider => auth.provider, :uid => auth.uid).first
     if authentication
+      if authentication.update_attributes!(:credentials => [auth.credentials.token.to_s, auth.credentials.secret.to_s].join(' '))
+        logger.info "Reset facebook credentials!"
+      end
       set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
       sign_in_and_redirect(:user, authentication.user)
     else
       @user = User.find_for_facebook_oauth(auth, current_user)
       @user.authentications.create!(:provider => auth.provider,
                                     :uid => auth.uid,
-                                    :credentials => [auth.credentials.token.to_s, auth.credentials.secret
-                                    .to_s].join(' '))
+                                    :credentials => [auth.credentials.token.to_s, auth.credentials.secret.to_s].join(' '))
       if @user.persisted?
-        #if @user.can_publish_to_page?
-        #  @user.update_facebook_page
-        #end
         sign_in_and_redirect @user, :event => :authentication #this will throw if @user is not activated
         set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
       else

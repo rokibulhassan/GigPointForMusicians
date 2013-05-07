@@ -147,16 +147,15 @@ class User < ActiveRecord::Base
     if have_facebook_credentials?
       @user_graph = self.initiate_graph_api
       if @user_graph
-        # ["category", "name", "access_token", "id", "perms"]
-        pages = @user_graph.get_connections('me', 'accounts')
-        pages.each do |page|
-          #:name, :page_id, :selected, :token, :user_id, :category, :perms
-          begin
+        begin
+          pages = @user_graph.get_connections('me', 'accounts')
+          pages.each do |page|
             new_page = self.pages.find_or_create_by_page_id(page['id'])
             new_page.update_attributes(name: page['name'], token: page['access_token'], category: page['category'], perms: page['perms'])
-          rescue Exception => ex
-            logger.error "Error occur while posting to facebook. #{ex.message}"
+            logger.info "Creating/Updating facebook page :: #{page['name']}."
           end
+        rescue Exception => ex
+          logger.error "Error occur while Creating/Updating facebook page :: #{ex.message}"
         end
       end
     end
