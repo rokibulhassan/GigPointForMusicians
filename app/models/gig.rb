@@ -19,7 +19,7 @@ class Gig < ActiveRecord::Base
   validates :name, :presence => {:message => "Gig name is required"}
   validates :starts_at, :presence => {:message => "Gig Start time is required"}
   validates :website_url, :presence => {:message => "Gig website time is required"}
-  validate :validate_user
+  #validate :validate_user
 
   scope :up_coming_gigs, where('starts_at >= ?', Date.today)
   scope :past_gigs, where('starts_at <= ?', Date.today)

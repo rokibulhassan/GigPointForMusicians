@@ -11,12 +11,20 @@
       <tr>
         <td><%= gig.name %> @ <%= gig.try(:venue).try(:address) %> <%= gig.created_at %></td>
         <td><%= link_to 'Show', gig %></td>
-        <td><%= link_to 'Edit', edit_gig_path(gig) %></td>
-        <td><%= link_to 'Destroy', gig, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+        <td>
+          <% if can? :update, gig %>
+              <%= link_to 'Edit', edit_gig_path(gig) %>
+          <% end %>
+        </td>
+        <td>
+          <% if can? :destroy, gig %>
+              <%= link_to 'Destroy', gig, method: :delete, data: {confirm: 'Are you sure?'} %>
+          <% end %>
+        </td>
       </tr>
   <% end %>
 </table>
 
 <br/>
 
-<%= link_to 'New Gig', new_gig_path %>
+<%= link_to 'New Gig', new_gig_path if current_user.present? %>

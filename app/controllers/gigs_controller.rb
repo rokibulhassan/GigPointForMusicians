@@ -1,9 +1,9 @@
 class GigsController < ApplicationController
+  load_and_authorize_resource
   before_filter :authenticate_user!, :only => [:new, :create, :edit, :update]
 
   def index
     @gigs = Gig.all
-
     respond_to do |format|
       format.html
     end

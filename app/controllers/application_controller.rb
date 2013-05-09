@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
   add_breadcrumb "Home", :root_path
   helper_method :user_coordinates_from_ip
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
   def after_sign_in_path_for(resource)
     if resource.artist.profile.nil?
       new_artist_profile_path(resource.artist.id)
