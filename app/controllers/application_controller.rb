@@ -27,8 +27,15 @@ class ApplicationController < ActionController::Base
   private
 
   def user_coordinates_from_ip
-    geo_obj = Geocoder.search("#{request.remote_ip}")[0]
-    (geo_obj.latitude != 0.0 && geo_obj.longitude != 0.0) ? [geo_obj.latitude, geo_obj.longitude] : [23.7231, 90.4086]
+    ip = request.remote_ip
+    ip ||= request.env['REMOTE_ADDR']
+    geo_obj = Geocoder.search(ip.to_s).first
+    begin
+      (geo_obj.latitude != 0.0 && geo_obj.longitude != 0.0) ? [geo_obj.latitude, geo_obj.longitude] : [1.3667, 103.8]
+    rescue Exception => ex
+      logger.error "Error occur while search location for client IP: #{ip} and Location: #{geo_obj.inspect}"
+      [1.3667, 103.8]
+    end
   end
 
   def logged_in?
