@@ -13,13 +13,12 @@ class Gig < ActiveRecord::Base
   accepts_nested_attributes_for :schedule_post, :venue
 
   after_create :create_gigs_artist
-  after_save :post_to_social_media_now
+  after_save :post_to_social_media_now, :create_facebook_event
   before_validation :sync_price
 
   validates :name, :presence => {:message => "Gig name is required"}
   validates :starts_at, :presence => {:message => "Gig Start time is required"}
   validates :website_url, :presence => {:message => "Gig website time is required"}
-  #validate :validate_user
 
   scope :up_coming_gigs, where('starts_at >= ?', Date.today)
   scope :past_gigs, where('starts_at <= ?', Date.today)
@@ -78,25 +77,21 @@ class Gig < ActiveRecord::Base
             user.post_to_fan_page(self.id, page, message, feed)
           end
         end
-
       end
     end
   end
 
   private
 
-  def validate_user
-    artist = Artist.find(artist_id)
-    return true if artist.user_id == self.user_id
-    unless artist.user_id == self.user_id
-      logger.error ">>>>> Unauthorized user #{artist.profile.name} trying to create gig."
-      self.errors.add(:base, "Unauthorized user #{artist.profile.name} trying to create gig.")
-    end
+  def create_gigs_artist
+    logger.info "Creating gigs artist for Gig #{self.name}"
+    GigArtist.create!(gig_id: self.id, artist_id: self.artist_id) if self.artist_id.present?
   end
 
-  def create_gigs_artist
-    logger.info ">>>>> Creating gigs artist "
-    GigArtist.create!(gig_id: self.id, artist_id: self.artist_id) if self.artist_id.present?
+  def create_facebook_event
+    self.user.user_profile.selected_fan_pages.each do |page|
+      page.create_facebook_event_for(self)
+    end
   end
 
 

@@ -20,6 +20,7 @@ gem 'linkedin'
 gem 'omniauth-linkedin'
 gem 'omniauth-google-oauth2'
 gem 'twitter'
+gem 'fb_graph'
 
 # authorization
 
