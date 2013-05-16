@@ -63,7 +63,7 @@ gem 'rails-admin'
 gem 'puma'
 
 # response monitoring
-gem 'rack-mini-profiler'
+#gem 'rack-mini-profiler'
 
 # for attachments
 gem 'carrierwave'

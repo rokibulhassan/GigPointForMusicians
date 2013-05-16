@@ -3,7 +3,7 @@
       <div class="gig-content-left">
         <div class="control-group">
           ARTIST
-          NAME <%= f.select :artist_id, options_for_select(Artist.by_user_id(current_user.id).collect { |ar| [ar.profile.name, ar.id] }) %>
+          NAME <%#= f.select :artist_id, options_for_select(Artist.by_user_id(current_user.id).collect { |ar| [ar.profile.name, ar.id] }) %>
         </div>
         <div class="control-group">
           EVENT NAME <%= f.text_field :name %>
@@ -59,7 +59,9 @@
 
         <div class="control-group">
           <%= f.fields_for :venue do |fv| %>
-              <%= fv.gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? user_coordinates_from_ip : @gig.venue.default_coordinates %>
+              <div class="venue-location">
+                <%= fv.gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? user_coordinates_from_ip : @gig.venue.default_coordinates %>
+              </div>
           <% end %>
         </div>
       </div>
@@ -69,3 +71,4 @@
       </div>
   <% end %>
 </div>
+

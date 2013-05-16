@@ -25,5 +25,12 @@ GigpointForMusician::Application.routes.draw do
     end
   end
 
+  resources :venues do
+    collection do
+      get 'auto_complete_for_venues'
+      get 'populate_location_map'
+    end
+  end
+
   root :to => 'static#home'
 end

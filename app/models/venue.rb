@@ -15,4 +15,10 @@ class Venue < ActiveRecord::Base
     end
   end
 
+  def self.auto_complete_results(p_params)
+    venue_name = p_params[:term]
+    venues = self.where(['address like ? ', "%#{venue_name}%"])
+    venues
+  end
+
 end

@@ -18,7 +18,7 @@ class Gig < ActiveRecord::Base
 
   validates :name, :presence => {:message => "Gig name is required"}
   validates :starts_at, :presence => {:message => "Gig Start time is required"}
-  validates :website_url, :presence => {:message => "Gig website time is required"}
+  validate :validates_others
 
   scope :up_coming_gigs, where('starts_at >= ?', Date.today)
   scope :past_gigs, where('starts_at <= ?', Date.today)
@@ -82,6 +82,13 @@ class Gig < ActiveRecord::Base
   end
 
   private
+
+  def validates_others
+    return true if gig_is_free?
+    if !gig_is_free? && others.empty?
+      self.errors.add(:base, "Must field others field if not free")
+    end
+  end
 
   def create_gigs_artist
     logger.info "Creating gigs artist for Gig #{self.name}"

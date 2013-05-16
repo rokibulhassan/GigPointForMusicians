@@ -31,6 +31,27 @@ $(document).ready(function () {
         var dateFormat = $(this).attr('date-format') || "yy-mm-dd";
         $(this).datetimepicker({ dateFormat: dateFormat, ampm: true, timeFormat: "hh:mm TT", validateBeforeShow: true });
     });
+
+    $("#gig_venue_attributes_address").autocomplete({
+        minLength: 1,
+        source: function (request, response) {
+            $.ajax({
+                url: "/venues/auto_complete_for_venues",
+                dataType: "json",
+                data: {term: request.term},
+                success: function (data) {
+                    response(data);
+                }
+            });
+        },
+        change: function (event, ui) {
+            $.ajax({
+                url: "/venues/populate_location_map",
+                data: {venue_id: ui.item.id}
+            });
+        }
+    });
+
 });
 
 
