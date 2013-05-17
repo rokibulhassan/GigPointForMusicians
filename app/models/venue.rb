@@ -5,8 +5,8 @@ class Venue < ActiveRecord::Base
   has_many :gigs
 
   validates :address, :presence => {:message => "Venue address is required"}
-  validates :latitude, :presence => {:message => "Venue latitude is required"}
-  validates :longitude, :presence => {:message => "Venue longitude is required"}
+  #validates :latitude, :presence => {:message => "Venue latitude is required"}
+  #validates :longitude, :presence => {:message => "Venue longitude is required"}
 
 
   def default_coordinates

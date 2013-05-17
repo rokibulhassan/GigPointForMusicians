@@ -1,1 +1,4 @@
 <%= render_gmap_coordinate_picker :default_coordinates => venue.default_coordinates %>
+<%= hidden_field_tag "gig[venue_attributes][latitude]", "#{latitude}" %>
+<%= hidden_field_tag "gig[venue_attributes][longitude]", "#{longitude}" %>
+<%= hidden_field_tag "gig[selected_venue_id]", "#{venue_id}" %>

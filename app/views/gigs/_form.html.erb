@@ -3,7 +3,7 @@
       <div class="gig-content-left">
         <div class="control-group">
           ARTIST
-          NAME <%#= f.select :artist_id, options_for_select(Artist.by_user_id(current_user.id).collect { |ar| [ar.profile.name, ar.id] }) %>
+          NAME <%= f.select :artist_id, options_for_select(Artist.by_user_id(current_user.id).collect { |ar| [ar.profile.name, ar.id] }) %>
         </div>
         <div class="control-group">
           EVENT NAME <%= f.text_field :name %>
@@ -13,7 +13,7 @@
           <%= f.fields_for :venue do |fv| %>
               VENUE NAME <%= fv.text_field :address %>
               <%= fv.hidden_field :country_id %>
-              <%= fv.hidden_field :profile_id, :value => current_user.user_profile.id rescue nil %>
+              <%= fv.hidden_field :profile_id, :value => current_user.try(:user_profile).try(:id) %>
           <% end %>
         </div>
 
@@ -58,11 +58,11 @@
 
 
         <div class="control-group">
-          <%= f.fields_for :venue do |fv| %>
-              <div class="venue-location">
+          <div class="venue-location">
+            <%= f.fields_for :venue do |fv| %>
                 <%= fv.gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? user_coordinates_from_ip : @gig.venue.default_coordinates %>
-              </div>
-          <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
       <%= f.hidden_field :user_id, :value => current_user.id rescue nil %>

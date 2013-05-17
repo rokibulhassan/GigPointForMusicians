@@ -36,7 +36,7 @@ $(document).ready(function () {
         minLength: 1,
         source: function (request, response) {
             $.ajax({
-                url: "/venues/auto_complete_for_venues",
+                url: "/venues/auto_complete",
                 dataType: "json",
                 data: {term: request.term},
                 success: function (data) {

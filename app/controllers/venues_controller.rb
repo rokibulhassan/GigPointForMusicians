@@ -1,6 +1,6 @@
 class VenuesController < ApplicationController
 
-  def auto_complete_for_venues
+  def auto_complete
     venues = Venue.auto_complete_results(params)
 
     result = venues.collect do |venue|
@@ -14,6 +14,8 @@ class VenuesController < ApplicationController
 
   def populate_location_map
     @venue = Venue.find(params[:venue_id])
+    @latitude = @venue.latitude
+    @longitude = @venue.longitude
   end
 
 end

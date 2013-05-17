@@ -27,7 +27,7 @@ GigpointForMusician::Application.routes.draw do
 
   resources :venues do
     collection do
-      get 'auto_complete_for_venues'
+      get 'auto_complete'
       get 'populate_location_map'
     end
   end

@@ -1,7 +1,8 @@
 class Gig < ActiveRecord::Base
   attr_accessible :created_by, :details, :duration, :email, :gig_type, :name, :price, :starts_at, :venue_id, :website_url,
-                  :others, :latitude, :longitude, :gmaps, :extra_info, :artist_id, :free_entry, :user_id, :schedule_post_attributes, :venue_attributes
-  attr_accessor :artist_id, :free_entry
+                  :others, :latitude, :longitude, :gmaps, :extra_info, :artist_id, :free_entry, :user_id, :schedule_post_attributes,
+                  :venue_attributes, :selected_venue_id
+  attr_accessor :artist_id, :free_entry, :selected_venue_id
 
   has_many :gig_artists
   has_many :artists, through: :gig_artists
@@ -14,7 +15,7 @@ class Gig < ActiveRecord::Base
 
   after_create :create_gigs_artist
   after_save :post_to_social_media_now, :create_facebook_event
-  before_validation :sync_price
+  before_validation :sync_price, :set_selected_venue
 
   validates :name, :presence => {:message => "Gig name is required"}
   validates :starts_at, :presence => {:message => "Gig Start time is required"}
@@ -24,8 +25,12 @@ class Gig < ActiveRecord::Base
   scope :past_gigs, where('starts_at <= ?', Date.today)
 
 
+  def free_entry?
+    self.free_entry == "1" rescue false
+  end
+
   def gig_is_free?
-    self.free_entry == "1" || self.price.to_f == 0.00
+    free_entry? || self.price.to_f == 0.00
   end
 
   def post_immediately?
@@ -53,7 +58,7 @@ class Gig < ActiveRecord::Base
   end
 
   def self.post_to_social_network
-    logger.info "Executing cron task >>>>>>>>>>>>"
+    logger.info "Executing cron task at #{Time.zone.now}"
     self.find_in_batches(batch_size: 1000) do |group|
       group.each do |gig|
         gig.post_to_social_media_now
@@ -83,9 +88,13 @@ class Gig < ActiveRecord::Base
 
   private
 
+  def set_selected_venue
+    self.venue_id = self.selected_venue_id if self.selected_venue_id.present?
+  end
+
   def validates_others
-    return true if gig_is_free?
-    if !gig_is_free? && others.empty?
+    return true if free_entry?
+    if others.empty? && !free_entry?
       self.errors.add(:base, "Must field others field if not free")
     end
   end
