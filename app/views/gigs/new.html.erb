@@ -3,3 +3,19 @@
 <%= render 'form' %>
 
 <%= link_to 'Back', gigs_path %>
+
+<div id="ModalAccessEvent" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Create Facebook Event</h3>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure to create Event on Facebook fan Page?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <a href="<%= @auth_url %>" target="_blank"><button class="btn btn-primary">Confirm</button>
+    </a>
+  </div>
+</div>
+

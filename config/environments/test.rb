@@ -35,3 +35,6 @@ GigpointForMusician::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 end
+
+ENV['FB_APP_ID'] = "661594500524816"
+ENV['FB_SECRET_TOKEN'] = "f69d1dfbe8d7ef84746831634d99eacc"

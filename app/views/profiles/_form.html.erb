@@ -1,4 +1,5 @@
 <div class="profile_content">
+
   <%= semantic_form_for [:artist, @profile], :html => {:class => 'form-horizontal', multipart: true} do |f| %>
       <div class="control-group">
         PROFILE PICTURE <%= image_tag @profile.remote_avatar_url %>
@@ -9,6 +10,7 @@
       <div class="control-group">
         USER NAME  <%= f.text_field :user_name %>
         <br>
+
         <p class="dialog"> Find your public profile page at
           <span id="url-hints"> http://gigpoint.com/artists/username</span></p>
       </div>
@@ -29,6 +31,9 @@
       <div class="control-group">
         FACEBOOK PAGE
         <div class="fan-page-group">
+          <% unless current_user.pages.present? %>
+              <a href="#ModalAccessPages" role="button" data-toggle="modal">ManagePage</a>
+          <% end %>
           <% current_user.pages.each do |page| %>
               <%= check_box_tag "profile[selected_page_id][]", page.id, @profile.selected_page_id.include?(page.id.to_s) %><%= page.name %>
               <br>
@@ -57,7 +62,6 @@
   </div>
   <p class="dialog">Announce gigs to your fans on Facebook and Twitter</p>
 </div>
-
 <script type="text/javascript">
     $(function () {
         $("#profile_user_name").change(function () {

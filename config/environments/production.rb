@@ -65,3 +65,6 @@ GigpointForMusician::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 end
+
+ENV['FB_APP_ID'] = "248401428633071"
+ENV['FB_SECRET_TOKEN'] = "6159425eb29363a401d4b9df50fde103"

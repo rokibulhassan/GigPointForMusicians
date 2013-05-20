@@ -71,6 +71,17 @@ class UsersController < ApplicationController
     redirect_to edit_artist_profile_path(current_user)
   end
 
+  def callback
+    if params[:code]
+      session[:access_token] = session[:oauth].get_access_token(params[:code])
+    end
+
+    authentication = current_user.authentications.find_by_provider("facebook") rescue []
+    authentication.update_attributes!(:credentials => session[:access_token]) if authentication.present?
+
+    redirect_to edit_artist_profile_path(current_user.artist.id, current_user.artist.profile.id)
+  end
+
   private
 
   def user

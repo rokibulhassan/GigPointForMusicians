@@ -37,3 +37,7 @@ GigpointForMusician::Application.configure do
 end
 
 ActiveRecord::Base.send(:attr_accessible, nil)
+
+ENV['FB_APP_ID'] = "661594500524816"
+ENV['FB_SECRET_TOKEN'] = "f69d1dfbe8d7ef84746831634d99eacc"
+

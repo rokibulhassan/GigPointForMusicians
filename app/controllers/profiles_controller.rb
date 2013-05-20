@@ -29,6 +29,8 @@ class ProfilesController < ApplicationController
   def edit
     @artist = Artist.find(params[:artist_id])
     @profile = @artist.profile
+
+    facebook_access_permission("manage_pages,publish_stream")
   end
 
 

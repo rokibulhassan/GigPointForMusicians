@@ -67,8 +67,18 @@
       </div>
       <%= f.hidden_field :user_id, :value => current_user.id rescue nil %>
       <div class="form-actions">
+        <a href="#ModalAccessEvent" role="button" class="btn ModalAccessEvent" data-toggle="modal">Allow Create Event</a>
         <%= f.submit nil, :class => 'btn btn-primary' %>
       </div>
   <% end %>
 </div>
 
+<script type="text/javascript">
+    $(function () {
+        $(".ModalAccessEvent").change(function () {
+            var url = $("#profile_user_name").val();
+            url = url.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-').toLowerCase();
+            $("#url-hints").text("http://gigpoint.com/artists/" + url);
+        });
+    });
+</script>

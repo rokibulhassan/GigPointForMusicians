@@ -22,6 +22,8 @@ class GigsController < ApplicationController
     @gig.build_venue
     @gig.build_schedule_post
 
+    facebook_access_permission("create_event")
+
     respond_to do |format|
       format.html
     end
