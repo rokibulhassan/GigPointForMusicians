@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130507190541) do
+ActiveRecord::Schema.define(:version => 20130521190128) do
 
   create_table "artist_genres", :force => true do |t|
     t.integer  "artist_id"
@@ -83,6 +83,14 @@ ActiveRecord::Schema.define(:version => 20130507190541) do
     t.integer  "user_id"
   end
 
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.string   "group_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "page_settings", :force => true do |t|
     t.integer  "user_id"
     t.string   "page_name"
@@ -128,6 +136,7 @@ ActiveRecord::Schema.define(:version => 20130507190541) do
     t.integer  "page_id"
     t.integer  "user_id"
     t.string   "selected_page_id"
+    t.string   "selected_group_id"
   end
 
   create_table "publish_histories", :force => true do |t|

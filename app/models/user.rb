@@ -7,11 +7,12 @@ class User < ActiveRecord::Base
   has_many :authentications
   has_one :artist, :dependent => :destroy
   has_many :pages
+  has_many :groups
   has_many :gigs
   after_destroy :delete_authentications
 
 
-  after_save :update_facebook_page
+  after_save :update_facebook_page, :update_facebook_group
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     if signed_in_resource
@@ -136,7 +137,6 @@ class User < ActiveRecord::Base
     @twitter_user = Twitter::Client.new(:oauth_token => credentials.first, :oauth_token_secret => credentials.last)
   end
 
-
   def update_facebook_page
     if have_facebook_credentials?
       @user_graph = self.initiate_graph_api
@@ -150,6 +150,24 @@ class User < ActiveRecord::Base
           end
         rescue Exception => ex
           logger.error "Error occur while Creating/Updating facebook page :: #{ex.message}"
+        end
+      end
+    end
+  end
+
+  def update_facebook_group
+    if have_facebook_credentials?
+      @user_graph = self.initiate_graph_api
+      if @user_graph
+        begin
+          groups = @user_graph.get_connections('me', 'groups')
+          groups.each do |group|
+            new_group = self.groups.find_or_create_by_group_id(group['id'])
+            new_group.update_attributes(name: group['name'])
+            logger.info "Creating/Updating facebook group :: #{group['name']}."
+          end
+        rescue Exception => ex
+          logger.error "Error occur while Creating/Updating facebook group :: #{ex.message}"
         end
       end
     end
@@ -182,6 +200,14 @@ class User < ActiveRecord::Base
     permissions_for.include?('publish_stream')
   end
 
+  def can_create_event?
+    permissions_for.include?('create_event')
+  end
+
+  def can_publish_in_groups?
+    permissions_for.include?('user_groups')
+  end
+
   def default_pages
     self.pages.active
   end
@@ -190,10 +216,9 @@ class User < ActiveRecord::Base
     begin
       @graph = initiate_graph_api
       @graph.put_wall_post(message, feed)
-      true
+      logger.info "Gig id #{gig_id} posted on Facebook Time Line at #{Time.zone.now.strftime("%d %b %Y %H:%M:%S")}"
     rescue Exception => ex
       logger.error "Error posting on Facebook::#{ex.message}"
-      false
     end
   end
 
@@ -201,6 +226,18 @@ class User < ActiveRecord::Base
     begin
       graph_page = Koala::Facebook::API.new(page.token)
       graph_page.put_wall_post(message, feed)
+      PublishHistory.track_publish_history(gig_id, "facebook")
+      logger.info "Gig id #{gig_id} posted on Facebook FanPage at #{Time.zone.now.strftime("%d %b %Y %H:%M:%S")}"
+    rescue Exception => ex
+      logger.error "Error occur while posting to facebook fan page. #{ex.message}"
+    end
+  end
+
+  def post_in_groups(gig_id, group, feed)
+    begin
+      access_token = authentications.find_by_provider("facebook").credentials rescue []
+      graph_group = FbGraph::User.new(group.group_id, access_token: access_token)
+      graph_group.feed!(feed)
       PublishHistory.track_publish_history(gig_id, "facebook")
       logger.info "Gig id #{gig_id} posted on Facebook FanPage at #{Time.zone.now.strftime("%d %b %Y %H:%M:%S")}"
     rescue Exception => ex

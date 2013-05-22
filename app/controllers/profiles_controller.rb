@@ -21,6 +21,9 @@ class ProfilesController < ApplicationController
     @artist = Artist.find(params[:artist_id])
     @profile = @artist.profile || @artist.build_profile
 
+    @manage_page_url = facebook_access_permission("manage_pages,publish_stream")
+    @user_groups_url = facebook_access_permission("user_groups")
+
     respond_to do |format|
       format.html
     end
@@ -30,7 +33,8 @@ class ProfilesController < ApplicationController
     @artist = Artist.find(params[:artist_id])
     @profile = @artist.profile
 
-    facebook_access_permission("manage_pages,publish_stream")
+    @manage_page_url = facebook_access_permission("manage_pages,publish_stream")
+    @user_groups_url = facebook_access_permission("user_groups")
   end
 
 

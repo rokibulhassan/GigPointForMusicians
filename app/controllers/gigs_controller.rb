@@ -1,6 +1,6 @@
 class GigsController < ApplicationController
-  #load_and_authorize_resource
-  #before_filter :authenticate_user!, :only => [:new, :create, :edit, :update]
+  load_and_authorize_resource
+  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update]
 
   def index
     @gigs = Gig.all
@@ -31,6 +31,7 @@ class GigsController < ApplicationController
 
   def edit
     @gig = Gig.find(params[:id])
+    facebook_access_permission("create_event")
   end
 
   def create

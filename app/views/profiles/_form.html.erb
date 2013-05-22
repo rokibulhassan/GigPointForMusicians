@@ -25,9 +25,6 @@
       <div class="control-group">
         WEBSITE <%= f.text_field :website_url %>
       </div>
-      <!--<div class="control-group">-->
-      <!--UPLOAD PHOTO <%#= f.file_field :photo, :style => 'width: 217px;' %>-->
-      <!--</div>-->
       <div class="control-group">
         FACEBOOK PAGE
         <div class="fan-page-group">
@@ -38,11 +35,21 @@
         </div>
       </div>
       <div class="control-group">
+        USER GROUPS
+        <div class="user-groups-group">
+          <% current_user.groups.each do |group| %>
+              <%= check_box_tag "profile[selected_group_id][]", group.id, @profile.selected_group_id.include?(group.id.to_s) %><%= group.name %>
+              <br>
+          <% end %>
+        </div>
+      </div>
+      <div class="control-group">
         BIO <%= f.text_area :bio, :size => '25x10' %>
       </div>
 
       <div class="form-actions">
         <a href="#ModalAccessPages" role="button" class="btn" data-toggle="modal">Allow Manage Page</a>
+        <a href="#ModalAccessGroups" role="button" class="btn" data-toggle="modal">Access User Groups</a>
         <%= f.submit nil, :class => 'btn btn-primary' %>
       </div>
   <% end %>
@@ -60,6 +67,40 @@
   </div>
   <p class="dialog">Announce gigs to your fans on Facebook and Twitter</p>
 </div>
+
+<div id="ModalAccessPages" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Manage Fan Pages</h3>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure to Manage Facebook fan Page? Ignore if already have access.</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <a href="<%= @manage_page_url %>">
+      <button class="btn btn-primary">Confirm</button>
+    </a>
+  </div>
+</div>
+
+
+<div id="ModalAccessGroups" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Access User Groups</h3>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure to Access User Groups? Ignore if already have access.</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <a href="<%= @user_groups_url %>">
+      <button class="btn btn-primary">Confirm</button>
+    </a>
+  </div>
+</div>
+
 <script type="text/javascript">
     $(function () {
         $("#profile_user_name").change(function () {

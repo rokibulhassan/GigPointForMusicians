@@ -66,19 +66,55 @@
         </div>
       </div>
       <%= f.hidden_field :user_id, :value => current_user.id rescue nil %>
+      <%= f.hidden_field :post_on_time_line %>
+      <%= f.hidden_field :post_in_groups %>
       <div class="form-actions">
-        <a href="#ModalAccessEvent" role="button" class="btn ModalAccessEvent" data-toggle="modal">Allow Create Event</a>
+        <a href="#ModalAccessEvent" role="button" class="btn ModalAccessEvent" data-toggle="modal">Allow Create
+          Event</a>
         <%= f.submit nil, :class => 'btn btn-primary' %>
       </div>
   <% end %>
 </div>
 
+
+<div id="ModalAccessEvent" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Create Facebook Event</h3>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure to create Event on Facebook fan Page? Ignore if already have access. </p>
+
+    <%= check_box_tag :post_on_time_line %> Post On My Time Line
+    <%= check_box_tag :post_on_groups %> Post In My Groups
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <a href="<%= @auth_url %>" target="_blank">
+      <button class="btn btn-primary">Confirm</button>
+    </a>
+  </div>
+</div>
+
 <script type="text/javascript">
     $(function () {
-        $(".ModalAccessEvent").change(function () {
-            var url = $("#profile_user_name").val();
-            url = url.replace(/[^a-z0-9\s]/gi, '').replace(/[_\s]/g, '-').toLowerCase();
-            $("#url-hints").text("http://gigpoint.com/artists/" + url);
+        $('#post_on_time_line').mousedown(function () {
+            if (!$(this).is(':checked')) {
+                this.checked = confirm("Are you sure?");
+                $(this).trigger("change");
+                if ($(this).is(':checked')) {
+                    $('#gig_post_on_time_line').val(1);
+                }
+            }
+            else {
+                $('#gig_post_on_time_line').val(0);
+            }
         });
+    });
+
+    $(document).ready(function () {
+        if ($('#gig_post_on_time_line').val == "1") {
+            $("#post_on_time_line").prop("checked", true);
+        }
     });
 </script>

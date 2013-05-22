@@ -1,8 +1,8 @@
 class Gig < ActiveRecord::Base
   attr_accessible :created_by, :details, :duration, :email, :gig_type, :name, :price, :starts_at, :venue_id, :website_url,
                   :others, :latitude, :longitude, :gmaps, :extra_info, :artist_id, :free_entry, :user_id, :schedule_post_attributes,
-                  :venue_attributes, :selected_venue_id
-  attr_accessor :artist_id, :free_entry, :selected_venue_id
+                  :venue_attributes, :selected_venue_id, :post_on_time_line, :post_in_groups
+  attr_accessor :artist_id, :free_entry, :selected_venue_id, :post_on_time_line, :post_in_groups
 
   has_many :gig_artists
   has_many :artists, through: :gig_artists
@@ -14,7 +14,7 @@ class Gig < ActiveRecord::Base
   accepts_nested_attributes_for :schedule_post, :venue
 
   after_create :create_gigs_artist
-  after_save :post_to_social_media_now, :create_facebook_event
+  after_save :post_to_social_media_now, :create_facebook_event, :post_on_facebook_time_line
   before_validation :sync_price, :set_selected_venue
 
   validates :name, :presence => {:message => "Gig name is required"}
@@ -24,6 +24,14 @@ class Gig < ActiveRecord::Base
   scope :up_coming_gigs, where('starts_at >= ?', Date.today)
   scope :past_gigs, where('starts_at <= ?', Date.today)
 
+
+  def post_on_time_line?
+    self.post_on_time_line == "1" rescue false
+  end
+
+  def post_in_groups?
+    self.post_in_groups == "1" rescue false
+  end
 
   def free_entry?
     self.free_entry == "1" rescue false
@@ -68,19 +76,14 @@ class Gig < ActiveRecord::Base
 
   def post_to_social_media_now
     if self.post_immediately? || self.post_a_week_before? || self.post_a_day_before? || self.post_the_day_off?
-      user = User.find(self.user_id) rescue []
-      if user.present?
-        message = "Gig #{self.name} for fans."
-        feed = {:name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
-        status = "Tweeting as a gig name #{self.name}!"
+      message = "Gig #{self.name} for fans."
+      feed = {:name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
+      status = "Tweeting as a gig name #{self.name}!"
 
-        if self.post_twitter?
-          user.update_twitter_status(self.id, status)
-        end
-        user.user_profile.selected_fan_pages.each do |page|
-          if self.post_facebook?
-            user.post_to_fan_page(self.id, page, message, feed)
-          end
+      self.user.update_twitter_status(self.id, status) if self.post_twitter?
+      if self.user.can_publish_to_page?
+        self.user.user_profile.selected_fan_pages.each do |page|
+          self.user.post_to_fan_page(self.id, page, message, feed) if self.post_facebook?
         end
       end
     end
@@ -105,11 +108,29 @@ class Gig < ActiveRecord::Base
   end
 
   def create_facebook_event
-    self.user.user_profile.selected_fan_pages.each do |page|
-      page.create_facebook_event_for(self)
+    if self.user.can_create_event?
+      self.user.user_profile.selected_fan_pages.each do |page|
+        page.create_facebook_event_for(self)
+      end
     end
   end
 
+  def post_on_facebook_time_line
+    if self.user.can_publish_to_wall? && self.post_on_time_line?
+      message = "Gig #{self.name} for fans."
+      feed = {:name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
+      self.user.publish_one_wall(message, feed)
+    end
+  end
+
+  def post_in_facebook_groups
+    if self.user.can_publish_in_groups? && self.post_in_groups?
+      feed = {:message => "Gig #{self.name} for fans.", :name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
+      self.user.user_profile.selected_user_groups.each do |group|
+        self.user.post_in_groups(self.id, group, feed)
+      end
+    end
+  end
 
   def sync_price
     self.price = 50.0 #TODO::Price is not introduced yet

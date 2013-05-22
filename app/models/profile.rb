@@ -1,11 +1,12 @@
 class Profile < ActiveRecord::Base
   attr_accessible :name, :photo, :rating, :user_name, :website_url,
                   :provider, :uid, :bio, :remote_avatar_url, :phone, :address, :gender, :confirmed_at, :address, :user_id,
-                  :artist_id, :profile_picture, :artist_attributes, :selected_page_id
+                  :artist_id, :profile_picture, :artist_attributes, :selected_page_id, :selected_group_id
 
   attr_accessor :artist_attributes
 
   serialize :selected_page_id, Array
+  serialize :selected_group_id, Array
 
   mount_uploader :profile_picture, PhotoUploader
   mount_uploader :photo, PhotoUploader
@@ -22,6 +23,11 @@ class Profile < ActiveRecord::Base
   validates_uniqueness_of :user_name
 
   accepts_nested_attributes_for :artist
+
+  def selected_user_groups
+    return nil if selected_group_id == nil
+    Group.where(id: selected_group_id)
+  end
 
   def selected_fan_pages
     return nil if selected_page_id == nil
