@@ -89,7 +89,7 @@ class Gig < ActiveRecord::Base
     end
   end
 
-  private
+ # private
 
   def set_selected_venue
     self.venue_id = self.selected_venue_id if self.selected_venue_id.present?

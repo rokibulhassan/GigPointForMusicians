@@ -7,7 +7,8 @@ class Page < ActiveRecord::Base
     logger.info "Creating Facebook Events #{gig.name} for page #{self.name}"
     page = FbGraph::User.me(self.token)
     event = page.event!(
-        :name => "GigPoint event for #{gig.name}",
+        :name => "#{gig.name}@#{gig.venue.address}",
+        :location => gig.venue.address,
         :start_time => Time.zone.today,
         :end_time => gig.starts_at.to_date
     )
