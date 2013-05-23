@@ -1,0 +1,25 @@
+<%= content_for :product do %>
+    <ul class="nav" xmlns="http://www.w3.org/1999/html">
+      <h4>Manage Organization</h4>
+      <% if controller_name == 'organizers' and action_name == 'show' %>
+      <li><%= link_to 'Edit', edit_organizer_panel_organizer_path(@organizer) %></li>
+      <li><%= link_to 'Destroy', organizer_panel_organizer_path(@organizer), method: :delete, data: {confirm: 'Are you sure?'} %></li>
+      <% end %>
+      <%= link_to 'Change Branch', organizer_panel_organizer_branch_select_branch_path  %>
+      <% if current_reporting_branch %>
+          <li>
+            <ul class="nav">
+              <li> <%= link_to 'Add Product', new_organizer_panel_organizer_product_path(current_reporting_branch) %></li>
+            </ul>
+            <h4>Products</h4>
+            <p><li><%= link_to 'All', organizer_panel_organizer_products_path(current_reporting_branch)  %></li></p>
+            <% current_reporting_branch.products.each do |product| %>
+                <%= link_to product.name.humanize,  organizer_panel_organizer_product_path(current_reporting_branch, product) %>
+            <% end %>
+            <% if current_reporting_branch.products.empty? %>
+                <p>No Products Added Yet</p>
+            <% end %>
+          </li>
+      <% end %>
+    </ul>
+<% end %>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>GigPoint For Musicians</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <%= csrf_meta_tag %>
+  <!-- Le styles -->
+  <%= stylesheet_link_tag :application %>
+  <%= javascript_include_tag :application %>
+  <style type="text/css">
+      body {
+          padding-top: 60px;
+          padding-bottom: 40px;
+      }
+  </style>
+  <style type="text/css">
+      #map img {
+          max-width: none;
+      }
+
+      #map label {
+          width: auto;
+          display: inline;
+      }
+  </style>
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="brand" href="/">
+      <span id='app_name'>
+      <span id="first">Gig</span>
+      <span id="second">Point</span>
+      <span id="title_seperator">|</span>
+      <span id="sub_title">For Musicians</span>
+      </span>
+      </a>
+
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li><%= link_to "Gigs", gigs_url %></li>
+          <li><%= link_to "Artist", artists_url %></li>
+        </ul>
+        <form class="navbar-form pull-right">
+          <% if current_user %>
+              <li><%= link_to current_user.artist.profile.name, current_user %></li>
+              <li><%= link_to 'Sign Out', '/users/sign_out', method: :delete, id: 'sign_out' %></li>
+          <% else %>
+              <li><%= link_to 'Login With Facebook', user_omniauth_authorize_path("facebook") %></li>
+          <% end %>
+        </form>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Main hero unit for a primary marketing message or call to action -->
+  <% if action_name == 'home' %>
+      <div class="hero-unit">
+        <h1>Hello, world!</h1>
+
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the
+          hero
+          unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <% unless current_user %>
+            <p><%= link_to "Login With Facebook", user_omniauth_authorize_path("facebook"), :class => "btn btn-primary btn-large" %></p>
+        <% end %>
+      </div>
+  <% end %>
+
+  <!-- Example row of columns -->
+  <div class="row">
+    <%= bootstrap_flash %>
+    <%= yield %>
+  </div>
+  <hr/>
+  <footer>
+    <p>&copy; Company 2013</p>
+  </footer>
+
+</div>
+<!-- /container -->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+
+<%= yield :scripts %>
+</body>
+</html>

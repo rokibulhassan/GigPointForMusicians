@@ -1,0 +1,118 @@
+a.brand span#app_name span#title_seperator {
+    color: #f30000
+}
+
+a.brand span#app_name span#first {
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: -5px
+}
+
+a.brand span#app_name span#second {
+    color: #ffffff
+}
+
+a.brand span#app_name span#sub_title {
+    color: #ffffff
+}
+
+a#sign_out {
+    color: #ffffff
+}
+
+.profile_content, .connect_twitter {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0px 34px 0 0;
+}
+
+.profile_content {
+    width: 648px;
+}
+
+.connect_twitter {
+    border: 1px solid black;
+    border-radius: 9px;
+}
+
+.btn_connect_twitter {
+    padding: 50px 118px;
+}
+
+.title {
+    font-size: 16px;
+    padding: 5px;
+    background-color: #808080;
+    width: 98%;
+    text-transform: uppercase;
+    border-radius: 10px 10px 0 0;
+}
+
+.dialog {
+    font-size: 12px;
+    padding: 0 0 5px 18px;
+}
+
+.page-header, .control-label, .blog-title {
+    border: 0px;
+    text-transform: uppercase;
+}
+
+.control-group input, .control-group textarea, .control-group img {
+    float: right;
+}
+
+.control-group p.dialog {
+    margin-left: 412px;
+}
+
+.gig-content-left, .gig-content-right {
+    vertical-align: top;
+    display: inline-block;
+    margin: 0px 34px 0 0;
+}
+
+.publish-div {
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 9px;
+}
+
+.time-schedule input {
+    margin: 0 0 0 16px;
+}
+
+.gig-list {
+    width: 450px;
+    padding: 5px 0 0 0;
+}
+
+.create-new-gig {
+    padding: 15px 0 0 0;
+}
+
+.gig-basic-info, .gig-basic-operation {
+    display: inline-block;
+}
+
+.gig-basic-operation {
+    width: 137px;
+    float: right;
+}
+
+.google-map-top {
+    width: 400px;
+}
+
+.pricing {
+    padding: 10px 0 10px 30px;
+}
+
+.fan-page-group {
+    width: 100px;
+    float: right;
+}
+
+.control-label {
+    font-weight: bold;
+}

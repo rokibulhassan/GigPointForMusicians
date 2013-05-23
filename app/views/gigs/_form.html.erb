@@ -1,0 +1,120 @@
+<div class="gig_content">
+  <%= semantic_form_for @gig, :html => {:class => 'form-horizontal', multipart: true} do |f| %>
+      <div class="gig-content-left">
+        <div class="control-group">
+          ARTIST
+          NAME <%= f.select :artist_id, options_for_select(Artist.by_user_id(current_user.id).collect { |ar| [ar.profile.name, ar.id] }) %>
+        </div>
+        <div class="control-group">
+          EVENT NAME <%= f.text_field :name %>
+        </div>
+
+        <div class="control-group">
+          <%= f.fields_for :venue do |fv| %>
+              VENUE NAME <%= fv.text_field :address %>
+              <%= fv.hidden_field :country_id %>
+              <%= fv.hidden_field :profile_id, :value => current_user.try(:user_profile).try(:id) %>
+          <% end %>
+        </div>
+
+        <div class="control-group">
+          WEBSITE <%= f.text_field :website_url %>
+        </div>
+        <div class="control-group">
+          EXTRA INFO <%= f.text_area :extra_info, :size => '25x10' %>
+        </div>
+
+        <div class="publish-div">
+          <%= f.fields_for :schedule_post do |sp| %>
+              <div>
+                <p style="font-size: 14px; font-weight: bold;"> Post To </p>
+                <%= sp.check_box :post_facebook %> Facebook
+                <%= sp.check_box :post_twitter %> Twitter <br>
+              </div>
+              <div class="time-schedule">
+                <p style="font-size: 14px; font-weight: bold;"> Make a Post : </p>
+                <%= sp.check_box :post_immediately %> immediately <br>
+                <%= sp.check_box :post_a_week_before %> a week before <br>
+                <%= sp.check_box :post_a_day_before %> a day before <br>
+                <%= sp.check_box :post_the_day_off %> the day off <br>
+              </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="gig-content-right">
+        <div class="control-group google-map-top">
+          DATE
+          <%= f.text_field :starts_at, :class => 'datetimepicker', :value => Time.zone.now, :'date-format' => "yy-mm-dd DD", :'data-disable-past-date' => "true" %>
+        </div>
+
+        <div class="control-group google-map-top">
+          ADMISSION
+          <div class="pricing">
+            Free Entry <%= f.check_box :free_entry, :checked => @gig.gig_is_free? ? true : false %>  <br>
+            Other: <%= f.text_field :others %>
+          </div>
+        </div>
+
+
+        <div class="control-group">
+          <div class="venue-location">
+            <%= f.fields_for :venue do |fv| %>
+                <%= fv.gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? user_coordinates_from_ip : @gig.venue.default_coordinates %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <%= f.hidden_field :user_id, :value => current_user.id rescue nil %>
+      <%= f.hidden_field :post_on_time_line %>
+      <%= f.hidden_field :post_in_groups %>
+      <div class="form-actions">
+        <a href="#ModalAccessEvent" role="button" class="btn ModalAccessEvent" data-toggle="modal">Allow Create
+          Event</a>
+        <%= f.submit nil, :class => 'btn btn-primary' %>
+      </div>
+  <% end %>
+</div>
+
+
+<div id="ModalAccessEvent" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Create Facebook Event</h3>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure to create Event on Facebook fan Page? Ignore if already have access. </p>
+
+    <%= check_box_tag :post_on_time_line %> Post On My Time Line
+    <%= check_box_tag :post_on_groups %> Post In My Groups
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <a href="<%= @auth_url %>" target="_blank">
+      <button class="btn btn-primary">Confirm</button>
+    </a>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#post_on_time_line').mousedown(function () {
+            if (!$(this).is(':checked')) {
+                this.checked = confirm("Are you sure?");
+                $(this).trigger("change");
+                if ($(this).is(':checked')) {
+                    $('#gig_post_on_time_line').val(1);
+                }
+            }
+            else {
+                $('#gig_post_on_time_line').val(0);
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        if ($('#gig_post_on_time_line').val == "1") {
+            $("#post_on_time_line").prop("checked", true);
+        }
+    });
+</script>

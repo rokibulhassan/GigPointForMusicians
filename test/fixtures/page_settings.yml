@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 1
+  page_name: MyString
+  page_id: MyString
+  page_token: MyText
+  category: MyString
+  perms: MyText
+
+two:
+  user_id: 1
+  page_name: MyString
+  page_id: MyString
+  page_token: MyText
+  category: MyString
+  perms: MyText

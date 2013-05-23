@@ -1,0 +1,23 @@
+.clear {
+    clear: both;
+}
+
+.clear2 {
+    clear: both;
+    height: 10px;
+}
+
+.clear3 {
+    clear: both;
+    height: 30px;
+}
+
+.clear4 {
+    clear: both;
+    height: 50px;
+}
+
+.clear5 {
+    clear: both;
+    height:70px;
+}

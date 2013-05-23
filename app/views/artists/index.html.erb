@@ -1,0 +1,9 @@
+<h1>Listing artists</h1>
+
+<table>
+  <% @artists.each do |artist| %>
+      <tr>
+        <td><%= link_to artist.profile.name, artist %> @ <%= artist.try(:profile).try(:address) %></td>
+      </tr>
+  <% end %>
+</table>
