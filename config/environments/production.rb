@@ -66,5 +66,5 @@ GigpointForMusician::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 end
 
-ENV['FB_APP_ID'] = "248401428633071"
-ENV['FB_SECRET_TOKEN'] = "6159425eb29363a401d4b9df50fde103"
+ENV['FB_APP_ID'] = "151893388331106"
+ENV['FB_SECRET_TOKEN'] = "09e76dd8d581bc5de629d411ad3c6c94"

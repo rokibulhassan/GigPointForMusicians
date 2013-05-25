@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20130521190128) do
     t.float    "longitude"
     t.boolean  "gmaps"
     t.string   "others"
+    t.boolean  "free_entry"
     t.integer  "user_id"
   end
 
