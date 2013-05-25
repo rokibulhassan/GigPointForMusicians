@@ -9,7 +9,7 @@
 
   <% @gigs.each do |gig| %>
       <tr>
-        <td><%= gig.name %> @ <%= gig.try(:venue).try(:address) %> <%= gig.created_at %></td>
+        <td><%= gig.name %> @ <%= gig.try(:venue).try(:name) %> <%= gig.created_at %></td>
         <td><%= link_to 'Show', gig %></td>
         <td>
           <% if can? :update, gig %>

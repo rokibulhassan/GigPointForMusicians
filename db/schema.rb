@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130521190128) do
+ActiveRecord::Schema.define(:version => 20130522185602) do
+
+  create_table "addresses", :force => true do |t|
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.string   "zip"
+    t.integer  "addressable_id"
+    t.string   "addressable_type"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
 
   create_table "artist_genres", :force => true do |t|
     t.integer  "artist_id"
@@ -196,7 +208,7 @@ ActiveRecord::Schema.define(:version => 20130521190128) do
     t.integer  "profile_id"
     t.float    "latitude"
     t.float    "longitude"
-    t.string   "address"
+    t.string   "name"
     t.integer  "country_id"
     t.text     "about"
     t.datetime "created_at", :null => false

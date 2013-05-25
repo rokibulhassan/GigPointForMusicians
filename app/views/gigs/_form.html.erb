@@ -9,13 +9,19 @@
           EVENT NAME <%= f.text_field :name %>
         </div>
 
-        <div class="control-group">
-          <%= f.fields_for :venue do |fv| %>
-              VENUE NAME <%= fv.text_field :address %>
-              <%= fv.hidden_field :country_id %>
+
+        <%= f.fields_for :venue do |fv| %>
+            <div class="control-group">
+              VENUE NAME <%= fv.text_field :name %>
               <%= fv.hidden_field :profile_id, :value => current_user.try(:user_profile).try(:id) %>
-          <% end %>
-        </div>
+            </div>
+            <%= fv.fields_for :address do |address| %>
+                <%= render :partial => 'venues/address', :locals => {:f => address} %>
+            <% end %>
+
+
+        <% end %>
+
 
         <div class="control-group">
           WEBSITE <%= f.text_field :website_url %>

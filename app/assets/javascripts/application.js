@@ -32,7 +32,7 @@ $(document).ready(function () {
         $(this).datetimepicker({ dateFormat: dateFormat, ampm: true, timeFormat: "hh:mm TT", validateBeforeShow: true });
     });
 
-    $("#gig_venue_attributes_address").autocomplete({
+    $("#gig_venue_attributes_name").autocomplete({
         minLength: 1,
         source: function (request, response) {
             $.ajax({

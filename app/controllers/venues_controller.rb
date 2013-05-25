@@ -5,7 +5,7 @@ class VenuesController < ApplicationController
 
     result = venues.collect do |venue|
       {id: venue.id,
-       value: venue.address,
+       value: venue.name,
        latitude: venue.latitude,
        longitude: venue.longitude}
     end

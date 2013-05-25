@@ -19,9 +19,9 @@ class GigsController < ApplicationController
 
   def new
     @gig = Gig.new
-    @gig.build_venue
+    @venue = @gig.build_venue
     @gig.build_schedule_post
-
+    @venue.build_address
     facebook_access_permission("create_event")
 
     respond_to do |format|
