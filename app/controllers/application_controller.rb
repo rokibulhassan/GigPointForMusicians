@@ -8,10 +8,10 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if current_user
-      user_path(current_user)
+    if resource.try(:artist).try(:profile).nil?
+      new_artist_profile_path(resource.artist.id)
     else
-      root_path
+      edit_artist_profile_path(resource.artist.id, resource.artist.profile.id)
     end
   end
 
