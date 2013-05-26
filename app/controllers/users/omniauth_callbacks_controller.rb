@@ -44,10 +44,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         logger.info "Reset facebook credentials!"
       end
       set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
-      @user = User.find_for_facebook_oauth(auth, current_user)
-      sign_in_and_redirect(:user, authentication.user)
+      user = User.find(auth.info.email) rescue nil
+      @user = User.find_for_facebook_oauth(auth, user)
+      sign_in_and_redirect(:user, @user)
     else
-      @user = User.find_for_facebook_oauth(auth, current_user)
+      @user = User.find_for_facebook_oauth(auth, user)
       @user.authentications.create!(:provider => auth.provider,
                                     :uid => auth.uid,
                                     :credentials => [auth.credentials.token.to_s, auth.credentials.secret.to_s].join(' '))

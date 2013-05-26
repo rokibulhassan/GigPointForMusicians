@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
     }
 
     #begin
-    user = User.find_by_email(current_user.email)  rescue nil
+    user = User.find_by_email(auth.info.email)  rescue nil
     if user.nil?
       user = User.create!(
           password: Devise.friendly_token[0, 20],
