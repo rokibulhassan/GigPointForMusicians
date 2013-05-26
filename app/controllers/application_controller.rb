@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_up_path_for(resource)
-    if resource.artist.profile.nil?
+    if resource.try(:artist).try(:profile).nil?
       new_artist_profile_path(resource.artist.id)
     else
       edit_artist_profile_path(resource.artist.id, resource.artist.profile.id)
