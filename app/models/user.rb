@@ -48,13 +48,18 @@ class User < ActiveRecord::Base
         profile.update_attributes! @profile_info
       else
         @profile_info.merge!(artist_id: artist.id)
-        @profile = Profile.create(@profile_info)
+        profile = Profile.create(@profile_info)
       end
     else
       if artist.profile
         artist.profile.update_attributes! @profile_info
       end
     end
+    puts "###########info###############"
+    puts "############{user}###############"
+    puts "############{user.artist}###############"
+    puts "############{user.artist.profile}###############"
+    puts "###########info###############"
     user
   end
 
