@@ -56,28 +56,35 @@ class User < ActiveRecord::Base
     )
     if user.persisted?
       profile_info = {
-          name: auth.info.name,
-          provider: auth.provider,
+          name: auth.info.name ||'',
+          provider: auth.provider ||'' ,
           uid: auth.uid,
-          bio: auth.info.description || auth.extra.raw_info.quotes,
-          remote_avatar_url: auth.info.image.to_s.gsub("square", "large"),
-          phone: auth.info.phone,
-          address: auth.info.location,
-          gender: auth.extra.raw_info.gender,
+          bio: auth.info.description || auth.extra.raw_info.quotes ||'',
+          remote_avatar_url: auth.info.image.to_s.gsub("square", "large") ||'',
+          phone: auth.info.phone ||'',
+          address: auth.info.location ||'',
+          gender: auth.extra.raw_info.gender ||'',
           confirmed_at: Time.now
       }
     end
+
+    begin
     if user.artist.nil?
-      @artist = user.build_artist
-      if @artist.save
-        @profile = @artist.build_profile(profile_info)
-        @profile.save!
-      end
+      @artist = Artist.create(user_id: user.id)
+      @artist.update_attributes!(user_name: user.email.split('@').first)
+      profile_info.merge!(name: user.email.split('@').first).merge!(artist_id: @artist.id)
+      @profile = Profile.create(profile_info)
     else
       if user.artist
         @profile = user.artist.profile if user.artist.profile
         @profile.update_attributes!(profile_info) if user.artist.profile
       end
+    end
+    rescue
+      @artist = Artist.create(user_id: user.id)
+      @artist.update_attributes!(user_name: user.email.split('@').first)
+      profile_info.merge!(name: user.email.split('@').first).merge!(artist_id: @artist.id)
+      @profile = Profile.create(profile_info)
     end
     user
   end
@@ -248,6 +255,23 @@ class User < ActiveRecord::Base
   def user_profile
     try(:artist).try(:profile)
   end
+
+  def artist_profile
+     user_profile.artist rescue nil
+  end
+
+  def has_artist_profile?
+      !artist_profile.nil?
+  end
+
+  def avatar
+      has_artist_profile? ? artist_profile.remote_avatar_url : ''
+  end
+
+  def name
+    has_artist_profile? ? artist_profile.name : email
+  end
+
 
   def profile_picture
     user_profile.photo.url || user_profile.remote_avatar_url

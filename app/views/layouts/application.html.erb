@@ -54,7 +54,7 @@
         </ul>
         <form class="navbar-form pull-right">
           <% if current_user %>
-              <li><%= link_to current_user.artist.profile.name, current_user %></li>
+              <li><%= link_to current_user.name, current_user %></li>
               <li><%= link_to 'Sign Out', '/users/sign_out', method: :delete, id: 'sign_out' %></li>
           <% else %>
               <li><%= link_to 'Login With Facebook', user_omniauth_authorize_path("facebook") %></li>

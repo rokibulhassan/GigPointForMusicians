@@ -1,5 +1,5 @@
 class Artist < ActiveRecord::Base
-  attr_accessible :profile_id, :user_id, :booking_contact, :user_name
+  attr_accessible :profile_id, :user_id, :booking_contact, :user_name, :profile
   belongs_to :user
   has_one :profile, :dependent => :destroy
   has_many :gig_artists
@@ -14,7 +14,9 @@ class Artist < ActiveRecord::Base
 
   accepts_nested_attributes_for :profile
 
-  PROFILE_FIELDS = [:name, :user_name, :phone, :website_url, :bio]
+   mount_uploader :photo, PhotoUploader
+
+  PROFILE_FIELDS = [:name, :user_name, :photo ,:phone, :website_url, :bio]
 
   scope :by_user_id, lambda { |user_id| where(user_id: user_id) }
 
