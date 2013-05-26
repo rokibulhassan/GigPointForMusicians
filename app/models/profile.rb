@@ -9,7 +9,6 @@ class Profile < ActiveRecord::Base
   serialize :selected_group_id, Array
 
   mount_uploader :profile_picture, PhotoUploader
-  mount_uploader :photo, PhotoUploader
 
 
   has_many :venues
@@ -37,6 +36,10 @@ class Profile < ActiveRecord::Base
   def selected_page
     return nil if selected_page_id == nil
     @page = Page.find_all_by_page_id selected_page_id
+  end
+
+  def user_picture
+    remote_avatar_url.present? ? remote_avatar_url : photo.url
   end
 
   def page_selected?

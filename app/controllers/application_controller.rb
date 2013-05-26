@@ -8,12 +8,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-      if resource.try(:artist).try(:profile).nil?
-        new_artist_profile_path(resource.artist.id) rescue new_artist_path
-      else
         user_path(current_user)
-        #edit_artist_profile_path(resource.artist.id, resource.artist.profile.id)
-      end
   end
 
   def after_sign_up_path_for(resource)

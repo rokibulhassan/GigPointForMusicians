@@ -14,7 +14,6 @@ class Artist < ActiveRecord::Base
 
   accepts_nested_attributes_for :profile
 
-   mount_uploader :photo, PhotoUploader
 
   PROFILE_FIELDS = [:name, :user_name, :photo ,:phone, :website_url, :bio]
 
