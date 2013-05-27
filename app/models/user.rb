@@ -28,8 +28,9 @@ class User < ActiveRecord::Base
     }
 
     #begin
-    user = User.find_by_email(auth.info.email)  rescue nil
-    if user.nil?
+    if signed_in_resource
+      user = User.find(signed_in_resource.id) rescue nil
+    else
       user = User.create!(
           password: Devise.friendly_token[0, 20],
           email: auth.info.email
@@ -38,24 +39,18 @@ class User < ActiveRecord::Base
 
     artist = user.artist
     if artist.nil?
-    artist = Artist.create!(
-        user_id: user.id
-    )
+      artist = Artist.create!(
+          user_id: user.id
+      )
     end
 
-      profile = Profile.find_by_artist_id(artist.id) rescue nil
-      if profile
-        profile.update_attributes! @profile_info
-      else
-        @profile_info.merge!(artist_id: artist.id)
-        profile = Profile.create(@profile_info)
-      end
-
-    puts "###########info###############"
-    puts "############{user}###############"
-    puts "############{user.artist}###############"
-    puts "############{user.artist.profile}###############"
-    puts "###########info###############"
+    profile = Profile.find_by_artist_id(artist.id) rescue nil
+    if profile
+      profile.update_attributes! @profile_info
+    else
+      @profile_info.merge!(artist_id: artist.id)
+      profile = Profile.create(@profile_info)
+    end
     user
   end
 
