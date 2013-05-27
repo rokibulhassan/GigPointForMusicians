@@ -20,8 +20,8 @@ class ApplicationController < ActionController::Base
   end
 
   def facebook_access_permission(permissions)
-    session[:oauth] = Koala::Facebook::OAuth.new(ENV['FB_APP_ID'], ENV['FB_SECRET_TOKEN'], "http://#{request.host_with_port}/users/callback")
-    @auth_url = session[:oauth].url_for_oauth_code(:permissions => permissions)
+    session[:fb_oauth] = Koala::Facebook::OAuth.new(ENV['FB_APP_ID'], ENV['FB_SECRET_TOKEN'], "http://#{request.host_with_port}/users/callback")
+    @auth_url = session[:fb_oauth].url_for_oauth_code(:permissions => permissions)
   end
 
   private

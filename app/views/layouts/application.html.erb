@@ -16,16 +16,6 @@
           padding-bottom: 40px;
       }
   </style>
-  <style type="text/css">
-      #map img {
-          max-width: none;
-      }
-
-      #map label {
-          width: auto;
-          display: inline;
-      }
-  </style>
 </head>
 
 <body>
@@ -57,7 +47,7 @@
               <li><%= link_to current_user.name, current_user %></li>
               <li><%= link_to 'Sign Out', '/users/sign_out', method: :delete, id: 'sign_out' %></li>
           <% else %>
-              <li><%= link_to 'Login With Facebook', user_omniauth_authorize_path("facebook") %></li>
+              <li><%= link_to 'Login With Facebook', user_omniauth_authorize_path(:facebook) %></li>
           <% end %>
         </form>
       </div>
@@ -77,7 +67,7 @@
           hero
           unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
         <% unless current_user %>
-            <p><%= link_to "Login With Facebook", user_omniauth_authorize_path("facebook"), :class => "btn btn-primary btn-large" %></p>
+            <p><%= link_to "Login With Facebook", user_omniauth_authorize_path(:facebook), :class => "btn btn-primary btn-large" %></p>
         <% end %>
       </div>
   <% end %>
