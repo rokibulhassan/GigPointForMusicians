@@ -37,24 +37,20 @@ class User < ActiveRecord::Base
     end
 
     artist = user.artist
-    unless artist
+    if artist.nil?
     artist = Artist.create!(
         user_id: user.id
     )
     end
-    if user.artist.try(:profile).nil?
-      profile = Profile.find_by_artist_id(artist.id)
+
+      profile = Profile.find_by_artist_id(artist.id) rescue nil
       if profile
         profile.update_attributes! @profile_info
       else
         @profile_info.merge!(artist_id: artist.id)
         profile = Profile.create(@profile_info)
       end
-    else
-      if artist.profile
-        artist.profile.update_attributes! @profile_info
-      end
-    end
+
     puts "###########info###############"
     puts "############{user}###############"
     puts "############{user.artist}###############"
