@@ -41,3 +41,6 @@ ActiveRecord::Base.send(:attr_accessible, nil)
 ENV['FB_APP_ID'] = "661594500524816"
 ENV['FB_SECRET_TOKEN'] = "f69d1dfbe8d7ef84746831634d99eacc"
 
+ENV['TWITT_CUSTOMER_KEY'] = "ofRhn0DWpydBAzkNyh2Dw"
+ENV['TWITT_CUSTOMER_SECRET'] = "LUP0EFWv7uE8U3CFqOyxCg9x10VsRYUxGQQmXAIs"
+
