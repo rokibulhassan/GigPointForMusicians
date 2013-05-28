@@ -1,9 +1,16 @@
 GigpointForMusician::Application.routes.draw do
 
+  devise_for :admin_users, ActiveAdmin::Devise.config
+
+  root :to => 'static#home'
+
+  ActiveAdmin.routes(self)
+
   resources :pages
 
 
   devise_for :users, :controllers => {:omniauth_callbacks => 'users/omniauth_callbacks'} do
+    ActiveAdmin.routes(self)
     get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
   end
 
@@ -36,5 +43,4 @@ GigpointForMusician::Application.routes.draw do
     end
   end
 
-  root :to => 'static#home'
 end
