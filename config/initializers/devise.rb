@@ -235,9 +235,8 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
 
-  config.omniauth :facebook, ENV['FB_APP_ID'], ENV['FB_SECRET_TOKEN'], :strategy_class => OmniAuth::Strategies::Facebook
-  #config.omniauth :twitter, "cmh63vSfhKjKrBJf6JsI8A", "prXCDKLkwkou3cHx08EkDpWLkn6E2wbzlHrv73DtNX0", :strategy_class => OmniAuth::Strategies::Twitter
-  config.omniauth :twitter, "N49geNTQyeaCBh74crTqdA", "ppoevsD4kyHqxvh3LN8bvuCdtpZvOm0mb7u1MNqI", :strategy_class => OmniAuth::Strategies::Twitter
+  config.omniauth :facebook, ENV['FB_APP_ID'], ENV['FB_SECRET_TOKEN'], :strategy_class => OmniAuth::Strategies::Facebook, :scope => 'email,read_stream'
+  config.omniauth :twitter, ENV['TWITT_CUSTOMER_KEY'], ENV['TWITT_CUSTOMER_SECRET'], :strategy_class => OmniAuth::Strategies::Twitter
   #config.omniauth :github, "7d7461a1e35065628d4c", "e092243a9cef0c99ad234a3ba3e2e55fbb5f32f5", :strategy_class => OmniAuth::Strategies::GitHub, scope: "user,repo,gist"
   #config.omniauth :linkedin, "21t3i26q5r3n", "HiVC3IUPi5mj1kLq", :strategy_class => OmniAuth::Strategies::LinkedIn,
   #                :scope => 'r_fullprofile r_emailaddress r_network r_contactinfo'

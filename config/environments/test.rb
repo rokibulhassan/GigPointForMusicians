@@ -15,14 +15,14 @@ GigpointForMusician::Application.configure do
   config.whiny_nils = true
 
   # Show full error reports and disable caching
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
 
   # Raise exceptions instead of rendering exception templates
   config.action_dispatch.show_exceptions = false
 
   # Disable request forgery protection in test environment
-  config.action_controller.allow_forgery_protection    = false
+  config.action_controller.allow_forgery_protection = false
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -38,3 +38,6 @@ end
 
 ENV['FB_APP_ID'] = "661594500524816"
 ENV['FB_SECRET_TOKEN'] = "f69d1dfbe8d7ef84746831634d99eacc"
+
+ENV['TWITT_CUSTOMER_KEY'] = "ofRhn0DWpydBAzkNyh2Dw"
+ENV['TWITT_CUSTOMER_SECRET'] = "LUP0EFWv7uE8U3CFqOyxCg9x10VsRYUxGQQmXAIs"

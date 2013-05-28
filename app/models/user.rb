@@ -15,69 +15,65 @@ class User < ActiveRecord::Base
   after_save :update_facebook_page, :update_facebook_group
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
-    if signed_in_resource
-      user = User.find(signed_in_resource.id)
-      profile_info = {
-          name: auth.info.name,
-          provider: auth.provider,
-          uid: auth.uid,
-          bio: auth.info.description || auth.extra.raw_info.quotes,
-          remote_avatar_url: auth.info.image.to_s.gsub("square", "large"),
-          phone: auth.info.phone,
-          address: auth.info.location,
-          gender: auth.extra.raw_info.gender,
-          confirmed_at: Time.now
-      }
-      if user.artist.nil?
-        @artist = user.build_artist
-        if @artist.save
-          @profile = @artist.build_profile(profile_info)
-          @profile.save!
-        end
-        if user.artist
-          @profile = user.artist.profile if user.artist.profile
-          @profile.update_attributes!(profile_info) if user.artist.profile
-        end
-      end
-    else
-      user = User.where(:email => auth.info.email).first
+    @profile_info = {
+        name: auth.info.name,
+        provider: auth.provider,
+        uid: auth.uid,
+        bio: auth.info.description || auth.extra.raw_info.quotes,
+        remote_avatar_url: auth.info.image.to_s.gsub("square", "large"),
+        phone: auth.info.phone,
+        address: auth.info.location,
+        gender: auth.extra.raw_info.gender,
+        confirmed_at: Time.now
+    }
 
-      unless user
-        user = create_user_from_facebook_oauth(auth)
-      end
+    #begin
+    if signed_in_resource
+      user = User.find(signed_in_resource.id) rescue nil
+    else
+      user = User.create!(
+          password: Devise.friendly_token[0, 20],
+          email: auth.info.email
+      )
+    end
+
+    artist = user.artist
+    if artist.nil?
+      artist = Artist.create!(
+          user_id: user.id
+      )
+    end
+
+    profile = Profile.find_by_artist_id(artist.id) rescue nil
+    if profile
+      profile.update_attributes! @profile_info
+    else
+      @profile_info.merge!(artist_id: artist.id)
+      profile = Profile.create(@profile_info)
     end
     user
   end
 
-  def self.create_user_from_facebook_oauth(auth)
-    user = User.create(
+
+  def self.create_user_from_facebook_oauth(auth, profile_info)
+    user = User.create!(
         password: Devise.friendly_token[0, 20],
         email: auth.info.email
     )
-    if user.persisted?
-      profile_info = {
-          name: auth.info.name,
-          provider: auth.provider,
-          uid: auth.uid,
-          bio: auth.info.description || auth.extra.raw_info.quotes,
-          remote_avatar_url: auth.info.image.to_s.gsub("square", "large"),
-          phone: auth.info.phone,
-          address: auth.info.location,
-          gender: auth.extra.raw_info.gender,
-          confirmed_at: Time.now
-      }
-    end
-    if user.artist.nil?
-      @artist = user.build_artist
-      if @artist.save
-        @profile = @artist.build_profile(profile_info)
-        @profile.save!
+
+    begin
+      if user
+        @artist = Artist.create!(user_id: user.id)
+        @profile_info.merge!(artist_id: @artist.id)
+        @profile = Profile.create!(@profile_info)
+      else
+        if user.artist
+          @profile = user.artist.profile if user.artist.profile
+          @profile.update_attributes!(@profile_info) if user.artist.profile
+        end
       end
-    else
-      if user.artist
-        @profile = user.artist.profile if user.artist.profile
-        @profile.update_attributes!(profile_info) if user.artist.profile
-      end
+    rescue => e
+      raise e.message.inspect
     end
     user
   end
@@ -248,6 +244,27 @@ class User < ActiveRecord::Base
   def user_profile
     try(:artist).try(:profile)
   end
+
+  def artist_profile
+    user_profile.artist rescue nil
+  end
+
+  def has_artist_profile?
+    !artist_profile.nil?
+  end
+
+  def has_profile?
+    !user_profile.nil?
+  end
+
+  def avatar
+    has_profile? ? user_profile.user_picture : 'please upload your profile picture'
+  end
+
+  def name
+    has_profile? ? user_profile.name : email
+  end
+
 
   def profile_picture
     user_profile.photo.url || user_profile.remote_avatar_url

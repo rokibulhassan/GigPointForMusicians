@@ -62,7 +62,7 @@
     <% if current_user.have_twitter_credentials? %>
         <%= link_to "Disconnect Twitter", destroy_authentication_user_path(:provider => "twitter"), :class => "btn" %>
     <% else %>
-        <%= link_to "Connect with Twitter", user_omniauth_authorize_path("twitter"), :class => "btn" %>
+        <%= link_to "Connect with Twitter", user_omniauth_authorize_path(:twitter), :class => "btn" %>
     <% end %>
   </div>
   <p class="dialog">Announce gigs to your fans on Facebook and Twitter</p>

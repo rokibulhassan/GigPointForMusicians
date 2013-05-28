@@ -22,6 +22,20 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def get_basic_profile(auth)
+   profile_info = {
+        name: auth.info.name,
+        provider: auth.provider,
+        uid: auth.uid,
+        bio: auth.info.description || auth.extra.raw_info.quotes,
+        remote_avatar_url: auth.info.image.to_s.gsub("square", "large"),
+        phone: auth.info.phone,
+        address: auth.info.location,
+        gender: auth.extra.raw_info.gender,
+        confirmed_at: Time.now
+    }
+  end
+
   def facebook
     auth = request.env["omniauth.auth"]
     authentication = Authentication.where(:provider => auth.provider, :uid => auth.uid).first
@@ -30,9 +44,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         logger.info "Reset facebook credentials!"
       end
       set_flash_message(:notice, :success, :kind => "Facebook") if is_navigational_format?
-      sign_in_and_redirect(:user, authentication.user)
+      user = User.find_by_email(auth.info.email)
+      @user = User.find_for_facebook_oauth(auth, user)
+      sign_in_and_redirect(:user, @user)
     else
-      @user = User.find_for_facebook_oauth(auth, current_user)
+      user = User.find_by_email(auth.info.email)
+      @user = User.find_for_facebook_oauth(auth, user)
       @user.authentications.create!(:provider => auth.provider,
                                     :uid => auth.uid,
                                     :credentials => [auth.credentials.token.to_s, auth.credentials.secret.to_s].join(' '))
