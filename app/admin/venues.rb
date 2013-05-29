@@ -18,17 +18,6 @@ ActiveAdmin.register Venue do
     end
   end
 
-  form do |f|
-    f.inputs do
-      f.input :name
-      f.input :latitude
-      f.input :longitude
-      f.input :about
-    end
-
-    f.actions
-  end
-
   show do |venue|
     attributes_table do
       row :name
@@ -37,4 +26,7 @@ ActiveAdmin.register Venue do
       row :about
     end
   end
+
+  form :partial => "/gig_admin/venue/form"
+
 end

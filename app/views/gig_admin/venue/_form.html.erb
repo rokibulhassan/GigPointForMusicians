@@ -1,0 +1,15 @@
+<%= semantic_form_for [:admin, @venue] do |f| %>
+    <%= f.inputs do %>
+        <%= f.input :name, :wrapper_html => {:style => 'width: 56%'} %>
+        <%= f.input :about, :input_html => {:rows => 10}, :wrapper_html => {:style => 'width: 56%'} %>
+        <li><label>Select From Map</label></li>
+        <li style="margin-left: 13%">
+          <%= f.gmap_coordinate_picker :default_coordinates => @venue.default_coordinates.nil? ? user_coordinates_from_ip : @venue.default_coordinates %>
+        </li>
+    <% end %>
+
+    <%= f.actions do %>
+        <li class="cancel"><%= link_to 'Cancel', :back %></li>
+        <%= f.action :submit %>
+    <% end %>
+<% end %>
