@@ -78,3 +78,4 @@ gem 'whenever', :require => false
 gem 'capistrano-ext'
 gem 'rvm-capistrano'
 gem 'friendly_id'
+gem 'country-select'
