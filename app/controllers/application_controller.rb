@@ -8,8 +8,12 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    admin_root_path if resource.class.is_a?(AdminUser)
-    user_path(resource.id)
+    stored_location_for(resource) ||
+        if resource.is_a?(Admin)
+          admin_dashboard_path
+        else
+          user_path(resource)
+        end
   end
 
   def after_sign_up_path_for(resource)
