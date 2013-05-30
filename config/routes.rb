@@ -1,5 +1,7 @@
 GigpointForMusician::Application.routes.draw do
 
+  #mount GigpointForMusician::API => '/api'
+
   devise_for :admin_users, ActiveAdmin::Devise.config
 
   root :to => 'static#home'

@@ -79,3 +79,7 @@ gem 'capistrano-ext'
 gem 'rvm-capistrano'
 gem 'friendly_id'
 gem 'country-select'
+
+#for api
+gem 'grape'
+gem 'grape-swagger'

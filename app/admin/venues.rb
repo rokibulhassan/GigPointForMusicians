@@ -27,6 +27,6 @@ ActiveAdmin.register Venue do
     end
   end
 
-  form :partial => "/gig_admin/venue/form"
+  form :partial => "/admin/venue/form"
 
 end
