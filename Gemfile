@@ -34,7 +34,7 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
-
+  gem 'jquery-ui-rails'
 end
 
 
@@ -43,7 +43,7 @@ gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootst
 # jquery ui
 gem 'jquery-ui-rails'
 # basic user interface
-gem 'jquery-rails'
+gem 'jquery-rails', "2.3.0"
 gem 'breadcrumbs_on_rails'
 gem 'bootstrap-wysihtml5-rails'
 gem 'less-rails'

@@ -106,6 +106,7 @@ namespace :deploy do
 
   desc "assets precompile"
   task :precompile_asset do
+    run "cd #{latest_release} && sudo rake assets:clean "
     run "cd #{latest_release} && sudo rake assets:precompile "
   end
 
@@ -120,6 +121,6 @@ end
 
 
 
-before "whenever:update_crontab", "deploy:change_branch", "deploy:bundle_install" , "deploy:set_permission", "deploy:symlink_db", "deploy:db_migrate","deploy:set_permission" ,"deploy:set_ownership_for_releases" ,"deploy:set_permission" ,"deploy:set_ownership_for_releases" ,"deploy:restart", "deploy:set_permission" ,"deploy:set_ownership_for_releases"
+before "whenever:update_crontab", "deploy:change_branch", "deploy:bundle_install" , "deploy:set_permission", "deploy:symlink_db", "deploy:db_migrate","deploy:set_permission" ,"deploy:set_ownership_for_releases" ,"deploy:precompile_asset","deploy:set_permission" ,"deploy:set_ownership_for_releases" ,"deploy:restart", "deploy:set_permission" ,"deploy:set_ownership_for_releases"
 #after "deploy:copy_bundler", "deploy:bundle_install"
 #before "deploy:db_migrate", "deploy:symlink_db"
