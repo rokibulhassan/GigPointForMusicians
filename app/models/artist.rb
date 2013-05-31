@@ -10,7 +10,7 @@ class Artist < ActiveRecord::Base
   extend FriendlyId
   friendly_id :user_name, use: :slugged
 
-  validates_uniqueness_of :user_name
+  #validates_uniqueness_of :user_name
 
   accepts_nested_attributes_for :profile
 
