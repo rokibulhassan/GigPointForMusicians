@@ -51,7 +51,7 @@ namespace :deploy do
 
   desc "bundle install"
   task :bundle_install do
-    run "cd #{latest_release} && sudo  bundle install --no-deployment --path #{shared_path}/bundle"
+    run "cd #{latest_release} && sudo  bundle install --deployment --path #{shared_path}/bundle"
   end
 
   task :db_migrate do

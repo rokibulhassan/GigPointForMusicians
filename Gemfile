@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 # latest rails stable version with security patch
 gem 'rails', '3.2.12'
+gem 'nokogiri'
 
 # database adapter
 gem 'mysql2'

@@ -342,6 +342,7 @@ DEPENDENCIES
   libv8
   linkedin
   mysql2
+  nokogiri
   omniauth (~> 1.1.1)
   omniauth-facebook
   omniauth-github
