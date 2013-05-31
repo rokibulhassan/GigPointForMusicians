@@ -17,7 +17,7 @@ class Profile < ActiveRecord::Base
   belongs_to :user
   belongs_to :artist
 
-  after_save :sync_artist_user_name
+  #after_save :sync_artist_user_name
 
   validate :validate_after_persistence, if: Proc.new { |profile| !profile.user.nil? }
   #validates_uniqueness_of :user_name
