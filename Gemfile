@@ -35,13 +35,10 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
   gem 'jquery-ui-rails'
+  # twitter bootstrap
+  gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails'
 end
 
-
-# twitter bootstrap
-gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails'
-# jquery ui
-gem 'jquery-ui-rails'
 # basic user interface
 gem 'jquery-rails', "2.3.0"
 gem 'breadcrumbs_on_rails'

@@ -106,8 +106,7 @@ namespace :deploy do
 
   desc "assets precompile"
   task :precompile_asset do
-    run "cd #{latest_release} && sudo rake assets:clean "
-    run "cd #{latest_release} && sudo rake assets:precompile "
+    run "cd #{latest_release} && sudo bundle exec rake assets:precompile --trace"
   end
 
   desc "change branch"
