@@ -70,7 +70,9 @@ class Profile < ActiveRecord::Base
 
   def sync_artist_user_name
     logger.info ">>>>>>>>>>>>Seting artist user name. "
+    if !self.user_name.strip!.nil? || !self.user_name.strip!.blank?
     self.artist.update_attributes!(user_name: self.user_name)
+    end
   end
 
 end
