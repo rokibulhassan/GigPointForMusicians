@@ -3,6 +3,8 @@ ssh_options[:forward_agent] = true
 ssh_options[:username] = 'irfan'
 default_run_options[:pty] = true
 
+set :bundle_cmd, "/usr/local/bin/bundle"
+
 
 
 set :scm_verbose, true
