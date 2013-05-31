@@ -20,7 +20,7 @@ class Profile < ActiveRecord::Base
   after_save :sync_artist_user_name
 
   validate :validate_after_persistence, if: Proc.new { |profile| !profile.user.nil? }
-  validates_uniqueness_of :user_name
+  #validates_uniqueness_of :user_name
 
   accepts_nested_attributes_for :artist
 
