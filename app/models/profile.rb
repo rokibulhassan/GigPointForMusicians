@@ -4,6 +4,7 @@ class Profile < ActiveRecord::Base
                   :artist_id, :profile_picture, :artist_attributes, :selected_page_id, :selected_group_id
 
   attr_accessor :artist_attributes
+  protected_attributes :user_name
 
   serialize :selected_page_id, Array
   serialize :selected_group_id, Array
@@ -19,7 +20,7 @@ class Profile < ActiveRecord::Base
   after_save :sync_artist_user_name
 
   validate :validate_after_persistence, if: Proc.new { |profile| !profile.user.nil? }
-  #validates_uniqueness_of :user_name
+  validates_uniqueness_of :user_name
 
   accepts_nested_attributes_for :artist
 
