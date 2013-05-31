@@ -41,7 +41,7 @@ end
 # twitter bootstrap
 gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails'
 # jquery ui
-gem 'jquery-ui-rails', group: [:development, :production]
+gem 'jquery-ui-rails'
 # basic user interface
 gem 'jquery-rails'
 gem 'breadcrumbs_on_rails'
