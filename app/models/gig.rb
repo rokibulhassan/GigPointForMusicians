@@ -1,11 +1,13 @@
 class Gig < ActiveRecord::Base
-  attr_accessible :created_by, :details, :duration, :email, :gig_type, :name, :price, :starts_at, :venue_id, :website_url,
-                  :others, :latitude, :longitude, :gmaps, :extra_info, :artist_id, :free_entry, :user_id, :schedule_post_attributes,
+  attr_accessible :description, :duration, :email, :title, :starts_at, :venue_id, :url, :email, :admission,
+                  :creator_id, :gig_type, :price, :extra_info, :artist_ids, :free_entry, :schedule_post_attributes,
                   :venue_attributes, :selected_venue_id, :post_on_time_line, :post_in_groups
-  attr_accessor :artist_id, :free_entry, :selected_venue_id, :post_on_time_line, :post_in_groups
 
-  has_many :gig_artists
-  has_many :artists, through: :gig_artists
+
+  attr_accessor :artist_ids, :free_entry, :selected_venue_id, :post_on_time_line, :post_in_groups
+
+  has_many :artists_gigs
+  has_and_belongs_to_many :artists
   has_many :publish_histories
   belongs_to :venue
   belongs_to :user
@@ -89,7 +91,7 @@ class Gig < ActiveRecord::Base
     end
   end
 
- # private
+  # private
 
   def set_selected_venue
     self.venue_id = self.selected_venue_id if self.selected_venue_id.present?
@@ -104,7 +106,7 @@ class Gig < ActiveRecord::Base
 
   def create_gigs_artist
     logger.info "Creating gigs artist for Gig #{self.name}"
-    GigArtist.create!(gig_id: self.id, artist_id: self.artist_id) if self.artist_id.present?
+    ArtistsGig.create!(gig_id: self.id, artist_id: self.artist_id) if self.artist_id.present?
   end
 
   def create_facebook_event

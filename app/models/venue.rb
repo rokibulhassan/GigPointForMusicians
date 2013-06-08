@@ -1,14 +1,11 @@
 class Venue < ActiveRecord::Base
-  attr_accessible :about, :name, :country_id, :latitude, :longitude, :profile_id, :address_attributes
-  belongs_to :country
+  attr_accessible :description, :email, :tel, :url, :name, :lat, :lng, :city, :country, :address1, :address2, :address3,
+                  :address4, :postcode, :state, :gig_ids
   belongs_to :profile
   has_many :gigs
-  has_one :address, :as => :addressable
+  has_many :artists, :through => :gigs
 
-  accepts_nested_attributes_for :address
   validates :name, :presence => {:message => "Venue address is required"}
-  #validates :latitude, :presence => {:message => "Venue latitude is required"}
-  #validates :longitude, :presence => {:message => "Venue longitude is required"}
 
 
   def default_coordinates

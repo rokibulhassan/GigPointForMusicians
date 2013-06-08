@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130528152945) do
+ActiveRecord::Schema.define(:version => 20130608181637) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -27,18 +27,6 @@ ActiveRecord::Schema.define(:version => 20130528152945) do
   add_index "active_admin_comments", ["author_type", "author_id"], :name => "index_active_admin_comments_on_author_type_and_author_id"
   add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
-
-  create_table "addresses", :force => true do |t|
-    t.string   "street"
-    t.string   "city"
-    t.string   "state"
-    t.string   "country"
-    t.string   "zip"
-    t.integer  "addressable_id"
-    t.string   "addressable_type"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-  end
 
   create_table "admin_users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -66,15 +54,25 @@ ActiveRecord::Schema.define(:version => 20130528152945) do
   end
 
   create_table "artists", :force => true do |t|
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "user_id"
-    t.string   "booking_contact"
-    t.string   "user_name"
+    t.string   "booking"
+    t.string   "username"
     t.string   "slug"
+    t.string   "name"
+    t.string   "email"
+    t.string   "url"
+    t.string   "tel"
+    t.text     "description"
   end
 
   add_index "artists", ["slug"], :name => "index_artists_on_slug"
+
+  create_table "artists_gigs", :id => false, :force => true do |t|
+    t.integer "artist_id"
+    t.integer "gig_id"
+  end
 
   create_table "authentications", :force => true do |t|
     t.string   "uid"
@@ -88,44 +86,24 @@ ActiveRecord::Schema.define(:version => 20130528152945) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "countries", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "genres", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "gig_artists", :force => true do |t|
-    t.integer  "gig_id"
-    t.integer  "artist_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "gigs", :force => true do |t|
-    t.string   "name"
+    t.string   "title"
     t.datetime "starts_at"
     t.time     "duration"
-    t.string   "price"
-    t.string   "website_url"
+    t.string   "admission"
+    t.string   "url"
     t.string   "email"
-    t.text     "details"
-    t.string   "created_by"
-    t.string   "gig_type"
+    t.text     "description"
     t.integer  "venue_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.text     "extra_info"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.boolean  "gmaps"
-    t.string   "others"
-    t.integer  "user_id"
+    t.integer  "creator_id"
   end
 
   create_table "groups", :force => true do |t|
@@ -238,14 +216,24 @@ ActiveRecord::Schema.define(:version => 20130528152945) do
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "venues", :force => true do |t|
-    t.integer  "profile_id"
-    t.float    "latitude"
-    t.float    "longitude"
+    t.decimal  "lat",         :precision => 15, :scale => 10
+    t.decimal  "lng",         :precision => 15, :scale => 10
     t.string   "name"
     t.integer  "country_id"
-    t.text     "about"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.text     "description"
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
+    t.string   "tel"
+    t.string   "url"
+    t.string   "email"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "address3"
+    t.string   "address4"
+    t.string   "city"
+    t.string   "state"
+    t.string   "postcode"
+    t.string   "country"
   end
 
 end
