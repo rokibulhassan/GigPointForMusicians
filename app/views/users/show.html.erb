@@ -1,11 +1,11 @@
 <%- model_class = User -%>
 <div class="page-header">
   <h1><%= t '.title', :default => @user.name %></h1>
-  <% if @user.has_artist_profile?  %>
-  <%= link_to "edit profile", edit_artist_profile_path(@user.artist.id, @user.artist.profile.id) %>
+  <% if @user.has_artist_profile? %>
+      <%= link_to "edit profile", edit_artist_profile_path(@user.artist.id, @user.artist.profile.id) %>
   <% else %>
-  <%= link_to "Create Profile", new_artist_path %>
-  <% end  %>
+      <%= link_to "Create Profile", new_artist_path %>
+  <% end %>
 </div>
 <div class="clear"></div>
 <div class="div3">
@@ -16,7 +16,7 @@
 <h3 class="blog-title">Upcoming Gigs</h3>
 
 <div class="gig-list">
-  <%= render :partial => 'gigs/gigs_list', :locals => {:gigs => current_user.gigs.up_coming_gigs} if current_user.gigs.present? %>
+  <%= render :partial => 'gigs/gigs_list', :locals => {:gigs => current_artist.gigs.up_coming_gigs} %>
 </div>
 
 <div class="clear"></div>
@@ -28,7 +28,7 @@
   <h3 class="blog-title">Past Gigs</h3>
 
   <div class="gig-list">
-    <%= render :partial => 'gigs/gigs_list', :locals => {:gigs => current_user.gigs.past_gigs} if current_user.gigs.present? %>
+    <%= render :partial => 'gigs/gigs_list', :locals => {:gigs => current_artist.gigs.past_gigs} %>
   </div>
 </div>
 

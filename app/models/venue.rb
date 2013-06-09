@@ -9,8 +9,8 @@ class Venue < ActiveRecord::Base
 
 
   def default_coordinates
-    if latitude.present?
-      [latitude, longitude] rescue []
+    if lat.present?
+      [lat, lng] rescue []
     end
   end
 

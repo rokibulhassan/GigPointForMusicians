@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_one :artist, :dependent => :destroy
   has_many :pages
   has_many :groups
-  has_many :gigs
+
   after_destroy :delete_authentications
 
 

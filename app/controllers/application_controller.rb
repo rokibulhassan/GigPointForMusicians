@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   add_breadcrumb "Home", :root_path
-  helper_method :user_coordinates_from_ip
+  helper_method :user_coordinates_from_ip, :current_artist
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def current_artist
+    current_user.artist rescue nil
+  end
 
   def user_coordinates_from_ip
     ip = request.remote_ip

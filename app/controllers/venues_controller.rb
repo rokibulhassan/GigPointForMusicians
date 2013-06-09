@@ -25,16 +25,16 @@ class VenuesController < ApplicationController
     result = venues.collect do |venue|
       {id: venue.id,
        value: venue.name,
-       latitude: venue.latitude,
-       longitude: venue.longitude}
+       latitude: venue.lat,
+       longitude: venue.lng}
     end
     render json: result
   end
 
   def populate_location_map
     @venue = Venue.find(params[:venue_id])
-    @latitude = @venue.latitude
-    @longitude = @venue.longitude
+    @latitude = @venue.lat
+    @longitude = @venue.lng
   end
 
 end

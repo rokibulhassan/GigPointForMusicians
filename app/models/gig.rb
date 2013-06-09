@@ -1,6 +1,6 @@
 class Gig < ActiveRecord::Base
   attr_accessible :description, :duration, :email, :title, :starts_at, :venue_id, :url, :email, :admission,
-                  :creator_id, :gig_type, :price, :extra_info, :artist_ids, :free_entry, :schedule_post_attributes,
+                  :creator_id, :gig_type, :extra_info, :artist_ids, :free_entry, :schedule_post_attributes,
                   :venue_attributes, :selected_venue_id, :post_on_time_line, :post_in_groups
 
 
@@ -10,16 +10,15 @@ class Gig < ActiveRecord::Base
   has_and_belongs_to_many :artists
   has_many :publish_histories
   belongs_to :venue
-  belongs_to :user
   has_one :schedule_post
 
   accepts_nested_attributes_for :schedule_post, :venue
 
-  after_create :create_gigs_artist
-  after_save :post_to_social_media_now, :create_facebook_event, :post_on_facebook_time_line
+  #after_create :create_gigs_artist
+  #after_save :post_to_social_media_now, :create_facebook_event, :post_on_facebook_time_line
   before_validation :sync_price, :set_selected_venue
 
-  validates :name, :presence => {:message => "Gig name is required"}
+  validates :title, :presence => {:message => "Gig title is required"}
   validates :starts_at, :presence => {:message => "Gig Start time is required"}
   validate :validates_others
 
@@ -40,7 +39,7 @@ class Gig < ActiveRecord::Base
   end
 
   def gig_is_free?
-    free_entry? || self.price.to_f == 0.00
+    free_entry? || self.admission.to_f == 0.00
   end
 
   def post_immediately?
@@ -78,9 +77,9 @@ class Gig < ActiveRecord::Base
 
   def post_to_social_media_now
     if self.post_immediately? || self.post_a_week_before? || self.post_a_day_before? || self.post_the_day_off?
-      message = "Gig #{self.name} for fans."
-      feed = {:name => self.name, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
-      status = "Tweeting as a gig name #{self.name}!"
+      message = "Gig #{self.title} for fans."
+      feed = {:name => self.title, :link => "http://build.gig-point.com/gigs/#{self.id}", :description => 'Gig post from gig for musicians.'}
+      status = "Tweeting as a gig name #{self.title}!"
 
       self.user.update_twitter_status(self.id, status) if self.post_twitter?
       if self.user.can_publish_to_page?
@@ -105,7 +104,7 @@ class Gig < ActiveRecord::Base
   end
 
   def create_gigs_artist
-    logger.info "Creating gigs artist for Gig #{self.name}"
+    logger.info "Creating gigs artist for Gig #{self.title}"
     ArtistsGig.create!(gig_id: self.id, artist_id: self.artist_id) if self.artist_id.present?
   end
 
@@ -135,8 +134,8 @@ class Gig < ActiveRecord::Base
   end
 
   def sync_price
-    self.price = 50.0 #TODO::Price is not introduced yet
-    self.price = 0.00 if gig_is_free?
+    self.admission = 50.0 #TODO::Price is not introduced yet
+    self.admission = 0.00 if gig_is_free?
   end
 
 end

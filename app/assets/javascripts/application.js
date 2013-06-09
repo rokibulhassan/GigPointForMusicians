@@ -15,6 +15,7 @@
 //= require jquery.ui.all
 //= require twitter/bootstrap
 //= require_tree .
+//= require bootstrap-datetimepicker
 
 $(document).ready(function () {
     if (window.location.hash == '#_=_') {
@@ -22,15 +23,6 @@ $(document).ready(function () {
         history.pushState('', document.title, window.location.pathname);
         e.preventDefault();
     }
-
-    $('.datepicker').on('focus', function () {
-        $(this).datepicker({ dateFormat: "yy-mm-dd", validateBeforeShow: true  });
-    });
-
-    $('.datetimepicker, [date-time-picker]').on('focus', function () {
-        var dateFormat = $(this).attr('date-format') || "yy-mm-dd";
-        $(this).datetimepicker({ dateFormat: dateFormat, ampm: true, timeFormat: "hh:mm TT", validateBeforeShow: true });
-    });
 
     $("#gig_venue_attributes_name").autocomplete({
         minLength: 1,

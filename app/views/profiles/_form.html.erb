@@ -4,48 +4,59 @@
       <div class="control-group">
         PROFILE PICTURE <%= image_tag @profile.remote_avatar_url %>
       </div>
-      <div class="control-group">
-        ARTIST NAME <%= f.text_field :name %>
-      </div>
-      <div class="control-group">
-        USER NAME  <%= f.text_field :user_name %>
-        <br>
 
-        <p class="dialog"> Find your public profile page at
-          <span id="url-hints"> http://gigpoint.com/artists/username</span></p>
-      </div>
-      <%= f.fields_for :artist do |far| %>
-          <div class="control-group">
-            BOOKING CONTACT  <%= far.text_field :booking_contact %>
-            <br>
+      <p>
+        <%= f.label :name, 'Artist Name' %>
+        <%= f.text_field :name %>
+      </p>
 
-            <p class="dialog"> Can be either a website or email address</p>
-          </div>
+      <p>
+        <%= f.label :user_name %>
+        <%= f.text_field :user_name %>
+      </p>
+
+      <p class="dialog"> Find your public profile page at
+        <span id="url-hints"> http://gigpoint.com/artists/username</span></p>
+
+      <%= f.fields_for :artist do |ar| %>
+          <p>
+            <%= ar.label :booking %>
+            <%= ar.text_field :booking %>
+          </p>
+
+          <p class="dialog"> Can be either a website or email address</p>
       <% end %>
-      <div class="control-group">
-        WEBSITE <%= f.text_field :website_url %>
-      </div>
-      <div class="control-group">
+
+      <p>
+        <%= f.label :website_url %>
+        <%= f.text_field :website_url %>
+      </p>
+
+      <p>
         FACEBOOK PAGE
-        <div class="fan-page-group">
-          <% current_user.pages.each do |page| %>
-              <%= check_box_tag "profile[selected_page_id][]", page.id, @profile.selected_page_id.include?(page.id.to_s) %><%= page.name %>
-              <br>
-          <% end %>
-        </div>
+
+      <div class="fan-page-group">
+        <% current_user.pages.each do |page| %>
+            <%= check_box_tag "profile[selected_page_id][]", page.id, @profile.selected_page_id.include?(page.id.to_s) %><%= page.name %>
+            <br>
+        <% end %>
       </div>
-      <div class="control-group">
+      </p>
+      <p>
         USER GROUPS
-        <div class="user-groups-group">
-          <% current_user.groups.each do |group| %>
-              <%= check_box_tag "profile[selected_group_id][]", group.id, @profile.selected_group_id.include?(group.id.to_s) %><%= group.name %>
-              <br>
-          <% end %>
-        </div>
+
+      <div class="user-groups-group">
+        <% current_user.groups.each do |group| %>
+            <%= check_box_tag "profile[selected_group_id][]", group.id, @profile.selected_group_id.include?(group.id.to_s) %><%= group.name %>
+            <br>
+        <% end %>
       </div>
-      <div class="control-group">
-        BIO <%= f.text_area :bio, :size => '25x10' %>
-      </div>
+      </p>
+
+      <p>
+        <%= f.label :bio %>
+        <%= f.text_area :bio, :size => '25x10' %>
+      </p>
 
       <div class="form-actions">
         <a href="#ModalAccessPages" role="button" class="btn" data-toggle="modal">Allow Manage Page</a>

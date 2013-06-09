@@ -1,0 +1,42 @@
+<%= f.fields_for :venue do |f| %>
+    <p>
+      <%= f.label :name, 'Venue Name' %>
+      <%= f.text_field :name %>
+    </p>
+
+    <p>
+      <%= f.label :address1, 'Address' %>
+      <%= f.text_field :address1 %> <br>
+      <%= f.text_field :address2 %> <br>
+      <%= f.text_field :address3 %> <br>
+      <%= f.text_field :address4 %>
+    </p>
+
+    <p>
+      <%= f.label :city %>
+      <%= f.text_field :city %>
+    </p>
+
+    <p>
+      <%= f.label :state %>
+      <%= f.text_field :state, :size => 2 %>
+    </p>
+
+    <p>
+      <%= f.label :postcode, 'Post Code' %>
+      <%= f.text_field :postcode %>
+    </p>
+
+    <p>
+      <%= f.label :country %>
+      <%= f.text_field :country, :size => 2 %>
+    </p>
+
+    <p>
+      <%= f.label :location_map %>
+      <%= f.gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? user_coordinates_from_ip : @gig.venue.default_coordinates %>
+    </p>
+<% end %>
+
+
+

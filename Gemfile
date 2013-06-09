@@ -31,14 +31,15 @@ gem 'declarative_authorization'
 
 
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
+  gem 'sass-rails', '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
   gem 'jquery-ui-rails'
   # twitter bootstrap
   gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails'
 end
-
+gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails'
+gem 'bootstrap-datetimepicker-rails'
 # basic user interface
 gem 'jquery-rails', "2.3.0"
 gem 'breadcrumbs_on_rails'

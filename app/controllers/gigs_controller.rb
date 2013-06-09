@@ -21,7 +21,7 @@ class GigsController < ApplicationController
     @gig = Gig.new
     @venue = @gig.build_venue
     @gig.build_schedule_post
-    @venue.build_address
+    #@venue.build_address
     facebook_access_permission("create_event")
 
     respond_to do |format|
@@ -35,15 +35,15 @@ class GigsController < ApplicationController
   end
 
   def create
-    begin
+    #begin
       @gig = Gig.new(params[:gig])
 
       @gig.save!
       redirect_to current_user, notice: 'Gig was successfully created.'
-    rescue Exception => ex
-      flash[:error] = ex.message
-      render :new
-    end
+    #rescue Exception => ex
+    #  flash[:error] = ex.message
+    #  render :new
+    #end
 
   end
 
