@@ -6,7 +6,6 @@ class Artist < ActiveRecord::Base
   has_many :venues, :through => :gigs
 
   has_one :profile, :dependent => :destroy
-  has_many :artists_gigs
   has_many :artist_genres
   has_many :genres, through: :artist_genres, :dependent => :destroy
 

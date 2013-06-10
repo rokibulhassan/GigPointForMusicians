@@ -73,7 +73,8 @@ a#sign_out {
 }
 
 .publish-div {
-    border: 1px solid black;
+    width: 200px;
+    border: 1px solid #363636;
     padding: 20px;
     border-radius: 9px;
 }

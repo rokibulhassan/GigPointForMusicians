@@ -4,17 +4,15 @@ class Gig < ActiveRecord::Base
                   :venue_attributes, :selected_venue_id, :post_on_time_line, :post_in_groups
 
 
-  attr_accessor :artist_ids, :free_entry, :selected_venue_id, :post_on_time_line, :post_in_groups
+  attr_accessor :free_entry, :selected_venue_id, :post_on_time_line, :post_in_groups
 
-  has_many :artists_gigs
   has_and_belongs_to_many :artists
   has_many :publish_histories
   belongs_to :venue
   has_one :schedule_post
 
-  accepts_nested_attributes_for :schedule_post, :venue
+  accepts_nested_attributes_for :schedule_post, :venue, :artists
 
-  #after_create :create_gigs_artist
   #after_save :post_to_social_media_now, :create_facebook_event, :post_on_facebook_time_line
   before_validation :sync_price, :set_selected_venue
 
@@ -101,11 +99,6 @@ class Gig < ActiveRecord::Base
     if others.empty? && !free_entry?
       self.errors.add(:base, "Must field others field if not free")
     end
-  end
-
-  def create_gigs_artist
-    logger.info "Creating gigs artist for Gig #{self.title}"
-    ArtistsGig.create!(gig_id: self.id, artist_id: self.artist_id) if self.artist_id.present?
   end
 
   def create_facebook_event
