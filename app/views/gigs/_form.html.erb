@@ -1,36 +1,55 @@
-<%= semantic_form_for @gig, :html => {multipart: true} do |f| %>
+<%= semantic_form_for @gig, :html => {class: "form-horizontal", multipart: true} do |f| %>
 
-    <p>
-      <%= f.label :artist_ids, "Artist Name" %>
-      <%= f.select :artist_ids, options_for_select(Artist.by_user_id(current_user.id).collect { |ar| [ar.profile.name, ar.id] }) %>
-    </p>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span5">
+          <div class="control-group">
+            <%= f.label :artist_ids, "Artist Name", :class => "control-label" %>
+            <div class="controls">
+              <%= f.select :artist_ids, options_for_select(Artist.by_user_id(current_user.id).collect { |ar| [ar.profile.name, ar.id] }) %>
+            </div>
+          </div>
 
-    <p>
-      <%= f.label :title %>
-      <%= f.text_field :title %>
-    </p>
+          <div class="control-group">
+            <%= f.label :title, :class => "control-label" %>
+            <div class="controls">
+              <%= f.text_field :title %>
+            </div>
+          </div>
 
-    <p>
-      <%= f.label :url %>
-      <%= f.text_field :url %>
-    </p>
+          <div class="control-group">
+            <%= f.label :url, :class => "control-label" %>
+            <div class="controls">
+              <%= f.text_field :url %>
+            </div>
+          </div>
 
-    <div id="datetimepicker1" class="input-append date">
-      <p>
-        <%= f.label :starts_at %>
-        <%= f.text_field :starts_at, :'data-format' => 'dd/MM/yyyy hh:mm:ss' %>
-        <span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span>
-      </p>
+
+          <div id="datetimepicker1" class="input-append date">
+            <div class="control-group">
+              <%= f.label :starts_at, :class => "control-label" %>
+              <div class="controls">
+                <%= f.text_field :starts_at, :'data-format' => 'dd/MM/yyyy hh:mm:ss' %>
+                <span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <%= f.label :free_entry, :class => "control-label" %>
+            <div class="controls">
+              <%= f.check_box :free_entry, :checked => @gig.gig_is_free? ? true : false %>
+            </div>
+          </div>
+
+          <%= render :partial => 'gigs/schedule_post', :locals => {:f => f} %>
+        </div>
+
+        <div class="span7">
+          <%= render :partial => 'venues/form', :locals => {:f => f} %>
+        </div>
+      </div>
     </div>
-
-    <p>
-      ADMISSION
-      <%= f.label :free_entry %>
-      <%= f.check_box :free_entry, :checked => @gig.gig_is_free? ? true : false %>  <br>
-    </p>
-
-    <%= render :partial => 'gigs/schedule_post', :locals => {:f => f} %>
-    <%= render :partial => 'venues/form', :locals => {:f => f} %>
 
     <%= f.hidden_field :creator_id, :value => current_user.id rescue nil %>
     <%= f.hidden_field :post_on_time_line %>

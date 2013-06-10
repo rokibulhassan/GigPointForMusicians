@@ -1,6 +1,6 @@
 class Gig < ActiveRecord::Base
   attr_accessible :description, :duration, :email, :title, :starts_at, :venue_id, :url, :email, :admission,
-                  :creator_id, :gig_type, :extra_info, :artist_ids, :free_entry, :schedule_post_attributes,
+                  :creator_id, :gig_type, :artist_ids, :free_entry, :schedule_post_attributes,
                   :venue_attributes, :selected_venue_id, :post_on_time_line, :post_in_groups
 
 
@@ -10,10 +10,12 @@ class Gig < ActiveRecord::Base
   has_many :publish_histories
   belongs_to :venue
   has_one :schedule_post
+  belongs_to :user, foreign_key: :creator_id
+
 
   accepts_nested_attributes_for :schedule_post, :venue, :artists
 
-  #after_save :post_to_social_media_now, :create_facebook_event, :post_on_facebook_time_line
+  after_save :post_to_social_media_now, :create_facebook_event, :post_on_facebook_time_line
   before_validation :sync_price, :set_selected_venue
 
   validates :title, :presence => {:message => "Gig title is required"}
@@ -88,7 +90,7 @@ class Gig < ActiveRecord::Base
     end
   end
 
-  # private
+  private
 
   def set_selected_venue
     self.venue_id = self.selected_venue_id if self.selected_venue_id.present?

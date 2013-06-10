@@ -1,62 +1,45 @@
-<div class="gig_content">
-  <div class="gig-content-left">
-    <div class="control-group">
-      <div class='control-label'>ARTIST NAME</div>
-      <div class="control"><%= @gig.try(:user).try(:user_profile).try(:name) %></div>
-    </div>
-    <div class="control-group">
-      <div class='control-label'>EVENT NAME</div>
-      <div class="control"><%= @gig.name %></div>
-    </div>
+<h1><%= @gig.title %></h1>
 
-    <div class="control-group">
-      <div class='control-label'>VENUE NAME</div>
-      <div class="control"><%= @gig.venue.name %></div>
-    </div>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span6">
+      <dl class="dl-horizontal">
+        <dt>Artist Name</dt>
+        <dd class="controls-row">
+          <% @gig.artists.each do |artist| %>
+              <%= artist.try(:profile).try(:name) %>
+          <% end %>
+        </dd>
 
-    <div class="control-group">
-      <div class='control-label'>WEBSITE</div>
-      <div class="control"><%= @gig.website_url %></div>
-    </div>
-    <div class="control-group">
-      <div class='control-label'>EXTRA INFO</div>
-      <div class="control"><%= @gig.extra_info %></div>
-    </div>
+        <dt>Event Name</dt>
+        <dd class="controls-row"><%= @gig.title %></dd>
 
-    <div class="control-group">
-      <div class='control-label'>PUBLISH HISTORY</div>
-      <div class="control">
-        <% @gig.publish_histories.each do |publish_history| %>
-            <%= @gig.name %> was published on <%= publish_history.provider %>
-            at <%= publish_history.posted_at.strftime("%d %b %Y %H:%M:%S") %> <br>
-        <% end %>
-      </div>
-    </div>
+        <dt>Venue Name</dt>
+        <dd class="controls-row"><%= @gig.try(:venue).try(:name) %></dd>
 
-    <div class="control-group">
-      <div class='control-label'>DATE</div>
-      <div class="control"><%= @gig.starts_at.strftime("%d %b %Y %H:%M:%S") %></div>
-    </div>
+        <dt>Website</dt>
+        <dd class="controls-row"><%= @gig.url %></dd>
 
-    <div class="control-group google-map-top">
-      <div class='control-label'>ADMISSION</div>
-      <div class="pricing">
-        <div class='control-label'>Free Entry</div>
-        <div class="control"><%= @gig.gig_is_free? ? "Yes" : "No" %></div>
-        <br>
+        <dt>Publish History</dt>
+        <dd class="controls-row">
+          <% @gig.publish_histories.each do |publish_history| %>
+              <%= @gig.title %> published on <%= publish_history.provider %>
+              at <%= publish_history.posted_at.strftime("%d %b %Y %H:%M:%S") %> <br>
+          <% end %>
+        </dd>
 
-        <div class='control-label'>Other</div>
-        <div class="control"><%= @gig.others %></div>
-      </div>
+        <dt>Start Date</dt>
+        <dd class="controls-row"><%= @gig.starts_at.strftime("%d %b %Y %H:%M:%S") %></dd>
+
+        <dt>Free Entry</dt>
+        <dd class="controls-row"><%= @gig.gig_is_free? ? "Yes" : "No" %></dd>
+
+      </dl>
     </div>
 
-  </div>
-
-  <div class="gig-content-right">
-
-
-    <div class="control-group">
-      <%= render_gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? [23.7231, 90.4086] : @gig.venue.default_coordinates %>
+    <div class="span6">
+      <%= render_gmap_coordinate_picker :default_coordinates => @gig.try(:venue).try(:default_coordinates).nil? ? [23.7231, 90.4086] : @gig.venue.default_coordinates %>
     </div>
+
   </div>
 </div>

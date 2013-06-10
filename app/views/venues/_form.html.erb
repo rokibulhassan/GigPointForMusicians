@@ -1,41 +1,57 @@
 <%= f.fields_for :venue do |f| %>
-    <p>
-      <%= f.label :name, 'Venue Name' %>
-      <%= f.text_field :name %>
-    </p>
 
-    <p>
-      <%= f.label :address1, 'Address' %>
-      <%= f.text_field :address1 %> <br>
-      <%= f.text_field :address2 %> <br>
-      <%= f.text_field :address3 %> <br>
-      <%= f.text_field :address4 %>
-    </p>
+    <div class="control-group">
+      <%= f.label :name, 'Venue Name', :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :name %>
+      </div>
+    </div>
 
-    <p>
-      <%= f.label :city %>
-      <%= f.text_field :city %>
-    </p>
+    <div class="control-group">
+      <%= f.label :address1, 'Address', :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :address1 %>
+        <%= f.text_field :address2 %> <br><br>
+        <%= f.text_field :address3 %>
+        <%= f.text_field :address4 %>
+      </div>
+    </div>
 
-    <p>
-      <%= f.label :state %>
-      <%= f.text_field :state, :size => 2 %>
-    </p>
+    <div class="control-group">
+      <%= f.label :city, :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :city %>
+      </div>
+    </div>
 
-    <p>
-      <%= f.label :postcode, 'Post Code' %>
-      <%= f.text_field :postcode %>
-    </p>
 
-    <p>
-      <%= f.label :country %>
-      <%= f.text_field :country, :size => 2 %>
-    </p>
+    <div class="control-group">
+      <%= f.label :state, :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :state %>
+      </div>
+    </div>
 
-    <p>
-      <%= f.label :location_map %>
-      <%= f.gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? user_coordinates_from_ip : @gig.venue.default_coordinates %>
-    </p>
+    <div class="control-group">
+      <%= f.label :postcode, 'Post Code', :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :postcode %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :country, :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :country %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :location_map, :class => "control-label" %>
+      <div class="controls">
+        <%= f.gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? user_coordinates_from_ip : @gig.venue.default_coordinates %>
+      </div>
+    </div>
 <% end %>
 
 

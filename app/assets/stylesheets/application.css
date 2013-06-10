@@ -13,3 +13,32 @@
  *= require formtastic-bootstrap
  *= require jquery.ui.all
  */
+
+.control-fixed-height {
+    max-height: 150px;
+    overflow: auto;
+}
+
+.connect_twitter {
+    border: 1px solid black;
+    border-radius: 9px;
+    margin: 0px 34px 0 0;
+}
+
+.btn_connect_twitter {
+    padding: 50px 118px;
+}
+
+.title {
+    font-size: 16px;
+    padding: 5px;
+    background-color: #808080;
+    width: 98%;
+    text-transform: uppercase;
+    border-radius: 10px 10px 0 0;
+}
+
+.dialog {
+    font-size: 12px;
+    padding: 0 0 5px 18px;
+}

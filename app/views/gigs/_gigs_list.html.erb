@@ -1,9 +1,18 @@
-<% gigs.each do |gig| %>
-    <div class="gig-basic-info"> <%= link_to gig.title, edit_gig_path(gig.id) %> @ <%= gig.try(:venue).try(:name) %> <%= gig.created_at %> </div>
-    <div class="gig-basic-operation">
-      <%= link_to 'Delete', gig, method: :delete, data: {confirm: 'Are you sure?'} %>
-      <%= check_box_tag "gig_ids[]", gig.id, false, :id => "gig_ids#{gig.id}" %> <%= link_to "Publish", post_to_facebook_gig_path(gig) %>
-      <br>
-    </div>
-    <br>
-<% end %>
+<table class="table table-striped table-hover">
+  <tbody>
+  <% gigs.each do |gig| %>
+      <tr>
+        <td><%= gig.title %></td>
+        <td><%= gig.try(:venue).try(:name) %></td>
+        <td><%= gig.created_at %></td>
+        <td>
+          <%= link_to 'Show', gig, :class => "btn btn-link btn-info" %>
+          <%= link_to 'Edit', edit_gig_path(gig), :class => "btn btn-link btn-primary" %>
+          <%= link_to 'Destroy', gig, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-link btn-danger" %>
+          <%= check_box_tag "gig_ids[]", gig.id, false, :id => "gig_ids#{gig.id}" %>
+          <%= link_to 'Publish', post_to_facebook_gig_path(gig), :class => "btn btn-link btn-primary" %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

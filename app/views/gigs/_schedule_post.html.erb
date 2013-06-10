@@ -1,16 +1,45 @@
-<div class="publish-div">
-  <%= f.fields_for :schedule_post do |sp| %>
-      <div>
-        <p style="font-size: 14px; font-weight: bold;"> Post To </p>
-        <%= sp.check_box :post_facebook %> Facebook
-        <%= sp.check_box :post_twitter %> Twitter <br>
+<%= f.fields_for :schedule_post do |sp| %>
+    <div class="control-group">
+      <label class="control-label">Post To</label>
+
+      <div class="controls">
+        <label class="checkbox">
+          <%= sp.check_box :post_facebook %> Facebook
+        </label>
       </div>
-      <div class="time-schedule">
-        <p style="font-size: 14px; font-weight: bold;"> Make a Post : </p>
-        <%= sp.check_box :post_immediately %> immediately <br>
-        <%= sp.check_box :post_a_week_before %> a week before <br>
-        <%= sp.check_box :post_a_day_before %> a day before <br>
-        <%= sp.check_box :post_the_day_off %> the day off <br>
+
+      <div class="controls">
+        <label class="checkbox">
+          <%= sp.check_box :post_twitter %> Twitter
+        </label>
       </div>
-  <% end %>
-</div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label">Make a Post</label>
+
+      <div class="controls">
+        <label class="checkbox">
+          <%= sp.check_box :post_immediately %> immediately
+        </label>
+      </div>
+
+      <div class="controls">
+        <label class="checkbox">
+          <%= sp.check_box :post_a_week_before %> a week before
+        </label>
+      </div>
+
+      <div class="controls">
+        <label class="checkbox">
+          <%= sp.check_box :post_a_day_before %> a day before
+        </label>
+      </div>
+
+      <div class="controls">
+        <label class="checkbox">
+          <%= sp.check_box :post_the_day_off %> the day off
+        </label>
+      </div>
+    </div>
+<% end %>

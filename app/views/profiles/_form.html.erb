@@ -1,116 +1,106 @@
-<div class="profile_content">
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span7">
+      <%= semantic_form_for [:artist, @profile], :html => {:class => 'form-horizontal', multipart: true} do |f| %>
+          <div class="control-group">
+            <div class="controls">
+              <%= image_tag @profile.remote_avatar_url %>
+            </div>
+          </div>
 
-  <%= semantic_form_for [:artist, @profile], :html => {:class => 'form-horizontal', multipart: true} do |f| %>
-      <div class="control-group">
-        PROFILE PICTURE <%= image_tag @profile.remote_avatar_url %>
-      </div>
 
-      <p>
-        <%= f.label :name, 'Artist Name' %>
-        <%= f.text_field :name %>
-      </p>
+          <div class="control-group">
+            <%= f.label :name, 'Artist Name', :class => "control-label" %>
+            <div class="controls">
+              <%= f.text_field :name %>
+            </div>
+          </div>
 
-      <p>
-        <%= f.label :user_name %>
-        <%= f.text_field :user_name %>
-      </p>
+          <div class="control-group">
+            <%= f.label :user_name, :class => "control-label" %>
+            <div class="controls">
+              <%= f.text_field :user_name %>
+            </div>
+          </div>
 
-      <p class="dialog"> Find your public profile page at
-        <span id="url-hints"> http://gigpoint.com/artists/username</span></p>
+          <p class="dialog"> Find your public profile page at
+            <span id="url-hints"> http://gigpoint.com/artists/username</span></p>
 
-      <%= f.fields_for :artist do |ar| %>
-          <p>
-            <%= ar.label :booking %>
-            <%= ar.text_field :booking %>
-          </p>
+          <%= f.fields_for :artist do |ar| %>
+              <div class="control-group">
+                <%= ar.label :booking, :class => "control-label" %>
+                <div class="controls">
+                  <%= ar.text_field :booking %>
+                </div>
+              </div>
+              <p class="dialog"> Can be either a website or email address</p>
+          <% end %>
 
-          <p class="dialog"> Can be either a website or email address</p>
+          <div class="control-group">
+            <%= f.label :website_url, :class => "control-label" %>
+            <div class="controls">
+              <%= f.text_field :website_url %>
+            </div>
+          </div>
+
+          <div class="control-group control-fixed-height">
+            <label class="control-label">Facebook Page</label>
+            <% current_user.pages.each do |page| %>
+                <div class="controls">
+                  <label class="checkbox">
+                    <%= check_box_tag "profile[selected_page_id][]", page.id, @profile.selected_page_id.include?(page.id.to_s) %>
+                    <%= page.name %>
+                  </label>
+                </div>
+            <% end %>
+          </div>
+
+          <div class="control-group control-fixed-height">
+            <label class="control-label">User Group</label>
+            <% current_user.groups.each do |group| %>
+                <div class="controls">
+                  <label class="checkbox">
+                    <%= check_box_tag "profile[selected_group_id][]", group.id, @profile.selected_group_id.include?(group.id.to_s) %>
+                    <%= group.name %>
+                  </label>
+                </div>
+            <% end %>
+          </div>
+
+          <div class="control-group">
+            <%= f.label :bio, :class => "control-label" %>
+            <div class="controls">
+              <%= f.text_area :bio, :size => '25x10' %>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <a href="#ModalAccessPages" role="button" class="btn" data-toggle="modal">Allow Manage Page</a>
+            <a href="#ModalAccessGroups" role="button" class="btn" data-toggle="modal">Access User Groups</a>
+            <%= f.submit nil, :class => 'btn btn-primary' %>
+          </div>
       <% end %>
+    </div>
 
-      <p>
-        <%= f.label :website_url %>
-        <%= f.text_field :website_url %>
-      </p>
+    <div class="span5">
+      <div class="connect_twitter">
+        <p class="title">Connections</p>
 
-      <p>
-        FACEBOOK PAGE
-
-      <div class="fan-page-group">
-        <% current_user.pages.each do |page| %>
-            <%= check_box_tag "profile[selected_page_id][]", page.id, @profile.selected_page_id.include?(page.id.to_s) %><%= page.name %>
-            <br>
-        <% end %>
+        <div class="btn_connect_twitter">
+          <% if current_user.have_twitter_credentials? %>
+              <%= link_to "Disconnect Twitter", destroy_authentication_user_path(:provider => "twitter"), :class => "btn" %>
+          <% else %>
+              <%= link_to "Connect with Twitter", user_omniauth_authorize_path(:twitter), :class => "btn" %>
+          <% end %>
+        </div>
+        <p class="dialog">Announce gigs to your fans on Facebook and Twitter</p>
       </div>
-      </p>
-      <p>
-        USER GROUPS
-
-      <div class="user-groups-group">
-        <% current_user.groups.each do |group| %>
-            <%= check_box_tag "profile[selected_group_id][]", group.id, @profile.selected_group_id.include?(group.id.to_s) %><%= group.name %>
-            <br>
-        <% end %>
-      </div>
-      </p>
-
-      <p>
-        <%= f.label :bio %>
-        <%= f.text_area :bio, :size => '25x10' %>
-      </p>
-
-      <div class="form-actions">
-        <a href="#ModalAccessPages" role="button" class="btn" data-toggle="modal">Allow Manage Page</a>
-        <a href="#ModalAccessGroups" role="button" class="btn" data-toggle="modal">Access User Groups</a>
-        <%= f.submit nil, :class => 'btn btn-primary' %>
-      </div>
-  <% end %>
-</div>
-
-<div class="connect_twitter">
-  <p class="title">Connections</p>
-
-  <div class="btn_connect_twitter">
-    <% if current_user.have_twitter_credentials? %>
-        <%= link_to "Disconnect Twitter", destroy_authentication_user_path(:provider => "twitter"), :class => "btn" %>
-    <% else %>
-        <%= link_to "Connect with Twitter", user_omniauth_authorize_path(:twitter), :class => "btn" %>
-    <% end %>
-  </div>
-  <p class="dialog">Announce gigs to your fans on Facebook and Twitter</p>
-</div>
-
-<div id="ModalAccessPages" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Manage Fan Pages</h3>
-  </div>
-  <div class="modal-body">
-    <p>Are you sure to Manage Facebook fan Page? Ignore if already have access.</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <a href="<%= @manage_page_url %>">
-      <button class="btn btn-primary">Confirm</button>
-    </a>
+    </div>
   </div>
 </div>
 
-
-<div id="ModalAccessGroups" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Access User Groups</h3>
-  </div>
-  <div class="modal-body">
-    <p>Are you sure to Access User Groups? Ignore if already have access.</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <a href="<%= @user_groups_url %>">
-      <button class="btn btn-primary">Confirm</button>
-    </a>
-  </div>
-</div>
+<%= render :partial => 'profiles/modal_access_pages' %>
+<%= render :partial => 'profiles/modal_access_groups' %>
 
 <script type="text/javascript">
     $(function () {
