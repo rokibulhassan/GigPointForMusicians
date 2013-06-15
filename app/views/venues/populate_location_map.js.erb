@@ -1,1 +1,12 @@
-$('.venue-location').html('<%= escape_javascript(render :partial => 'populate_location_map', :locals => {venue_id: @venue.id, venue: @venue, latitude: @latitude, longitude: @longitude}) %>');
+$('#gig_venue_attributes_address1').val("<%= @venue.address1 %>");
+$('#gig_venue_attributes_address2').val("<%= @venue.address2 %>");
+$('#gig_venue_attributes_address3').val("<%= @venue.address3 %>");
+$('#gig_venue_attributes_address4').val("<%= @venue.address4 %>");
+$('#gig_venue_attributes_city').val("<%= @venue.city %>");
+$('#gig_venue_attributes_state').val("<%= @venue.state %>");
+$('#gig_venue_attributes_postcode').val("<%= @venue.postcode %>");
+$('#gig_venue_attributes_country').val("<%= @venue.country %>");
+
+$('#gig_selected_venue_id').val("<%= @venue.id %>");
+
+$('.venue-location').html('<%= escape_javascript(render :partial => 'populate_location_map', :locals => {venue: @venue, latitude: @latitude, longitude: @longitude}) %>');

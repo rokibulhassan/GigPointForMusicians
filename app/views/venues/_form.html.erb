@@ -48,7 +48,7 @@
 
     <div class="control-group">
       <%= f.label :location_map, :class => "control-label" %>
-      <div class="controls">
+      <div class="controls venue-location">
         <%= f.gmap_coordinate_picker :default_coordinates => @gig.venue.default_coordinates.nil? ? user_coordinates_from_ip : @gig.venue.default_coordinates %>
       </div>
     </div>
