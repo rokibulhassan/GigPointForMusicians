@@ -16,6 +16,13 @@
 //= require_tree .
 //= require bootstrap-datetimepicker
 
+
+$(document).on("click", "a[data-toggle=modal]", function () {
+    var url = $(this).attr('href');
+    var target = $(this).attr('data-target');
+    $(target).load(url)
+});
+
 $(document).ready(function () {
     if (window.location.hash == '#_=_') {
         window.location.hash = '';
@@ -44,5 +51,6 @@ $(document).ready(function () {
     });
 
 });
+
 
 

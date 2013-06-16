@@ -7,13 +7,13 @@ class VenuesController < ApplicationController
     result = venues.collect do |venue|
       {id: venue.id,
        value: venue.name,
-       latitude: venue.latitude,
-       longitude: venue.longitude,
-       street: venue.try(:address).try(:street),
-       city: venue.try(:address).try(:city),
-       state: venue.try(:address).try(:state),
-       country: venue.try(:address).try(:country),
-       zip: venue.try(:address).try(:zip)
+       latitude: venue.lat,
+       longitude: venue.lng,
+       address: "#{venue.address1} #{venue.address2}  #{venue.address3}  #{venue.address4}",
+       city: venue.try(:city),
+       state: venue.try(:state),
+       country: venue.try(:country),
+       postcode: venue.try(:postcode)
       }
     end
     render json: result

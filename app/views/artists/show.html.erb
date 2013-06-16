@@ -1,33 +1,41 @@
-<h3><%= @artist.try(:profile).try(:name) %></h3>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3 id="myModalLabel"><%= @artist.try(:profile).try(:name) %></h3>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div class="span8">
+        <dl class="dl-horizontal">
+          <dd class="controls-row"><%= image_tag @artist.try(:profile).try(:remote_avatar_url), width: 150, height: 150 %></dd>
+          <br>
 
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span8">
-      <dl class="dl-horizontal">
+          <dt>Artist Name</dt>
+          <dd class="controls-row"><%= @artist.try(:profile).try(:name) %></dd>
 
-        <dd class="controls-row"><%= image_tag @artist.try(:profile).try(:remote_avatar_url), width: 150, height: 150 %></dd> <br>
+          <dt>Website url</dt>
+          <dd class="controls-row"><%= @artist.try(:profile).try(:website_url) %></dd>
 
-        <dt>Artist Name</dt>
-        <dd class="controls-row"><%= @artist.try(:profile).try(:name) %></dd>
+          <dt>Booking Contract</dt>
+          <dd class="controls-row"><%= @artist.try(:booking) %></dd>
 
-        <dt>Website url</dt>
-        <dd class="controls-row"><%= @artist.try(:profile).try(:website_url) %></dd>
+          <dt>Address</dt>
+          <dd class="controls-row"><%= @artist.try(:profile).try(:address) %></dd>
 
-        <dt>Booking Contract</dt>
-        <dd class="controls-row"><%= @artist.try(:booking) %></dd>
+          <dt>Phone</dt>
+          <dd class="controls-row"><%= @artist.try(:profile).try(:phone) %></dd>
 
-        <dt>Address</dt>
-        <dd class="controls-row"><%= @artist.try(:profile).try(:address) %></dd>
+          <dt>Rating</dt>
+          <dd class="controls-row"><%= @artist.try(:profile).try(:rating) %></dd>
 
-        <dt>Phone</dt>
-        <dd class="controls-row"><%= @artist.try(:profile).try(:phone) %></dd>
-
-        <dt>Rating</dt>
-        <dd class="controls-row"><%= @artist.try(:profile).try(:rating) %></dd>
-
-      </dl>
+        </dl>
+      </div>
     </div>
   </div>
+
+</div>
+<div class="modal-footer">
+  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 </div>
 
 

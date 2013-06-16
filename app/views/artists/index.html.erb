@@ -12,7 +12,9 @@
       <tr>
         <td><%= artist.profile.name %></td>
         <td><%= artist.try(:profile).try(:address) %></td>
-        <td><%= link_to 'Show', artist, :class => "btn btn-mini btn-info" %></td>
+        <td><%#= link_to 'Show', artist, :'data-toggle' => "modal", :'data-target' => "#myModal", :class => "btn btn-mini btn-info" %>
+          <a href="<%= artist_path(artist) %>" data-toggle="modal" data-target="#myModal" class="btn btn-mini btn-info">Show</a>
+        </td>
       </tr>
   <% end %>
   </tbody>
