@@ -1,19 +1,15 @@
 <%= semantic_form_for [:admin, @venue] do |f| %>
     <%= f.inputs do %>
         <%= f.input :name, :wrapper_html => {:style => 'width: 56%'} %>
-
-        <%= f.semantic_fields_for :address, f.object.address || Address.new do |af| %>
-            <%= af.input :street, :wrapper_html => {:style => 'width: 56%'} %>
-            <%= af.input :city, :wrapper_html => {:style => 'width: 56%'} %>
-            <%= af.input :state, :wrapper_html => {:style => 'width: 56%'} %>
-            <li class="string input optional stringish">
-              <label class=" label">Country</label>
-            </li>
-            <li style="margin-left: 162px;"><%= country_select :address, :country %></li>
-            <%= af.input :zip, :wrapper_html => {:style => 'width: 56%'} %>
-        <% end %>
-
-        <%= f.input :about, :input_html => {:rows => 10}, :wrapper_html => {:style => 'width: 56%'} %>
+        <%= f.input :address1, :wrapper_html => {:style => 'width: 56%'} %>
+        <%= f.input :address2, :wrapper_html => {:style => 'width: 56%'} %> <br><br>
+        <%= f.input :address3, :wrapper_html => {:style => 'width: 56%'} %>
+        <%= f.input :address4, :wrapper_html => {:style => 'width: 56%'} %>
+        <%= f.input :city, :wrapper_html => {:style => 'width: 56%'} %>
+        <%= f.input :state, :wrapper_html => {:style => 'width: 56%'} %>
+        <%= f.input :postcode, :wrapper_html => {:style => 'width: 56%'} %>
+        <%= f.input :country, :wrapper_html => {:style => 'width: 56%'} %>
+        <%= f.input :description, :input_html => {:rows => 10}, :wrapper_html => {:style => 'width: 56%'} %>
         <li><label>Select From Map</label></li>
         <li style="margin-left: 13%">
           <%= f.gmap_coordinate_picker :default_coordinates => @venue.default_coordinates.nil? ? user_coordinates_from_ip : @venue.default_coordinates %>
