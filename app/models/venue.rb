@@ -7,6 +7,8 @@ class Venue < ActiveRecord::Base
 
   validates :name, :presence => {:message => "Venue address is required"}
 
+  scope :recently_created, lambda { |lt| limit(lt).order('created_at desc') }
+
 
   def default_coordinates
     if lat.present?

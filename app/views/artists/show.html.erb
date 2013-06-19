@@ -7,7 +7,7 @@
     <div class="row-fluid">
       <div class="span8">
         <dl class="dl-horizontal">
-          <dd class="controls-row"><%= image_tag @artist.try(:profile).try(:remote_avatar_url), width: 150, height: 150 %></dd>
+          <dd class="controls-row"><%= image_tag @artist.try(:profile).profile_picture %></dd>
           <br>
 
           <dt>Artist Name</dt>

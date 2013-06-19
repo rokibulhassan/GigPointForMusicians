@@ -1,5 +1,5 @@
 class Artist < ActiveRecord::Base
-  attr_accessible :gig_ids, :booking, :description, :email, :name, :tel, :url, :username, :user_id
+  attr_accessible :gig_ids, :booking, :description, :email, :name, :tel, :url, :username, :user_id, :profile_attributes
 
   has_and_belongs_to_many :gigs
   belongs_to :user
@@ -20,5 +20,6 @@ class Artist < ActiveRecord::Base
   PROFILE_FIELDS = [:name, :user_name, :photo, :phone, :website_url, :bio]
 
   scope :by_user_id, lambda { |user_id| where(user_id: user_id) }
+  scope :recently_created, lambda { |lt| limit(lt).order('created_at desc') }
 
 end

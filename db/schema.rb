@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130608181637) do
+ActiveRecord::Schema.define(:version => 20130619195818) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -142,10 +142,9 @@ ActiveRecord::Schema.define(:version => 20130608181637) do
     t.string   "name"
     t.string   "user_name"
     t.string   "website_url"
-    t.string   "photo"
     t.integer  "rating"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "provider"
     t.string   "uid"
     t.text     "bio"
@@ -155,11 +154,13 @@ ActiveRecord::Schema.define(:version => 20130608181637) do
     t.datetime "confirmed_at"
     t.text     "address"
     t.integer  "artist_id"
-    t.string   "profile_picture"
     t.integer  "page_id"
     t.integer  "user_id"
     t.string   "selected_page_id"
     t.string   "selected_group_id"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
   end
 
   create_table "publish_histories", :force => true do |t|

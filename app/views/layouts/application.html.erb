@@ -31,18 +31,25 @@
       </a>
 
       <div class="nav-collapse collapse">
+        <p class="navbar-text pull-right">
+          <%= link_to admin_root_path, :style => "margin-left:30px;" do %>
+              <i class="icon-cog icon-white"></i>
+          <% end %>
+        </p>
         <ul class="nav">
           <li><%= link_to "Gigs", gigs_url %></li>
           <li><%= link_to "Artist", artists_url %></li>
-        </ul>
-        <form class="navbar-form pull-right">
-          <% if current_user %>
-              <li><%= link_to current_user.name, current_user %></li>
-              <li><%= link_to 'Sign Out', '/users/sign_out', method: :delete, id: 'sign_out' %></li>
-          <% else %>
-              <li><%= link_to 'Login With Facebook', user_omniauth_authorize_path(:facebook) %></li>
+          <% if current_user.present? %>
+              <li class="dropdown" style="margin-left: 570px;">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <%= current_user.name %>
+                  <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'My Profile', current_user %></li>
+                  <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete %></li>
+                </ul>
+              </li>
           <% end %>
-        </form>
+        </ul>
       </div>
     </div>
   </div>

@@ -1,7 +1,6 @@
 class Profile < ActiveRecord::Base
-  attr_accessible :name, :photo, :rating, :user_name, :website_url,
-                  :provider, :uid, :bio, :remote_avatar_url, :phone, :address, :gender, :confirmed_at, :address, :user_id,
-                  :artist_id, :profile_picture, :artist_attributes, :selected_page_id, :selected_group_id
+  attr_accessible :name, :photo, :rating, :user_name, :website_url, :provider, :uid, :bio, :remote_avatar_url, :phone, :address,
+                  :gender, :confirmed_at, :address, :user_id, :artist_id, :artist_attributes, :selected_page_id, :selected_group_id
 
   attr_accessor :artist_attributes
   protected_attributes :user_name
@@ -9,7 +8,7 @@ class Profile < ActiveRecord::Base
   serialize :selected_page_id, Array
   serialize :selected_group_id, Array
 
-  mount_uploader :profile_picture, PhotoUploader
+  has_attached_file :photo, :styles => {:medium => "300x300>", :thumb => "100x100>", :logo => "100x20!"}
 
 
   has_many :venues
@@ -39,9 +38,10 @@ class Profile < ActiveRecord::Base
     @page = Page.find_all_by_page_id selected_page_id
   end
 
-  def user_picture
-    remote_avatar_url.present? ? remote_avatar_url : photo.url
+  def profile_picture
+    remote_avatar_url.present? ? remote_avatar_url : photo.url(:thumb)
   end
+
 
   def page_selected?
     !selected_page.nil?
@@ -69,9 +69,9 @@ class Profile < ActiveRecord::Base
   private
 
   def sync_artist_user_name
-    logger.info ">>>>>>>>>>>>Seting artist user name. "
+    logger.info ">>>>>>>>>>>>Seting artist user name."
     if !self.user_name.strip!.nil? || !self.user_name.strip!.blank?
-    self.artist.update_attributes!(user_name: self.user_name)
+      self.artist.update_attributes!(user_name: self.user_name)
     end
   end
 

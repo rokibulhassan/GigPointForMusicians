@@ -259,16 +259,11 @@ class User < ActiveRecord::Base
   end
 
   def avatar
-    has_profile? ? user_profile.user_picture : 'please upload your profile picture'
+    has_profile? ? user_profile.profile_picture : 'please upload your profile picture'
   end
 
   def name
     has_profile? ? user_profile.name : email
-  end
-
-
-  def profile_picture
-    user_profile.photo.url || user_profile.remote_avatar_url
   end
 
   def delete_authentications

@@ -1,5 +1,5 @@
 <h3><%= link_to @user.try(:name), artist_path(@user.try(:artist).try(:id)), :class => "btn-link btn-info" %></h3>
-<%= image_tag @user.avatar, width: 100, height: 100 %> <br>
+<%= image_tag @user.avatar %> <br>
 <% if @user.has_artist_profile? %>
     <%= link_to "edit profile", edit_artist_profile_path(@user.artist.id, @user.artist.profile.id) %>
 <% else %>
